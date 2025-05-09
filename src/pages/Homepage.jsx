@@ -14,8 +14,8 @@ const Homepage = () => {
 console.log 
   return (
     <div>
-      <h3>Welcome back, {user?.user_metadata?.full_name}</h3>
-      {JSON.stringify(role)}
+      <h3>Welcome back, {user?.email}</h3>
+      
       <button onClick={handleLogout}>Logout</button>
     </div>
   )

@@ -16,10 +16,11 @@ import {
 
 import { toast } from 'react-toastify';
 import Error from '../components/theme/Error';
+import { getUserRole } from '../services/supabase';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const { signIn} = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
@@ -39,14 +40,17 @@ const Login = () => {
     setLoading(true);
     setError(null);
     try {
-      const { error: signInError } = await signIn(
+      const { error: signInError ,data} = await signIn(
         formData.email,
         formData.password,
       );
+      // get user role
+      const {role} =await getUserRole(data.user.id)
+
 
       if (signInError) throw signInError;
-      navigate('/homepage');
-      toast.success('login successfully');
+      // navigate('/homepage');
+      toast.success(`login successfully as ${role}`);
     } catch (err) {
       setError(err.message);
     } finally {

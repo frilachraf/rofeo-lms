@@ -1,6 +1,9 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { SignUp, Login, Homepage } from '../pages';
+import AdminLayout from "../layouts/AdminLayout";
+import StudentLayout from "../layouts/StudentLayout";
+import TeacherLayout from "../layouts/TeacherLayout";
 
 // import { useAuth } from '../context/AuthContext';
 
@@ -30,26 +33,27 @@ const router = createBrowserRouter([
     path: "/homepage",
     element: <Homepage />
   },
-  // {
-  //   path: '/admin',
-  //   element: <AdminLayout />,
-  //   children: [
-  //     {
-  //       path: '',
-  //       element: <div>Admin Dashboard</div>
-  //     }
-  //   ]
-  // },
-  // {
-  //   path:'/student',
-  //   element:<StudentLayout/>,
-  //   children:[]
-  // },
-  // {
-  //   path:'/teacher',
-  //   element:<TeacherLayout/>,
-  //   children:[]
-  // },
+  {
+    path: '/admin',
+    element: 
+      <AdminLayout />,
+    children: [
+      {
+        path: '',
+        element: <div>Admin Dashboard</div>
+      }
+    ]
+  },
+  {
+    path:'/student',
+    element:<StudentLayout/>,
+    children:[]
+  },
+  {
+    path:'/teacher',
+    element:<TeacherLayout/>,
+    children:[]
+  },
 ]);
 
 export default router;
