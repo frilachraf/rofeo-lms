@@ -17,6 +17,7 @@ import {
 import { toast } from 'react-toastify';
 import Error from '../components/theme/Error';
 import { getUserRole } from '../services/supabase';
+import { supabase } from '../supabaseClient';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -58,6 +59,22 @@ const Login = () => {
     }
   }
 
+  const handleGoogleAuth = async ()=>{
+    try {
+      const { data,error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        
+      })
+      
+      console.log(data)
+      // toast.success("google auth successfully")
+
+    }catch (error) {
+      console.log(error)
+    }finally{
+
+    }
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
       <Card className="w-full max-w-md">
@@ -97,6 +114,9 @@ const Login = () => {
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? 'Signing in...' : 'Sign in'}
+            </Button>
+            <Button type='button' variant='outline' className="w-full" onClick={handleGoogleAuth}>
+              Google Auth
             </Button>
           </form>
           <br />
