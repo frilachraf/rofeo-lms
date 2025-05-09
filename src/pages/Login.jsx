@@ -49,7 +49,7 @@ const Login = () => {
 
 
       if (signInError) throw signInError;
-      // navigate('/homepage');
+      navigate('/homepage');
       toast.success(`login successfully as ${role}`);
     } catch (err) {
       setError(err.message);
