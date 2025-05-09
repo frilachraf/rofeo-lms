@@ -1,11 +1,26 @@
 import { Button } from "@/components/ui/button"
+import { AuthProvider } from "./context/AuthContext"
+import { ToastContainer } from "react-toastify"
+import { RouterProvider } from "react-router-dom"
+import router from "./routing/router"
 
 function App() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-svh">
-      <Button>Click me</Button>
-
-    </div>
+    <AuthProvider>
+      <ToastContainer 
+        // position="top-center"
+        // autoClose={5000}
+        // hideProgressBar={false}
+        // newestOnTop={false}
+        closeOnClick
+        // rtl={false}
+        // pauseOnFocusLoss
+        draggable
+        // pauseOnHover
+        // theme="light"
+      />
+      <RouterProvider router={router} />
+    </AuthProvider>
   )
 }
 
