@@ -4,6 +4,8 @@ import { SignUp, Login, Homepage } from '../pages';
 import AdminLayout from "../layouts/AdminLayout";
 import StudentLayout from "../layouts/StudentLayout";
 import TeacherLayout from "../layouts/TeacherLayout";
+import AdminOverviewPage from "../pages/AdminOverviewPage";
+import AdminLoginPage from "../pages/AdminLoginPage";
 
 // import { useAuth } from '../context/AuthContext';
 
@@ -26,6 +28,10 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
+    path: "/login-admin",
+    element: <AdminLoginPage />,
+  },
+  {
     path: "/signup",
     element: <SignUp />,
   },
@@ -40,7 +46,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <div>Admin Dashboard</div>
+        element: <AdminOverviewPage/>
       }
     ]
   },

@@ -1,12 +1,16 @@
 import { Outlet, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import AppSidebar from '../components/theme/Sidebar'
-
+import { AppSidebar } from '../components/admin-sidebar';
+// import AppSidebar from '../components/theme/Sidebar'
+import { ChartAreaInteractive } from "../components/chart-area-interactive"
+import { DataTable } from "../components/data-table"
+import { SectionCards } from "../components/section-cards"
+import { SiteHeader } from "../components/site-header"
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 export default function AdminLayout() {
   const { role } = useAuth();
 
-  if (role !== 'admin') return <Navigate to="/" replace />;
+  // if (role !== 'admin') return <Navigate to="/" replace />;
   return (
     // <div>
     //   <img src="./logo.webp" alt="s" className='h-12 w-12' />
@@ -14,18 +18,18 @@ export default function AdminLayout() {
     //   <Outlet />
 
     // </div>
+    <div className=''>
     <SidebarProvider>
-    <AppSidebar role={role}/>
-    <main className='rounded-x3l border w-full'>
-      <header className='sticky top-0 right-0 left-0 p-4'>
-        <div className="p-2 px-0">
-        <SidebarTrigger className='bg-accent'/>
+      <AppSidebar variant="inset" />
+      <SidebarInset >
+        <SiteHeader />
+        <div className="flex flex-1 flex-col">
+          <div className="@container/main flex flex-1 flex-col gap-2">
+            <Outlet/>
+          </div>
         </div>
-      </header>
-      <section className='p-4 '>
-        <Outlet />
-      </section>
-    </main>
-  </SidebarProvider>
+      </SidebarInset>
+    </SidebarProvider>
+    </div>
   );
 }

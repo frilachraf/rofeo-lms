@@ -40,7 +40,7 @@ const items = [
   },
 ]
 
-export default function AppSidebar() {
+export default function MyAppSidebar() {
   return (
     <Sidebar>
       
