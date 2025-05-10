@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
+import Error from '../components/theme/Error';
+import { getUserRole } from '../services/supabase';
+import { supabase } from '../supabaseClient';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -13,11 +17,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-
-import { toast } from 'react-toastify';
-import Error from '../components/theme/Error';
-import { getUserRole } from '../services/supabase';
-import { supabase } from '../supabaseClient';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -50,10 +49,15 @@ const Login = () => {
 
 
       if (signInError) throw signInError;
-      navigate('/homepage');
-      toast.success(`login successfully as ${role}`);
+      // redirection
+      if(role === 'admin') navigate('/admin')
+      if(role === 'student') navigate('/student')
+      if(role === 'teacher') navigate('/teacher')
+      
+        toast.success(`login successfully as ${role}`);
     } catch (err) {
       setError(err.message);
+      console.log(err)
     } finally {
       setLoading(false);
     }
