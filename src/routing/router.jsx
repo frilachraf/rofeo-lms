@@ -6,6 +6,7 @@ import StudentLayout from "../layouts/StudentLayout";
 import TeacherLayout from "../layouts/TeacherLayout";
 import AdminOverviewPage from "../pages/AdminOverviewPage";
 import AdminLoginPage from "../pages/AdminLoginPage";
+import { AddCoursePage } from "../pages/AddCourse";
 
 // import { useAuth } from '../context/AuthContext';
 
@@ -58,7 +59,18 @@ const router = createBrowserRouter([
   {
     path:'/teacher',
     element:<TeacherLayout/>,
-    children:[]
+    children:[
+      {
+        path:'courses',
+        children:[
+          {
+            path:'add',
+            element: <AddCoursePage/>
+            // element: <>add course</>
+          }
+        ]
+      }
+    ]
   },
 ]);
 
