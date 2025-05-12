@@ -7,6 +7,7 @@ import TeacherLayout from "../layouts/TeacherLayout";
 import AdminOverviewPage from "../pages/AdminOverviewPage";
 import AdminLoginPage from "../pages/AdminLoginPage";
 import { AddCoursePage } from "../pages/AddCourse";
+import TeacherFilesPages from "../pages/TeacherFilesPage";
 
 // import { useAuth } from '../context/AuthContext';
 
@@ -69,8 +70,12 @@ const router = createBrowserRouter([
             // element: <>add course</>
           }
         ]
-      }
-    ]
+      },
+      {
+        path:'files',
+        element: <TeacherFilesPages/>,
+      },
+    ],
   },
 ]);
 

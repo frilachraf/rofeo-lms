@@ -3,24 +3,72 @@ import { useSupabaseUpload } from '@/hooks/use-supabase-upload'
 import { useEffect, useState } from 'react'
 import { supabase } from '../supabaseClient'
 import { data } from 'react-router-dom'
- 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { toast } from 'react-toastify'
+import { getFile, uploadFile } from '../services/storage'
+import TextEditor from '../components/theme/TextEditor'
+
 const AddCoursePage = () => {
-  const props = useSupabaseUpload({
-    bucketName: 'rofeo-storage',
-    path: 'test',
-    allowedMimeTypes: ['image/*'],
-    maxFiles: 2,
-    maxFileSize: 1000 * 1000 * 10, // 10MB,
-  })
-  console.log(props.files)
- 
+  // const props = useSupabaseUpload({
+  //   bucketName: 'rofeo-storage',
+  //   path: 'test',
+  //   allowedMimeTypes: ['image/*'],
+  //   maxFiles: 2,
+  //   maxFileSize: 1000 * 1000 * 10, // 10MB,
+  // })
+  // console.log(props.files)
+  const [file, setFile] = useState(null)
+  const [view, setView] = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  const handleUpload = async () => {
+    if (!file) {
+      toast.error('Please select a file')
+      return
+    }
+
+    setLoading(true)
+    const filePath = `${file.name}`
+
+    const { error , data} = await uploadFile(filePath, file)
+    console.log(data.path)
+    const fileToPreview = getFile(data.path)
+    setView(fileToPreview)
+    setLoading(false)
+
+    if (error) {
+      toast.error('Upload failed')
+      console.error(error)
+    } else {
+      toast.success('File uploaded!')
+    }
+  }
   return (
     <div className="w-[500px]">
-      <Dropzone {...props}>
+      {/* <Dropzone {...props}>
         <DropzoneEmptyState />
         <DropzoneContent />
-      </Dropzone>
-      <FileUpload/>
+      </Dropzone> */}
+
+      {/* <FileUpload/> */}
+      <div className="space-y-4 max-w-sm">
+      <div className="grid gap-2">
+        <Label htmlFor="file">Upload file</Label>
+        <Input
+          id="file"
+          type="file"
+          onChange={(e) => setFile(e.target.files?.[0] || null)}
+        />
+      </div>
+      <Button onClick={handleUpload} disabled={loading}>
+        {loading ? 'Uploading...' : 'Upload'}
+      </Button>
+      {JSON.stringify(view)}
+      {/* <img src={view} alt="" /> */}
+      <TextEditor/>
+    </div>
     </div>
   )
 }

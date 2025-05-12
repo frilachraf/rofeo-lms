@@ -122,16 +122,12 @@ const data = {
     },
   ],
   documents: [
-    // {
-    //   name: "Data Library",
-    //   url: "#",
-    //   icon: IconDatabase,
-    // },
-    // {
-    //   name: "Reports",
-    //   url: "#",
-    //   icon: IconReport,
-    // },
+    
+    {
+      name: "Documents",
+      url: "#",
+      icon: IconReport,
+    },
     // {
     //   name: "Word Assistant",
     //   url: "#",
@@ -162,7 +158,7 @@ export function TeacherSidebar({
       
       <SidebarContent>
         <NavMain items={data.navMain} quickLink={{title:'Create Course',link:'/'}}/>
-        {/* <NavDocuments items={data.documents} /> */}
+        <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
