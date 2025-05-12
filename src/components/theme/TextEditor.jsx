@@ -5,6 +5,7 @@ import StarterKit from '@tiptap/starter-kit'
 import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
 import { EditorProvider, useCurrentEditor } from '@tiptap/react'
+import { TextB, TextItalic, TextStrikethrough } from '@phosphor-icons/react'
 // import StarterKit from '@tiptap/starter-kit'
 // define your extension array
 // const extensions = [StarterKit]
@@ -68,7 +69,7 @@ const MenuBar = () => {
           }
           className={editor.isActive('bold') ? 'is-active' : ''}
         >
-          Bold
+          <TextB />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleItalic().run()}
@@ -81,7 +82,7 @@ const MenuBar = () => {
           }
           className={editor.isActive('italic') ? 'is-active' : ''}
         >
-          Italic
+          <TextItalic />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleStrike().run()}
@@ -94,7 +95,7 @@ const MenuBar = () => {
           }
           className={editor.isActive('strike') ? 'is-active' : ''}
         >
-          Strike
+          <TextStrikethrough />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleCode().run()}
