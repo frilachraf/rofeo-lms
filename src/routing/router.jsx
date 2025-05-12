@@ -43,33 +43,98 @@ const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: 
-      <AdminLayout />,
+    element: <AdminLayout />,
     children: [
       {
         path: '',
         element: <AdminOverviewPage/>
-      }
+      },
+      {
+        path: 'profile',
+        element: <div />
+      },
+      {
+        path: 'students',
+        children:[
+          {
+            path: '',
+            element: <div />
+          },
+          {
+            path: ':id/details',
+            element: <div />
+          },
+        ]
+      },
+      {
+        path: 'teachers',
+        children:[
+          {
+            path: '',
+            element: <div />
+          },
+          {
+            path: 'add',
+            element: <div />
+          },
+          {
+            path: ':id/details',
+            element: <div />
+          },
+        ]
+      },
     ]
   },
   {
     path:'/student',
     element:<StudentLayout/>,
-    children:[]
+    children:[
+      {
+        path: 'profile',
+        element: <div />
+      },
+      {
+        path: 'courses',
+        element: <div />
+      },
+      {
+        path: 'courses/:id/',
+        element: <div />
+      },
+    ]
   },
   {
     path:'/teacher',
     element:<TeacherLayout/>,
     children:[
       {
+        path: '',
+        element: <div />
+      },
+      {
+        path: 'profile',
+        element: <div />
+      },
+      {
         path:'courses',
         children:[
           {
+            path:'',
+            element: <div/>
+          },
+          {
             path:'add',
             element: <AddCoursePage/>
-            // element: <>add course</>
-          }
+          },
+          {
+            path:':id/details',
+            element: <AddCoursePage/>
+          },
         ]
+      },
+      {
+        path: 'enrolls',
+        element: <div />
       },
       {
         path:'files',
