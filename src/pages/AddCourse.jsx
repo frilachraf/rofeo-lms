@@ -10,6 +10,26 @@ import { toast } from 'react-toastify'
 import { getFile, uploadFile } from '../services/storage'
 import TextEditor from '../components/theme/TextEditor'
 
+
+  import {
+    DndContext, 
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+  } from '@dnd-kit/core';
+  import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+  } from '@dnd-kit/sortable';
+  
+  import {SortableItem} from '../components/theme/Draggable';
+
+
+
 const AddCoursePage = () => {
   // const props = useSupabaseUpload({
   //   bucketName: 'rofeo-storage',
@@ -65,9 +85,10 @@ const AddCoursePage = () => {
       <Button onClick={handleUpload} disabled={loading}>
         {loading ? 'Uploading...' : 'Upload'}
       </Button>
-      {JSON.stringify(view)}
+    
       {/* <img src={view} alt="" /> */}
       <TextEditor/>
+      <Draggable/>
     </div>
     </div>
   )
@@ -156,5 +177,28 @@ function FileUpload() {
       </div>
     )
   }
+
   
-  export { AddCoursePage,FileUpload }
+
+  
+  
+function Draggable() {
+  const [items] = useState([1, 2, 3]);
+
+  return (
+    <DndContext>
+      <SortableContext items={items}>
+        {/* ... */}
+        <SortableItem id={1} />
+        <SortableItem id={2} />
+        <SortableItem id={3} />
+      </SortableContext>
+    </DndContext>
+  );
+    
+    
+  }
+export { AddCoursePage,FileUpload, Draggable }
+
+
+  

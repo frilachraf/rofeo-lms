@@ -13,7 +13,6 @@ import TeacherFilesPages from "../pages/TeacherFilesPage";
 
 // Wrapper component to handle auth state
 
-
 // Protected route component
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth();
