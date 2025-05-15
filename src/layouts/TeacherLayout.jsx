@@ -5,7 +5,7 @@ import { TeacherSidebar } from '../components/teacher-sidebar';
 import { ChartAreaInteractive } from "../components/chart-area-interactive"
 import { DataTable } from "../components/data-table"
 import { SectionCards } from "../components/section-cards"
-import { SiteHeader } from "../components/site-header"
+import { TeacherHeader } from "../components/teacher-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
 export default function TeacherLayout() {
@@ -17,7 +17,7 @@ export default function TeacherLayout() {
     <SidebarProvider>
       <TeacherSidebar variant="inset" />
       <SidebarInset >
-        <SiteHeader />
+        <TeacherHeader />
         <div className="flex flex-1 flex-col">
           <div className="@container/main flex flex-1 flex-col gap-2">
             <Outlet/>

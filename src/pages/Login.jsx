@@ -83,67 +83,67 @@ const Login = () => {
     }
   }
   return (
-    // <div className="min-h-screen flex items-center justify-center bg-background">
-    //   <Card className="w-full max-w-md">
-    //     <CardHeader>
-    //       <CardTitle>Sign in to your account</CardTitle>
-    //       <CardDescription>
-    //         Enter your credentials to access your account
-    //       </CardDescription>
-    //     </CardHeader>
-    //     <CardContent>
-    //       <form onSubmit={handleSubmit} className="space-y-4">
-    //         <div className="space-y-2">
-    //           <label htmlFor="email" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-    //             Email
-    //           </label>
-    //           <Input
-    //             id="email"
-    //             name="email"
-    //             type="email"
-    //             required
-    //             placeholder="Enter your email"
-    //             onChange={handleChange}
-    //           />
-    //         </div>
-    //         <div className="space-y-2">
-    //           <label htmlFor="password" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-    //             Password
-    //           </label>
-    //           <Input
-    //             id="password"
-    //             name="password"
-    //             type="password"
-    //             required
-    //             placeholder="Enter your password"
-    //             onChange={handleChange}
-    //           />
-    //         </div>
-    //         <Button type="submit" className="w-full" disabled={loading}>
-    //           {loading ? 'Signing in...' : 'Sign in'}
-    //         </Button>
-    //         <Button type='button' variant='outline' className="w-full" onClick={handleGoogleAuth}>
-    //           Google Auth
-    //         </Button>
-    //       </form>
-    //       <br />
-    //       {error && <Error error={error} />}
-    //     </CardContent>
-    //     <CardFooter className="flex justify-center">
-    //       <div className="text-sm text-muted-foreground">
-    //         Don't have an account?{' '}
-    //         <Link to="/signup" className="font-medium text-primary hover:text-primary/90">
-    //           Sign up
-    //         </Link>
-    //       </div>
-    //     </CardFooter>
-    //   </Card>
-    // </div>
-    <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
-      <div className="w-full max-w-sm md:max-w-3xl sm:max-w-2xl lg:max-w-4xl xl:max-w-5xl ">
-        <LoginForm />
-      </div>
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle>Sign in to your account</CardTitle>
+          <CardDescription>
+            Enter your credentials to access your account
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Email
+              </label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                required
+                placeholder="Enter your email"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="password" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Password
+              </label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                required
+                placeholder="Enter your password"
+                onChange={handleChange}
+              />
+            </div>
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? 'Signing in...' : 'Sign in'}
+            </Button>
+            <Button type='button' variant='outline' className="w-full" onClick={handleGoogleAuth}>
+              Google Auth
+            </Button>
+          </form>
+          <br />
+          {error && <Error error={error} />}
+        </CardContent>
+        <CardFooter className="flex justify-center">
+          <div className="text-sm text-muted-foreground">
+            Don't have an account?{' '}
+            <Link to="/signup" className="font-medium text-primary hover:text-primary/90">
+              Sign up
+            </Link>
+          </div>
+        </CardFooter>
+      </Card>
     </div>
+    // <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
+    //   <div className="w-full max-w-sm md:max-w-3xl sm:max-w-2xl lg:max-w-4xl xl:max-w-5xl ">
+    //     <LoginForm />
+    //   </div>
+    // </div>
   );
 };
 

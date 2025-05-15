@@ -46,6 +46,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-dropzone": "^14.3.8",
+    "react-hook-form": "^7.56.3",
     "react-router-dom": "^7.6.0",
     "react-toastify": "^11.0.5",
     "recharts": "^2.15.3",
