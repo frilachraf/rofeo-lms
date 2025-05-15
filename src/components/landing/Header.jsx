@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export const Header = () => {
+  const {user,role} = useAuth()
+
   return (
     <header className="w-full relative">
       <div className="flex items-center justify-between px-6 py-5">
@@ -17,7 +21,7 @@ export const Header = () => {
         </div>
 
         <div className="flex items-center gap-6">
-          <span className="text-[#545454] text-[15px]">Login</span>
+          <Link to="/login" className="text-[#545454] text-[15px]">Login</Link>
           <Button className="bg-primary">
             S'inscrire
           </Button>

@@ -139,8 +139,8 @@ const Login = () => {
     //     </CardFooter>
     //   </Card>
     // </div>
-    <div className="flex min-h-svh flex-col items-center justify-center bg-primary p-6 md:p-10">
-      <div className="w-full max-w-sm md:max-w-3xl">
+    <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
+      <div className="w-full max-w-sm md:max-w-3xl sm:max-w-2xl lg:max-w-4xl xl:max-w-5xl ">
         <LoginForm />
       </div>
     </div>
