@@ -8,6 +8,7 @@ import AdminOverviewPage from "../pages/AdminOverviewPage";
 import AdminLoginPage from "../pages/AdminLoginPage";
 import { AddCoursePage } from "../pages/AddCourse";
 import TeacherFilesPages from "../pages/TeacherFilesPage";
+import LandingPage from "../pages/LandingPage";
 
 // import { useAuth } from '../context/AuthContext';
 
@@ -22,7 +23,11 @@ const ProtectedRoute = ({ children }) => {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to="/login" replace />,
+    element: <Navigate to="/home" replace/>,
+  },
+  {
+    path: '/home',
+    element: <LandingPage />,
   },
   {
     path: "/login",
