@@ -13,7 +13,7 @@ export default function TeacherLayout() {
 
   // if (role !== 'admin') return <Navigate to="/" replace />;
   return (
-    <div className='bg-primary'>
+    <div className='bg-muted'>
     <SidebarProvider>
       <TeacherSidebar variant="inset" />
       <SidebarInset >

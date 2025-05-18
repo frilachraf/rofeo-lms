@@ -49,9 +49,9 @@ export const VideoSection = () => {
           <video
             ref={videoRef}
             className="w-full h-full object-cover"
-            controls
-            // muted
-            playsInline
+            // controls
+            muted
+            // playsInline
           >
             <source src="https://videos.pexels.com/video-files/3740038/3740038-uhd_2560_1440_24fps.mp4" type="video/mp4" />
             Your browser does not support the video tag.

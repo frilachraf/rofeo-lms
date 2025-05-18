@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from 'react-toastify'
-import { getFile, uploadFile } from '../services/storage'
+import { getFile, uploadFile } from '../services/storageService'
 import TextEditor from '../components/theme/TextEditor'
 
 
@@ -27,10 +27,20 @@ import TextEditor from '../components/theme/TextEditor'
   } from '@dnd-kit/sortable';
   
   import {SortableItem} from '../components/theme/Draggable';
+import { createCourse } from '../services/coursesService'
+import { LessonForm } from '../components/forms/LessonAddForm'
 
 
-
+  const newCourse = {
+    title: 'Introduction to React',
+    description: 'Learn React fundamentals',
+    duration: 30, // in minutes
+    image_url: 'https://example.com/react-course.jpg',
+    category_id: 3
+  };
 const AddCoursePage = () => {
+  const [file, setFile] = useState(null);
+  const [pdf,setPdf]=useState(null)
   // const props = useSupabaseUpload({
   //   bucketName: 'rofeo-storage',
   //   path: 'test',
@@ -39,166 +49,41 @@ const AddCoursePage = () => {
   //   maxFileSize: 1000 * 1000 * 10, // 10MB,
   // })
   // console.log(props.files)
-  const [file, setFile] = useState(null)
-  const [view, setView] = useState(null)
-  const [loading, setLoading] = useState(false)
-
-  const handleUpload = async () => {
-    if (!file) {
-      toast.error('Please select a file')
-      return
-    }
-
-    setLoading(true)
-    const filePath = `${file.name}`
-
-    const { error , data} = await uploadFile(filePath, file)
-    console.log(data.path)
-    const fileToPreview = getFile(data.path)
-    setView(fileToPreview)
-    setLoading(false)
-
-    if (error) {
-      toast.error('Upload failed')
-      console.error(error)
-    } else {
-      toast.success('File uploaded!')
-    }
+  const handleCourseCreateSubmit = async ()=>{
+    const {data, error}= await createCourse("f273ab93-73f9-4c9a-8f2e-447e5da67b5f",newCourse)
   }
+  const handleCreateLesson = async (e)=>{
+    e.preventDefault()
+    const teacherId= 'f273ab93-73f9-4c9a-8f2e-447e5da67b5f'
+    const courseId='9'
+    // upload file
+    const {data, error,filePath}= await uploadFile(teacherId,file)
+    // insert content 
+  
+  
+  
+  }
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+    // setUploadSuccess(false);
+    // setUploadError(null);
+  };
+
   return (
     <div className="w-[500px]">
-      {/* <Dropzone {...props}>
-        <DropzoneEmptyState />
-        <DropzoneContent />
-      </Dropzone> */}
+      {/* <Button onClick={handleCourseCreateSubmit}>Add Course</Button>
 
-      {/* <FileUpload/> */}
-      <div className="space-y-4 max-w-sm">
-      <div className="grid gap-2">
-        <Label htmlFor="file">Upload file</Label>
-        <Input
-          id="file"
-          type="file"
-          onChange={(e) => setFile(e.target.files?.[0] || null)}
-        />
-      </div>
-      <Button onClick={handleUpload} disabled={loading}>
-        {loading ? 'Uploading...' : 'Upload'}
-      </Button>
-    
-      {/* <img src={view} alt="" /> */}
-      <TextEditor/>
-      <Draggable/>
-    </div>
+      <form onSubmit={handleCreateLesson}>
+            <input type="file" onChange={handleFileChange} />
+            <Button type="submit">Add Course</Button>
+      </form>
+      <embed src={pdf} type="" /> */}
+      <LessonForm />
     </div>
   )
 }
+
+export default AddCoursePage
  
 
 
-function FileUpload() {
-    const [file, setFile] = useState(null)
-    const [uploading, setUploading] = useState(false)
-    const [uploadProgress, setUploadProgress] = useState(0)
-    const [uploadError, setUploadError] = useState(null)
-    const [uploadSuccess, setUploadSuccess] = useState(false)
-  
-    const handleFileUpload = async (e) => {
-      e.preventDefault()
-      
-      if (!file) {
-        alert('Please select a file first!')
-        return
-      }
-  
-      try {
-        setUploading(true)
-        setUploadError(null)
-        setUploadSuccess(false)
-        
-        // Generate a unique filename or use the original
-        const fileExt = file.name.split('.').pop()
-        const fileName = `${Math.random()}.${fileExt}`
-        const filePath = `${fileName}`
-  
-        // Upload file
-        const { error } = await supabase.storage
-          .from('rofeo-storage') // Replace with your bucket name
-          .upload(filePath, file, {
-            cacheControl: '3600',
-            upsert: false,
-            contentType: file.type,
-            onUploadProgress: (progressEvent) => {
-              const progress = Math.round(
-                (progressEvent.loaded / progressEvent.total) * 100
-              )
-              setUploadProgress(progress)
-            }
-          })
-  
-        if (error) {
-          throw error
-        }
-  
-        setUploadSuccess(true)
-      } catch (error) {
-        setUploadError(error.message)
-      } finally {
-        setUploading(false)
-      }
-    }
-    const getMedia = (filePath) => {
-        const { data: { publicUrl } } = supabase.storage
-            .from('rofeo-storage')
-            .getPublicUrl(filePath)
-            console.log(publicUrl)
-        return (publicUrl)
-    }
-    
-    useEffect(()=>{
-        const file = getMedia('0.7121078264186819.png')
-    })
-    return (
-      <div>
-        <form onSubmit={handleFileUpload}>
-          <input
-            type="file"
-            onChange={(e) => setFile(e.target.files[0])}
-            disabled={uploading}
-          />
-          <button type="submit" disabled={uploading}>
-            {uploading ? 'Uploading...' : 'Upload'}
-          </button>
-        </form>
-        
-        {uploading && <progress value={uploadProgress} max="100" />}
-        {uploadSuccess && <p>File uploaded successfully!</p>}
-        {uploadError && <p style={{ color: 'red' }}>Error: {uploadError}</p>}
-      </div>
-    )
-  }
-
-  
-
-  
-  
-function Draggable() {
-  const [items] = useState([1, 2, 3]);
-
-  return (
-    <DndContext>
-      <SortableContext items={items}>
-        {/* ... */}
-        <SortableItem id={1} />
-        <SortableItem id={2} />
-        <SortableItem id={3} />
-      </SortableContext>
-    </DndContext>
-  );
-    
-    
-  }
-export { AddCoursePage,FileUpload, Draggable }
-
-
-  
