@@ -23,7 +23,7 @@ export const getUserRole = async (userId) => {
         .eq('user_id', userId)
         .single();
       return { role: data?.role, error };
-  };
+};
 
 export const signupAsStudent = async ()=>{
   

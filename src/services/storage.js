@@ -12,6 +12,7 @@ export const getFile = (filePath) => {
     return publicUrl
 }
 export const attachFile = () => {}
+
 export const getCoursePDF = () => {}
 
 
