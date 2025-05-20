@@ -1,4 +1,5 @@
 import { supabase } from "../supabaseClient"
+import { v4 as uuidv4 } from 'uuid';
 export const bucketName = 'rofeofiles'
 
 export const uploadFile = async (teacherId,file) => {
@@ -34,3 +35,11 @@ export const listFiles = async (folderPath = '')=> {
     return data
   }
 
+
+export const uploadThumbnail = async (file)=>{
+  const filePath = `/thumbnails/${uuidv4()}`
+  const {data,error} = await supabase.storage
+  .from('rofeopics') // your bucket name
+  .upload(filePath, file)
+  return {data,error}
+}

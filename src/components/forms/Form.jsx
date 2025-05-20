@@ -1,13 +1,15 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-const LessonAddForm = () => {
+const Form = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
     // Handle form submission with the form data
   };
+
+  
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -19,4 +21,4 @@ const LessonAddForm = () => {
   );
 };
 
-export default LessonAddForm;
+export default Form;
