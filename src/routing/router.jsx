@@ -13,6 +13,10 @@ import HomeLayout from "../layouts/HomeLayout";
 import StudentCoursesPage from "../pages/StudentCoursesPage";
 import HomeCoursesPage from "../pages/HomeCoursesPage";
 import TestPage from "../pages/TestPage";
+import TeacherCoursesPage from "../pages/TeacherCoursesPage";
+import TeacherCoursePage from "../pages/TeacherCoursePage";
+import TeacherStudentsPage from "../pages/TeacherStudentsPage";
+import StudentCourseContentPage from "../pages/StudentCourseContentPage";
 
 // import { useAuth } from '../context/AuthContext';
 
@@ -121,7 +125,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'courses/:id/',
-        element: <div />
+        element: <StudentCourseContentPage />
       },
     ]
   },
@@ -130,7 +134,7 @@ const router = createBrowserRouter([
     element:<TeacherLayout/>,
     children:[
       {
-        path: '',
+        path: 'dashboard',
         element: <div />
       },
       {
@@ -142,21 +146,21 @@ const router = createBrowserRouter([
         children:[
           {
             path:'',
-            element: <div/>
+            element: <TeacherCoursesPage/>
           },
           {
             path:'add',
             element: <AddCoursePage/>
           },
           {
-            path:':id/details',
-            element: <AddCoursePage/>
+            path:':courseId/edit',
+            element: <TeacherCoursePage/>
           },
         ]
       },
       {
-        path: 'enrolls',
-        element: <div />
+        path: 'students',
+        element: <TeacherStudentsPage />
       },
       {
         path:'files',

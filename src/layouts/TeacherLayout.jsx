@@ -7,6 +7,7 @@ import { DataTable } from "../components/data-table"
 import { SectionCards } from "../components/section-cards"
 import { TeacherHeader } from "../components/teacher-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
+import { ToastContainer } from 'react-toastify';
 
 export default function TeacherLayout() {
   const { role } = useAuth();
@@ -25,6 +26,7 @@ export default function TeacherLayout() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+    <ToastContainer />
     </div>
   );
 }

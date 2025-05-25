@@ -32,6 +32,9 @@ import {
 } from "@/components/ui/sidebar"
 import { HouseLine, Heart, Horse, Users, UsersThree, Notebook, ChalkboardTeacher } from "@phosphor-icons/react";
 import { useAuth } from "../context/AuthContext"
+import { useEffect } from "react"
+import { getTeacherAccountById } from "../services/teacherService"
+import { useState } from "react"
 const data = {
   user: {
     name: "shadcn",
@@ -41,17 +44,17 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "",
+      url: "/teacher/dashboard",
       icon: HouseLine,
     },
     {
       title: "My courses",
-      url: "",
+      url: "/teacher/courses",
       icon: Notebook,
     },
     {
       title: "Students Enrolled",
-      url: "",
+      url: "/teacher/students",
       icon: UsersThree,
     },
     
@@ -140,16 +143,24 @@ export function TeacherSidebar({
   ...props
 }) {
 
-  const {user}=useAuth()
+  const { user, signOut } = useAuth()
+  const [teacherDetails, setTeacherDetails] = useState(null)
+  useEffect(() => {
+    const fetchTeacherDetails = async () => {
+      const { data } = await getTeacherAccountById(user?.id)
+      setTeacherDetails(data)
+    }
+    fetchTeacherDetails()
+  }, [user?.id])
   return (
     <Sidebar collapsible="offcanvas" {...props} className=''>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
-              <a href="#">
+              <a href="">
                 <ChalkboardTeacher className="!size-5 text-primary" />
-                <span className="text-base font-semibold text-primary">Teacher</span>
+                <span className="text-base font-semibold text-primary capitalize">{teacherDetails?.full_name}</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -164,9 +175,9 @@ export function TeacherSidebar({
       <SidebarFooter>
         {user &&
           <NavUser user={{
-            name: user?.user_metadata?.full_name ||"shadcn",
-            email:  user && user?.email,
-            avatar:  user?.user_metadata?.picture || "https://avatar.iran.liara.run/public/boy",
+            name: teacherDetails?.full_name ||"shadcn",
+            email:  user?.email,
+            avatar:  teacherDetails?.avatar || "https://avatar.iran.liara.run/public/boy",
             }
           } />
         }

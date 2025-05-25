@@ -19,24 +19,7 @@ const getFilteredCourses = async ({ categoryId, searchTerm, sortBy = 'created_at
 
   let query = supabase
         .from('courses')
-        .select(`
-            id,
-            title,
-            description,
-            total_enrollments,
-            status,
-            duration,
-            image_url,
-            created_at,
-            category:category_id (
-              id,
-              name
-            ),
-            teacher:teacher_id (
-              user_id,
-              full_name
-            )
-          `)
+        .select('*')
         
 
     // Apply categoryId filter if provided
@@ -68,7 +51,7 @@ const getCategories = async () => {
 const getCoursesLimit = async (limit) => {
     const { data, error } = await supabase
         .from('courses')
-        .select('*, category:course_categories(*), teacher:teacher_id(*)', { count: 'exact' })
+        .select('*', { count: 'exact' })
         .limit(limit)
     return { data, error }
 }
@@ -77,8 +60,8 @@ const getCoursesLimit = async (limit) => {
 const getStudentCourses = async (userId) => {
     const { data, error } = await supabase
         .from('enrollments')
-        .select('*, courses(*, course:course_categories(*))')
-        .eq('student_id', userId)
+        .select('*, details:courses(*,lessons(*,enrollment_progress(*))),teacher:teachers_accounts(*)')
+        .eq('student_account_id', userId)
     return { data, error }
 }
 
@@ -86,17 +69,16 @@ const getStudentCourses = async (userId) => {
 const getTeacherCourses = async (userId) => {
     const { data, error } = await supabase
         .from('courses')
-        .select('*, category:course_categories(*)')
+        .select('*, level:level_id(*)')
         .eq('teacher_id', userId)
     return { data, error }
 }
 
 // approved by me
 const getCourseById = async (courseId) => {
-    const { data, error } = await supabase
-        .from('courses')
-        .select('*, category:course_categories(*), teacher:teacher_id(*),lessons(*)')
-        .eq('id', courseId)
+    const { data, error } = await supabase.from('courses')
+        .select('*, level:level_id(*), teacher:teacher_id(*),lessons(*)')
+        .eq('id', courseId).single()
     return { data, error }
 }
 
@@ -141,16 +123,15 @@ export const createCourse= async (teacherId,extractedData)=>{
       .from('courses')
       .insert([
         {
-            id:9,
           title:extractedData.title,
           description:extractedData.description,
         //   total_enrollments: total_enrollments || 0, // Default to 0 if not provided
         //   status: status || 'draft', // Default to 'draft' if not provided
           duration:extractedData.duration,
-          image_url:extractedData.image_url,
+          thumbnail:extractedData.thumbnail,
         //   created_at: new Date().toISOString(), // Set current timestamp
           teacher_id:teacherId,
-          category_id:extractedData.category_id
+          level_id:extractedData.level_id
         }
       ])
       .select();
@@ -158,7 +139,49 @@ export const createCourse= async (teacherId,extractedData)=>{
 }
 
 
+export const getLevels = async () => {
+    const { data, error } = await supabase.from('levels')
+    .select('*')
+    return { data, error }
+}
 
+
+export const createLesson = async (lessonData) => {
+    const { data, error } = await supabase
+        .from('lessons')
+        .insert({
+            title:lessonData.title,
+            content:lessonData.content,
+            video_url:lessonData.video,
+            file_url:lessonData.pdf,
+            course_id:lessonData.course_id
+        })
+        .select('*')
+    return { data, error }
+}   
+
+export const deleteLesson = async (lessonId) => {
+    const { data, error } = await supabase
+        .from('lessons')
+        .delete()
+        .eq('id', lessonId).select()
+    return { data, error }
+}
+
+export const updateCourse = async (courseId, extractedData) => {
+    const { data, error } = await supabase
+        .from('courses')
+        .update({
+            title: extractedData.title,
+            description: extractedData.description,
+            duration: extractedData.duration,
+            thumbnail: extractedData.thumbnail,
+            level_id: extractedData.level_id
+        })
+        .eq('id', courseId)
+        .select();
+    return { data, error }
+}
 
 export { getAllCourses, getFilteredCourses, getCategories, getCoursesLimit, getStudentCourses, getTeacherCourses, getCourseById, enrollCourse, unenrollCourse, updateCourseEnrollmentProgress };
 

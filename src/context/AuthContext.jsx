@@ -16,10 +16,12 @@ export const AuthProvider = ({ children }) => {
     });
     return () => listener.subscription.unsubscribe();
   }, []);
+  
   const fetchRole = async(user)=>{
     const {role} = await getUserRole(user?.id)
     setRole(role)
   }
+  
   const value = {
     user,
     role,

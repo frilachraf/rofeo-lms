@@ -1,4 +1,4 @@
-import { StarIcon } from "lucide-react";
+import { Loader, StarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getCoursesLimit } from "@/services/coursesService";
@@ -65,7 +65,7 @@ export const PopularCoursesSection = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-        {courses.map((course) => (
+        {courses && courses.length > 0 ? courses.map((course) => (
           // <Card
           //   key={course.id}
           //   className="w-[265px] border-[#e1e1e1] rounded-lg overflow-hidden"
@@ -105,7 +105,11 @@ export const PopularCoursesSection = () => {
           //   </CardContent>
           // </Card>
           <CourseCard key={course.id} course={course} />
-        ))}
+        )) : (
+          <div className="w-full h-[148px] flex items-center justify-center">
+            <Loader className="w-10 h-10 animate-spin" />
+          </div>
+        )}
       </div>
 
       <Button

@@ -18,11 +18,11 @@ export const onAuthStateChange = (callback) =>
 
 export const getUserRole = async (userId) => {
       const { data, error } = await supabase
-        .from('user_roles')
-        .select('role')
+        .from('users_roles')
+        .select('name')
         .eq('user_id', userId)
         .single();
-      return { role: data?.role, error };
+      return { role: data?.name, error };
   };
 
 export const signupAsStudent = async ()=>{

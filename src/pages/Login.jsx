@@ -48,12 +48,11 @@ const Login = () => {
       // get user role
       const {role} =await getUserRole(data.user.id)
 
-
       if (signInError) throw signInError;
       // redirection
       if(role === 'admin') navigate('/admin')
       if(role === 'student') navigate('/student')
-      if(role === 'teacher') navigate('/teacher')
+      if(role === 'teacher') navigate('/teacher/courses')
       
         toast.success(`login successfully as ${role}`);
     } catch (err) {

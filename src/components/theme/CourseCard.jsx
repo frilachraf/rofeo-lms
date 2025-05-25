@@ -4,12 +4,12 @@ import { CardFooter } from "../ui/card"
 import { Button } from "../ui/button"
 import { Progress } from "@/components/ui/progress"
 import { ClockCountdown, UserCircle } from "@phosphor-icons/react"
-
+import { Link } from "react-router-dom"
 export default function CourseCard({ course }) {
   return (
     <Card className="w-full rounded-2xl duration-300 overflow-hidden shadow-none pt-0">
       <img
-        src={course.image_url || 'https://picsum.photos/200/300'}
+        src={course.thumbnail}
         alt={course.title}
         className="w-full min-h-48 max-h-48 object-cover border bg-white"
       />
@@ -30,12 +30,12 @@ export default function CourseCard({ course }) {
           <span>{course.duration} hrs</span>
         </div>
         <p className="text-xs text-muted-foreground text-right">
-        By {course?.teacher?.full_name}
+          By {course?.teacher?.full_name}
         </p>
       </CardContent>
       <CardFooter className="flex ">
         <Button className="w-full">
-            View Course
+          View Course
         </Button>
       </CardFooter>
     </Card>
@@ -44,49 +44,90 @@ export default function CourseCard({ course }) {
 
 
 
-export function StudentCourseCard({ course}) {
+export function StudentCourseCard({ course }) {
   return (
     <Card className="w-full rounded-2xl duration-300 overflow-hidden shadow-none pt-0">
       <img
-        src={course.image_url || 'https://picsum.photos/200/300'}
-        alt={course.title}
-        className="w-full min-h-48 object-cover border bg-white"
+        src={course.details.thumbnail || 'https://picsum.photos/200/300'}
+        alt={course.details.title}
+        className="w-full min-h-48 max-h-48 object-cover border bg-white"
       />
       <CardHeader className="">
         <CardTitle className="text-xl font-semibold truncate">
-          {course.title}
+          {course.details.title}
         </CardTitle>
         <p className="text-sm text-muted-foreground line-clamp-2">
-          {course.description}
+          {course.details.description}
         </p>
         {/* <Badge variant="outline" className="mt-1 capitalize w-fit">
           {course?.category?.name}
         </Badge> */}
       </CardHeader>
       <CardContent className="sm:h-full">
-        
+
         <div className="flex justify-between items-center mb-4">
           <p className="flex text-sm text-muted-foreground items-center gap-2">
-            <ClockCountdown size={18}/> 
-            <span>{course.duration} hrs</span>
+            <ClockCountdown size={18} />
+            <span>{course.details.duration} minutes</span>
           </p>
           <p className="text-sm text-muted-foreground text-right flex items-center gap-2">
-          <UserCircle size={18}/>
-          <span>
-          By {course?.teacher?.full_name}
-            </span> 
+            <UserCircle size={18} />
+            <span className="truncate capitalize">
+              By {course?.teacher?.full_name}
+            </span>
           </p>
         </div>
-        {/* <p className="text-sm text-muted-foreground mb-2">
-        {course.progress || 25}% 
-        </p> */}
-        <Progress value={course.progress || 25} />
+        <p className="text-sm text-muted-foreground mb-2">
+          {course.progress || 25}%
+        </p>
+        <Progress value={course.progress || 55} />
       </CardContent>
 
       <CardFooter className="flex ">
-        <Button className="w-full">
+        <Link to={`/student/courses/${course.details.id}`}>
+          <Button className="w-full">
             Continue
-        </Button>
+          </Button>
+        </Link>
+      </CardFooter>
+    </Card>
+  )
+}
+
+export function TeacherCourseCard({ course }) {
+  return (
+    <Card className="w-full rounded-2xl duration-300 overflow-hidden shadow-none pt-0">
+      <img
+        src={course.thumbnail}
+        alt={course.title}
+        className="w-full min-h-48 max-h-48 object-cover border bg-white"
+      />
+      <CardHeader className="">
+        <CardTitle className="text-xl font-semibold truncate">
+          {course.title}
+        </CardTitle>
+        {/* <Badge variant="outline" className="mt-1 capitalize w-fit">
+          {course?.category?.name}
+        </Badge> */}
+      </CardHeader>
+      <CardContent className="">
+        <p className="text-sm text-muted-foreground line-clamp-2">
+          {course.description}
+        </p>
+        <div className="flex justify-between text-sm text-muted-foreground">
+          <span>{course.total_enrollments} Enrolled</span>
+          <span>{course.duration} hrs</span>
+        </div>
+        <p className="text-xs text-muted-foreground text-right">
+          By {course?.teacher?.full_name}
+        </p>
+      </CardContent>
+      <CardFooter className="flex">
+        <Link to={`/teacher/courses/${course.id}/edit`} className="w-full flex">
+          <Button className="w-full">
+            Edit Course
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   )

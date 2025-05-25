@@ -11,7 +11,7 @@ export default function StudentLayout() {
   // if (role !== 'admin') return <Navigate to="/" replace />;
   
   return (
-    <div className='bg-white'>
+    <div className='bg-muted min-h-screen'>
     {/* <SidebarProvider className=''>
       <StudentSidebar variant="inset" />
       <SidebarInset className='border '>
@@ -25,7 +25,7 @@ export default function StudentLayout() {
             </SidebarProvider> */}
     
     <StudentHeader />
-    <div className='px-10 py-4'>
+    <div className='px-10 py-4 h-full'>
       <Outlet/>
     </div>
     </div>

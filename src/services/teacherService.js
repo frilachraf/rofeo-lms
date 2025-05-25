@@ -1,20 +1,34 @@
-const createTeacherAccount = async ()=>{
+import { supabase } from "../supabaseClient";
+
+export const createTeacherAccount = async ()=>{
 
 }
 
-const getTeacherAccountById = async ()=>{
-    
+export const getTeacherAccountById = async (userId)=>{
+    const {data,error} = await supabase.from('teachers_accounts')
+    .select('*')
+    .eq('id', userId)
+    .single();
+    return {data,error}
 }
-const editTeacherAccount = async ()=>{
+export const editTeacherAccount = async ()=>{
 
 }
-const getAllTeachers = async ()=>{
+export const getAllTeachers = async ()=>{
 
 }
-const blockTeacherAccount = async ()=>{
+export const blockTeacherAccount = async ()=>{
 
 }
-const unBlockTeacherAccount = async ()=>{
+export const unBlockTeacherAccount = async ()=>{
 
 }
 
+export const getTeacherStudents = async (teacherId)=>{
+    // from table students courses get all students enrolled in courses of the teacher
+    const {data,error} = await supabase.from('enrollments')
+    // 
+    .select('*,student:students_accounts(*),course:courses(*)')
+    .eq('teacher_id', teacherId)
+    return {data,error}
+}
