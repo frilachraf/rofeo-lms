@@ -43,7 +43,7 @@ export default function HomeCoursesPage() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Chargement...</div>;
   } 
   if (error) {
     return <div>Error: {error}</div>;
@@ -52,9 +52,9 @@ export default function HomeCoursesPage() {
   return (
     <div className="container mx-auto p-8">
       <div className="flex flex-col items-center gap-6">
-        <h1 className="text-4xl font-bold text-center">Explore Our Courses</h1>
+        <h1 className="text-4xl font-bold text-center">Explorez nos cours</h1>
         <p className="text-lg text-muted-foreground text-center max-w-2xl">
-          Discover a wide range of courses taught by expert instructors. Find the perfect course to help you achieve your learning goals.
+          Découvrez une large gamme de cours enseignés par des instructeurs experts. Trouvez le cours idéal pour atteindre vos objectifs d'apprentissage.
         </p>
 
         {/* Search bar */}
@@ -62,13 +62,13 @@ export default function HomeCoursesPage() {
           <Input
             type="text"
             name="search"
-            placeholder="Search courses..."
+            placeholder="Rechercher des cours..."
             defaultValue={searchQuery}
             className="flex-1"
           />
           <Button type="submit">
             <MagnifyingGlass className="w-5 h-5" />
-            Search
+            Rechercher
           </Button>
         </form>
 

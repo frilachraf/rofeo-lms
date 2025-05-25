@@ -20,7 +20,7 @@ const Form = ({ setOpen }) => {
       console.log(data)
 
       setOpen(false)
-      toast.success('action successfully')
+      toast.success('Action effectuée avec succès')
     } catch (error) {
       console.error(error)
       toast.error(error.message)
@@ -32,10 +32,10 @@ const Form = ({ setOpen }) => {
 
   const formFields = {
     name: {
-      label: 'label',
+      label: 'Nom',
       name: 'name',
       type: 'text',
-      placeholder: 'Enter the name',
+      placeholder: 'Entrez le nom',
     },
 
   }
@@ -51,7 +51,7 @@ const Form = ({ setOpen }) => {
         </div>
 
         <Button>
-          Save
+        Enregistrer
         </Button>
       </div>
     </form>

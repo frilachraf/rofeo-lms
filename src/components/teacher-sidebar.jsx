@@ -43,17 +43,17 @@ const data = {
   },
   navMain: [
     {
-      title: "Dashboard",
+      title: "Tableau de bord",
       url: "/teacher/dashboard",
       icon: HouseLine,
     },
     {
-      title: "My courses",
+      title: "Mes cours",
       url: "/teacher/courses",
       icon: Notebook,
     },
     {
-      title: "Students Enrolled",
+      title: "Etudiants inscrits",
       url: "/teacher/students",
       icon: UsersThree,
     },
@@ -67,41 +67,41 @@ const data = {
       url: "#",
       items: [
         {
-          title: "Active Proposals",
+          title: "Propositions actives",
           url: "#",
         },
         {
-          title: "Archived",
+          title: "Archivées",
           url: "#",
         },
       ],
     },
     {
-      title: "Proposal",
+      title: "Propositions",
       icon: IconFileDescription,
       url: "#",
       items: [
         {
-          title: "Active Proposals",
+          title: "Propositions actives",
           url: "#",
         },
         {
-          title: "Archived",
+          title: "Archivées",
           url: "#",
         },
       ],
     },
     {
-      title: "Prompts",
+      title: "Invites IA",
       icon: IconFileAi,
       url: "#",
       items: [
         {
-          title: "Active Proposals",
+          title: "Propositions actives",
           url: "#",
         },
         {
-          title: "Archived",
+          title: "Archivées",
           url: "#",
         },
       ],
@@ -109,17 +109,17 @@ const data = {
   ],
   navSecondary: [
     {
-      title: "Settings",
+      title: "Paramètres",
       url: "#",
       icon: IconSettings,
     },
     {
-      title: "Get Help",
+      title: "Aide",
       url: "#",
       icon: IconHelp,
     },
     {
-      title: "Search",
+      title: "Rechercher",
       url: "#",
       icon: IconSearch,
     },
@@ -168,7 +168,7 @@ export function TeacherSidebar({
       </SidebarHeader>
       
       <SidebarContent>
-        <NavMain items={data.navMain} quickLink={{title:'Create Course',link:'/'}}/>
+        <NavMain items={data.navMain} quickLink={{title:'Créer un cours',link:'/'}}/>
         <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>

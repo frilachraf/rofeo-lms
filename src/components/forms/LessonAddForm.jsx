@@ -15,8 +15,8 @@ const LessonAddForm = ({ setOpen,courseId }) => {
     const [content, setContent] = useState('');
     const { register, handleSubmit, watch, formState } = useForm({
         defaultValues: {
-            title: 'chapitre 1',
-            content: 'description du chapitre 1',
+            title: 'Chapitre 1',
+            content: 'Description du chapitre 1',
             video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
             // pdf: '',
         }
@@ -59,7 +59,7 @@ const LessonAddForm = ({ setOpen,courseId }) => {
             if(lessonError) throw lessonError;
             console.log(lessonData);
             setOpen(false);
-            toast.success('action successfully');
+            toast.success('Chapitre ajouté avec succès');
         } catch (error) {
             console.error(error);
             toast.error(error.message);
@@ -72,28 +72,28 @@ const LessonAddForm = ({ setOpen,courseId }) => {
 
     const formFields = {
         title: {
-            label: 'title',
+            label: 'Titre',
             name: 'title',
             type: 'text',
             placeholder: 'Enter the title',
         },
         content: {
-            label: 'content',
+            label: 'Contenu',
             name: 'content',
             type: 'text',
-            placeholder: 'Enter the content',
+            placeholder: 'Entrez le contenu',
         },
         video: {
-            label: 'video',
+            label: 'Vidéo (YouTube)',
             name: 'video',
             type: 'text',
-            placeholder: 'Paste the YouTube video URL',
+            placeholder: 'Collez l’URL de la vidéo YouTube',
         },
         pdf: {
-            label: 'pdf',
+            label: 'Document PDF',
             name: 'pdf',
             type: 'file',
-            placeholder: 'Upload the pdf',
+            placeholder: 'Téléversez un fichier PDF',
         },
     };
 
@@ -144,7 +144,7 @@ const LessonAddForm = ({ setOpen,courseId }) => {
             
                 
                 <Button disabled={isLoading}>
-                    {isLoading ? 'Saving...' : 'Save'}
+                    {isLoading ? 'Enregistrement...' : 'Enregistrer'}
                 </Button>
                 {/* display title value */}
                 

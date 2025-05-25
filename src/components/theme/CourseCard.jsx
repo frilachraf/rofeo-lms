@@ -26,8 +26,8 @@ export default function CourseCard({ course }) {
           {course.description}
         </p>
         <div className="flex justify-between text-sm text-muted-foreground">
-          <span>{course.total_enrollments} Enrolled</span>
-          <span>{course.duration} hrs</span>
+          <span>{course.total_enrollments} inscrit</span>
+          <span>{course.duration} h </span>
         </div>
         <p className="text-xs text-muted-foreground text-right">
           By {course?.teacher?.full_name}
@@ -35,7 +35,7 @@ export default function CourseCard({ course }) {
       </CardContent>
       <CardFooter className="flex ">
         <Button className="w-full">
-          View Course
+          Voir le cours
         </Button>
       </CardFooter>
     </Card>
@@ -78,7 +78,7 @@ export function StudentCourseCard({ course }) {
           </p>
         </div>
         <p className="text-sm text-muted-foreground mb-2">
-          {course.progress || 25}%
+        Progression :{course.progress || 25}%
         </p>
         <Progress value={course.progress || 55} />
       </CardContent>
@@ -86,7 +86,7 @@ export function StudentCourseCard({ course }) {
       <CardFooter className="flex ">
         <Link to={`/student/courses/${course.details.id}`}>
           <Button className="w-full">
-            Continue
+            Continuer
           </Button>
         </Link>
       </CardFooter>
@@ -115,8 +115,8 @@ export function TeacherCourseCard({ course }) {
           {course.description}
         </p>
         <div className="flex justify-between text-sm text-muted-foreground">
-          <span>{course.total_enrollments} Enrolled</span>
-          <span>{course.duration} hrs</span>
+          <span>{course.total_enrollments} inscrit</span>
+          <span>{course.duration} h </span>
         </div>
         <p className="text-xs text-muted-foreground text-right">
           By {course?.teacher?.full_name}
@@ -125,7 +125,7 @@ export function TeacherCourseCard({ course }) {
       <CardFooter className="flex">
         <Link to={`/teacher/courses/${course.id}/edit`} className="w-full flex">
           <Button className="w-full">
-            Edit Course
+            Modifier le cours
           </Button>
         </Link>
       </CardFooter>

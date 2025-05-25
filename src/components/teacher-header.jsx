@@ -44,17 +44,17 @@ export function TeacherHeader() {
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link to="/teacher/profile">Profile</Link>
+              <Link to="/teacher/profile">Mon profil</Link>
             </DropdownMenuItem>
             {/* <DropdownMenuItem>Billing</DropdownMenuItem> */}
             {/* <DropdownMenuItem>Team</DropdownMenuItem> */}
             <DropdownMenuItem>
               <button className="w-full cursor-pointer text-start" variant="ghost" onClick={()=>signOut()}>
               
-              Logout</button>
+              Déconnexion</button>
               </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

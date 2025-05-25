@@ -13,18 +13,18 @@ export function TeacherCourseStudentsTable({ students }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Course Students</CardTitle>
+        <CardTitle>Apprenants inscrits</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Student Name</TableHead>
-              <TableHead>Level</TableHead>
-              <TableHead>School</TableHead>
-              <TableHead>Course</TableHead>
-              <TableHead>Duration</TableHead>
-              <TableHead>Enrolled Date</TableHead>
+              <TableHead>Nom de l’élève</TableHead>
+              <TableHead>Niveau</TableHead>
+              <TableHead>Établissement</TableHead>
+              <TableHead>Cours</TableHead>
+              <TableHead>Durée</TableHead>
+              <TableHead>Date d’inscription</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

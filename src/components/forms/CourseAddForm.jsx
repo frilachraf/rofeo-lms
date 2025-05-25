@@ -57,34 +57,34 @@ const CourseAddForm = ({setOpen}) => {
 
   const formFields = {
     title: {                
-      label: 'Title',
-      name: 'title',
+      label: 'Titre',
+      name: 'Titre',
       type: 'text',
-      placeholder: 'Enter the title',
+      placeholder: 'Entrez le titre',
     },
     description: {
       label: 'Description',
-      name: 'description',
+      name: 'Description',
       // type: 'text',
-      placeholder: 'Enter the description',
+      placeholder: 'Entrez la description',
     },
     duration: {
-      label: 'Duration (minutes)',
+      label: 'Durée (minutes)',
       name: 'duration',
       // type: 'number',
-      placeholder: 'Enter the duration',
+      placeholder: 'Entrez la durée',
     },
     imageLink: {
-      label: 'Thumbnail',
+      label: 'Miniature',
       name: 'thumbnail',
       // type: 'file',
-      placeholder: 'Enter the image link',
+      placeholder: 'Choisissez une image',
     },
     level: {
-      label: 'Level',
+      label: 'Niveau',
       name: 'level',
       // type: 'select',
-      placeholder: 'Select the level',
+      placeholder: 'Sélectionnez un niveau',
     }
   }
 
@@ -101,7 +101,7 @@ const CourseAddForm = ({setOpen}) => {
   },[])
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 p-4 px-8'>
-        <h1 className='text-2xl font-bold'>Add Course</h1>
+        <h1 className='text-2xl font-bold'>Ajouter un cours</h1>
       <div className='flex flex-col gap-4'>
         <div className="flex gap-4">
             <div className="w-1/2">

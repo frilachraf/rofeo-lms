@@ -27,13 +27,13 @@ export default function TeacherStudentsPage() {
     }, [teacherId])
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return <div>Chargement...</div>
     }
 
     return (
         <div className="container py-8 px-10">
             <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold">Students</h1>
+                <h1 className="text-3xl font-bold">Etudiants</h1>
                 <Button variant="outline" onClick={() => fetchStudents()}>
                     <ArrowCounterClockwise size={20}/>
                 </Button>
@@ -42,9 +42,9 @@ export default function TeacherStudentsPage() {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Name</TableHead>
+                        <TableHead>Nom</TableHead>
                         <TableHead>Email</TableHead>
-                        <TableHead>Course</TableHead>
+                        <TableHead>Cours</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

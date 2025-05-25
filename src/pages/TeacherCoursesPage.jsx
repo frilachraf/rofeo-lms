@@ -45,9 +45,9 @@ export default function TeacherCoursesPage() {
     return (
         <div className="container py-8 px-10">
             <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold">My Courses</h1>
+                <h1 className="text-3xl font-bold">Mes cours</h1>
                 <Button onClick={() => setOpen(true)}>
-                    Add New Course
+                    Ajouter un nouveau cours
                 </Button>
             </div>
 
@@ -59,10 +59,10 @@ export default function TeacherCoursesPage() {
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogContent>
                     <DialogHeader>
-                    <DialogTitle>Create Course</DialogTitle>
+                    <DialogTitle>Créer un nouveau cours</DialogTitle>
                     <DialogDescription>
-                        This action cannot be undone. This will permanently delete your account
-                        and remove your data from our servers.
+                        Cette action ne peut pas être annulée. Cela supprimera définitivement votre compte
+                        et retirera vos données de nos serveurs.
                     </DialogDescription>
                     </DialogHeader>
                     <CourseAddForm setOpen={(e) => {setOpen(e); fetchTeacherCourses()}} />

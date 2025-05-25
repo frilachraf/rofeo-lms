@@ -59,7 +59,7 @@ const CourseEditForm = ({ setOpen, course }) => {
             }
 
             setOpen(false);
-            toast.success('Course updated successfully');
+            toast.success('Cours mis à jour avec succès');
         } catch (error) {
             console.error(error);
             toast.error(error.message);
@@ -81,36 +81,36 @@ const CourseEditForm = ({ setOpen, course }) => {
 
     const formFields = {
         title: {
-            label: 'Title',
-            name: 'title',
+            label: 'Titre',
+            name: 'Titre',
             type: 'text',
-            placeholder: 'Enter the title',
+            placeholder: 'Entrez le titre',
         },
         description: {
             label: 'Description',
             name: 'description',
-            placeholder: 'Enter the description',
+            placeholder: 'Entrez la description',
         },
         duration: {
-            label: 'Duration (minutes)',
+            label: 'Durée (minutes)',
             name: 'duration',
-            placeholder: 'Enter the duration',
+            placeholder: 'Entrez la durée',
         },
         imageLink: {
-            label: 'Thumbnail',
+            label: 'Miniature',
             name: 'thumbnail',
-            placeholder: 'Enter the image link',
+            placeholder: 'Choisissez une image',
         },
         level: {
-            label: 'Level',
+            label: 'Niveau',
             name: 'level',
-            placeholder: 'Select the level',
+            placeholder: 'Sélectionnez un niveau',
         }
     };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 p-4 px-8'>
-            <h1 className='text-2xl font-bold'>Edit Course</h1>
+            <h1 className='text-2xl font-bold'>Modifier un cours</h1>
             <div className='flex flex-col gap-4'>
                 <div className="flex gap-4">
                     <div className="w-1/2">
@@ -158,7 +158,7 @@ const CourseEditForm = ({ setOpen, course }) => {
                 </div>
 
                 <Button disabled={isLoading} type='submit'>
-                    Update Course
+                Mettre à jour le cours
                 </Button>
             </div>
         </form>

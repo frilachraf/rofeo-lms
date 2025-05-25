@@ -67,7 +67,7 @@ export default function TeacherCoursePage() {
 
             <>
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold">Course Details</h1>
+                    <h1 className="text-3xl font-bold">Détails du cours                    </h1>
                 </div>
 
                 <div className="flex flex-col gap-4 ">
@@ -91,8 +91,8 @@ export default function TeacherCoursePage() {
                                 {/* <p className="text-gray-600">{course.description}</p> */}
                                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit perferendis repellendus voluptas incidunt repudiandae? Explicabo, facere. Excepturi quis quas placeat dolore corporis ipsam. Quas in tempora eos fuga sunt labore!</p>
                                 <div className="gap-2">
-                                    <p className="text-gray-600">Duration: {course.duration} minutes</p>
-                                    <p className="text-gray-600">Level: {course.level?.title}</p>
+                                    <p className="text-gray-600">Durée: {course.duration} minutes</p>
+                                    <p className="text-gray-600">Niveau: {course.level?.title}</p>
                                 </div>
                             </div>
                             <div className="h-full">
@@ -103,12 +103,13 @@ export default function TeacherCoursePage() {
                                 <Alert variant="destructive" className="border-red-100 flex ">
                                     <WarningCircle className="" size={32} />
                                     <div className="w-full">
-                                    <AlertTitle>Delete Course</AlertTitle>
+                                    <AlertTitle>Supprimer le cours
+                                    </AlertTitle>
                                     <AlertDescription className=''>
-                                        Are you sure you want to delete this course?
+                                        Êtes-vous sûr de vouloir supprimer ce cours?
                                     </AlertDescription>
                                     </div>
-                                    <Button variant="destructive" className="">Delete</Button>
+                                    <Button variant="destructive" className="">Supprimer</Button>
                                 </Alert>
 
                             </div>
@@ -131,10 +132,10 @@ export default function TeacherCoursePage() {
             </>
             <div className="mt-8 p-4 rounded-lg">
                 <div className="flex justify-between items-center mb-8">
-                    <h2 className="text-xl font-semibold">Lessons </h2>
+                    <h2 className="text-xl font-semibold">Leçons </h2>
                     <div className="flex gap-2">
                         <Button variant="outline" onClick={() => fetchCourse()}><ArrowCounterClockwise size={20} /></Button>
-                        <Button onClick={() => setOpen(true)}>Add Lesson</Button>
+                        <Button onClick={() => setOpen(true)}>Ajouter une leçon</Button>
                     </div>
                 </div>
 
@@ -146,13 +147,13 @@ export default function TeacherCoursePage() {
                                 #
                             </TableHead>
                             <TableHead>
-                                Title
+                                Titre
                             </TableHead>
                             <TableHead>
-                                Content
+                                Contenu
                             </TableHead>
                             <TableHead>
-                                Video
+                                Vidéo
                             </TableHead>
                             <TableHead>
                                 PDF
@@ -196,9 +197,9 @@ export default function TeacherCoursePage() {
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogContent className="overflow-y-auto max-h-[90vh]">
                     <DialogHeader>
-                        <DialogTitle>Add Lesson</DialogTitle>
+                        <DialogTitle>Ajouter une leçon</DialogTitle>
                         <DialogDescription>
-                            Add a new lesson to the course
+                            Ajouter une nouvelle leçon au cours
                         </DialogDescription>
                     </DialogHeader>
                     <LessonAddForm setOpen={(e) => { setOpen(e); fetchCourse() }} courseId={courseId} />

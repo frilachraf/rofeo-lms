@@ -32,9 +32,9 @@ const StudentCourseContentPage = () => {
     fetchCourse();
   }, [id]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Chargement...</div>;
   if (error) return <div>Error: {error}</div>;
-  if (!course) return <div>Course not found</div>;
+  if (!course) return <div>Cours introuvable</div>;
 
   return (
     <div className="p-6">
@@ -47,7 +47,7 @@ const StudentCourseContentPage = () => {
         <div className="md:col-span-2">
           <Card>
             <CardHeader>
-              <CardTitle>Course Content</CardTitle>
+              <CardTitle>Contenu du cours</CardTitle>
             </CardHeader>
             <CardContent>
               <Accordion type="single" collapsible className="w-full">
@@ -61,7 +61,7 @@ const StudentCourseContentPage = () => {
                         {lesson.video_url && (
                           <Dialog>
                             <DialogTrigger asChild>
-                              <Button variant="outline" size="sm">Watch Video</Button>
+                              <Button variant="outline" size="sm">Regarder la vidéo</Button>
                             </DialogTrigger>
                             <DialogContent className="max-w-4xl">
                               <DialogTitle>{lesson.title}</DialogTitle>
@@ -83,7 +83,7 @@ const StudentCourseContentPage = () => {
                         {lesson.file_url && (
                           <Dialog>
                             <DialogTrigger asChild>
-                              <Button variant="outline" size="sm">View Materials</Button>
+                              <Button variant="outline" size="sm">Voir les matériaux</Button>
                             </DialogTrigger>
                             <DialogContent className="max-w-4xl">
                               <DialogTitle>{lesson.title}</DialogTitle>
@@ -102,7 +102,7 @@ const StudentCourseContentPage = () => {
                                       rel="noopener noreferrer"
                                       className="text-primary hover:underline"
                                     >
-                                      Download Material
+                                      Télécharger les matériaux
                                     </a>
                                   </div>
                                 )}
@@ -122,20 +122,20 @@ const StudentCourseContentPage = () => {
         <div>
           <Card>
             <CardHeader>
-              <CardTitle>Course Info</CardTitle>
+              <CardTitle>Informations du cours</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-muted-foreground">Instructor</p>
+                  <p className="text-sm text-muted-foreground">Instructeur</p>
                   <p>{course.teacher?.full_name}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Duration</p>
-                  <p>{course.duration} hours</p>
+                  <p className="text-sm text-muted-foreground">Durée</p>
+                  <p>{course.duration} heures</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Level</p>
+                  <p className="text-sm text-muted-foreground">Niveau</p>
                   <p>{course.level?.name}</p>
                 </div>
               </div>

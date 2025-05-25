@@ -53,15 +53,15 @@ const TestPage = () => {
         }));
     };
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+    if (loading) return <div>Chargement...</div>;
+    if (error) return <div>Erreur: {error}</div>;
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold mb-6">Test Page</h1>
+            <h1 className="text-3xl font-bold mb-6">Page de test</h1>
 
 
-            <Button onClick={fetchData}>Fetch Data</Button>
+            <Button onClick={fetchData}>Rafraîchir</Button>
         </div>
     );
 };
