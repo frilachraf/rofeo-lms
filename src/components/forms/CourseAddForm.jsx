@@ -157,7 +157,7 @@ const CourseAddForm = ({setOpen}) => {
         {watch('thumbnail')}
           
           <Button disabled={isLoading} type='submit'>
-            Save
+            Enregistrer
           </Button>
       
       </div>
