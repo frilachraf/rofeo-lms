@@ -1,5 +1,10 @@
 {
-    "files": [],
+    "files": [
+        "src/main.jsx",
+        "src/App.jsx",
+        "src/supabaseClient.js"
+    ],
+    "include": ["src/**/*"],
     "references": [
     //   {
     //     "path": "./tsconfig.app.json"
