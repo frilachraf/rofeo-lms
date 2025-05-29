@@ -19,7 +19,7 @@ const getFilteredCourses = async ({ categoryId, searchTerm, sortBy = 'created_at
 
   let query = supabase
         .from('courses')
-        .select('*')
+        .select('*,teacher:teacher_id(*)')
         
 
     // Apply categoryId filter if provided
@@ -60,7 +60,7 @@ const getCoursesLimit = async (limit) => {
 const getStudentCourses = async (userId) => {
     const { data, error } = await supabase
         .from('enrollments')
-        .select('*, details:courses(*,lessons(*,enrollment_progress(*))),teacher:teachers_accounts(*)')
+        .select('*, details:courses(*,lessons(*)),teacher:teachers_accounts(*),enrollment_progress(*)')
         .eq('student_account_id', userId)
     return { data, error }
 }
@@ -83,10 +83,9 @@ const getCourseById = async (courseId) => {
 }
 
 // approved by me
-const enrollCourse = async (userId, courseId, progress) => {
-    const { data, error } = await supabase
-        .from('enrollments')
-        .insert({ student_id: userId, course_id: courseId , progress: progress })
+const enrollCourse = async (userId, courseId,teacherId) => {
+    const { data, error } = await supabase.from('enrollments')
+        .insert({ student_account_id: userId, course_id: courseId,teacher_account_id:teacherId})
         .select("*")
     return { data, error }
 }
@@ -181,6 +180,28 @@ export const updateCourse = async (courseId, extractedData) => {
         .eq('id', courseId)
         .select();
     return { data, error }
+}
+
+export const addEnrollmentProgress = async (enrollmentId, lessonId) => {
+    // First check if record already exists
+    const { data: existingData } = await supabase
+        .from('enrollment_progress')
+        .select('*')
+        .eq('enrollment_id', enrollmentId)
+        .eq('lesson_id', lessonId)
+        .single();
+
+    if (existingData) {
+        return { data: existingData, error: null };
+    }
+
+    // If no existing record, insert new one
+    const { data, error } = await supabase
+        .from('enrollment_progress')
+        .insert({ enrollment_id: enrollmentId, lesson_id: lessonId })
+        .select('*');
+
+    return { data, error };
 }
 
 export { getAllCourses, getFilteredCourses, getCategories, getCoursesLimit, getStudentCourses, getTeacherCourses, getCourseById, enrollCourse, unenrollCourse, updateCourseEnrollmentProgress };

@@ -6,13 +6,14 @@ import { getTeacherStudents } from '../services/teacherService'
 export default function TeacherStudentsPage() {
     const [students, setStudents] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-    const teacherId = '46c8f855-1dc4-4795-a3fa-e13fc4633fa6'
+    
+    const {user} = useAuth()
 
     const fetchStudents = async () => {
         try {
             setIsLoading(true)
             // TODO: Implement API call to fetch students
-            const {data,error} = await getTeacherStudents(teacherId)
+            const {data,error} = await getTeacherStudents(user.id)
             setStudents(data)
             console.log(data)
         } catch (error) {

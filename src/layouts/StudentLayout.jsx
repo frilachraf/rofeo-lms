@@ -25,9 +25,10 @@ export default function StudentLayout() {
             </SidebarProvider> */}
     
     <StudentHeader />
-    <div className='px-10 py-4 h-full'>
+    <div className='px-4 sm:px-10 py-4 h-full'>
       <Outlet/>
     </div>
+
     </div>
   );
 }
