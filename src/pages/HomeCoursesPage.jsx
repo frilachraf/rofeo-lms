@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { enrollCourse, getFilteredCourses } from "../services/coursesService";
 import CourseCard, { PublicCourseCard } from "../components/theme/CourseCard";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 
@@ -14,6 +14,7 @@ export default function HomeCoursesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   // Get search query from URL params, default to empty string
   const searchQuery = searchParams.get("q") || "";
@@ -53,6 +54,7 @@ export default function HomeCoursesPage() {
         console.error(error);
       }
       toast.success("Course enrolled successfully");
+      navigate(`/student/courses/${data[0].id}/content`);
     } catch (error) {
       toast.error("Failed to enroll course");
       console.error(error);

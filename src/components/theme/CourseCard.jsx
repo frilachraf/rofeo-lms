@@ -44,7 +44,7 @@ export default function CourseCard({ course }) {
 }
 
 export function StudentCourseCard({ course }) {
-  const progress = course.enrollment_progress.length / course.details.lessons.length * 100;
+  const progress = course.enrollment_progress?.length / course.details?.lessons?.length * 100 || 0;
   return (
     <Card className="w-full rounded-2xl duration-300 overflow-hidden shadow-none pt-0">
       <img
