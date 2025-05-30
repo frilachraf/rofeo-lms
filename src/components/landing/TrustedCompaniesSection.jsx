@@ -1,9 +1,9 @@
 const trustedCompanies = [
-  { id: 1, name: "Microsoft", logo: "../../src/components/imges/microsoft-logo.svg" },
-  { id: 2, name: "Walmart", logo: "../../src/components/imges/walmart-logo.svg" },
-  { id: 3, name: "Accenture", logo: "../../src/components/imges/accenture-logo.svg" },
-  { id: 4, name: "Adobe", logo: "../../src/components/imges/adobe-logo.svg" },
-  { id: 5, name: "PayPal", logo: "../../src/components/imges/paypal-logo.svg" },
+  { id: 1, name: "Microsoft", logo: "https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/landingpage/microsoft-logo.svg" },
+  { id: 2, name: "Walmart", logo: "https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/landingpage/star-dull-icon-1.png" },
+  { id: 3, name: "Accenture", logo: "https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/landingpage/star-dull-icon-1.png" },
+  { id: 4, name: "Adobe", logo: "https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/landingpage/microsoft-logo.svg" },
+  { id: 5, name: "PayPal", logo: "https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/landingpage/star-dull-icon-1.png" },
 ];
 
 export const TrustedCompaniesSection = () => {
