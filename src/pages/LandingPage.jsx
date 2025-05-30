@@ -5,58 +5,54 @@ import { Card, CardContent } from "../components/ui/card";
 import { Input } from "../components/ui/input";
 import { Separator } from "../components/ui/separator";
 import { Header } from "../components/landing/Header";
-import * as React from "react"
-// import { Card, CardContent } from "../components/ui/card";
-import { AspectRatio } from "../components/ui/aspect-ratio";
 import { HeroSection } from "../components/landing/HeroSection";
 import { VideoSection } from "../components/landing/VideoSection";
 import { TrustedCompaniesSection } from "../components/landing/TrustedCompaniesSection";
 import { PopularCoursesSection } from "../components/landing/PopularCoursesSection";
 import { TestimonialsSection } from "../components/landing/TestimonialsSection";
 import { CallToActionSection } from "../components/landing/CallToActionSection";
-import { FooterSection } from "../components/landing/FooterSection";
 import { AboutSection } from "../components/landing/AboutSection";
 import { ContactSection } from "../components/landing/ContactSection";
 
-// Course data for mapping
-const popularCourses = [
-  {
-    id: 1,
-    title: "Introduction à la Robotique",
-    instructor: "Ibrahim Kamel",
-    rating: 4.5,
-    reviews: 122,
-    price: "109.99 DH",
-    image: "../../src/components/imges/intro to robots.jpg",
-  },
-  {
-    id: 2,
-    title: "les bases de la robotique grâce au BeeBot",
-    instructor: "Richard James",
-    rating: 4.5,
-    reviews: 122,
-    price: "610.99 DH",
-    image: "../../src/components/imges/cours.jpg",
-  },
-  {
-    id: 3,
-    title: "Le monde des robots",
-    instructor: "Richard James",
-    rating: 4.5,
-    reviews: 122,
-    price: "190.99 DH",
-    image: "../../src/components/imges/le monde des robots.jpg",
-  },
-  {
-    id: 4,
-    title: "Programmation du Robot Thymio (VPL & Thymio)",
-    instructor: "Richard James",
-    rating: 4.5,
-    reviews: 122,
-    price: "175.95 DH",
-    image: "../../src/components/imges/elec.jpg",
-  },
-];
+// // Course data for mapping
+// const popularCourses = [
+//   {
+//     id: 1,
+//     title: "Introduction à la Robotique",
+//     instructor: "Ibrahim Kamel",
+//     rating: 4.5,
+//     reviews: 122,
+//     price: "109.99 DH",
+//     image: "../../src/components/imges/intro to robots.jpg",
+//   },
+//   {
+//     id: 2,
+//     title: "les bases de la robotique grâce au BeeBot",
+//     instructor: "Richard James",
+//     rating: 4.5,
+//     reviews: 122,
+//     price: "610.99 DH",
+//     image: "../../src/components/imges/cours.jpg",
+//   },
+//   {
+//     id: 3,
+//     title: "Le monde des robots",
+//     instructor: "Richard James",
+//     rating: 4.5,
+//     reviews: 122,
+//     price: "190.99 DH",
+//     image: "../../src/components/imges/le monde des robots.jpg",
+//   },
+//   {
+//     id: 4,
+//     title: "Programmation du Robot Thymio (VPL & Thymio)",
+//     instructor: "Richard James",
+//     rating: 4.5,
+//     reviews: 122,
+//     price: "175.95 DH",
+//     image: "../../src/components/imges/elec.jpg",
+//   },
+// ];
 
 // Testimonial data
 const testimonials = [
