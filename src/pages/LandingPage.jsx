@@ -1,10 +1,12 @@
-import { useRef, useState, useEffect } from "react";
-import { SearchIcon, StarIcon, Play, Pause, Volume2, VolumeX, Maximize, Minimize } from "lucide-react";
-import { Button } from "../components/ui/button";
-import { Card, CardContent } from "../components/ui/card";
-import { Input } from "../components/ui/input";
-import { Separator } from "../components/ui/separator";
-import { Header } from "../components/landing/Header";
+// import { useRef, useState, useEffect } from "react";
+// import { SearchIcon, StarIcon, Play, Pause, Volume2, VolumeX, Maximize, Minimize } from "lucide-react";
+// import { Button } from "../components/ui/button";
+// import { Card, CardContent } from "../components/ui/card";
+// import { Input } from "../components/ui/input";
+// import { Separator } from "../components/ui/separator";
+// import { Header } from "../components/landing/Header";
+// import * as React from "react"
+
 import { HeroSection } from "../components/landing/HeroSection";
 import { VideoSection } from "../components/landing/VideoSection";
 import { TrustedCompaniesSection } from "../components/landing/TrustedCompaniesSection";
@@ -12,6 +14,8 @@ import { PopularCoursesSection } from "../components/landing/PopularCoursesSecti
 import { TestimonialsSection } from "../components/landing/TestimonialsSection";
 import { CallToActionSection } from "../components/landing/CallToActionSection";
 import { FooterSection } from "../components/landing/FooterSection";
+import { AboutSection } from "../components/landing/AboutSection";
+import { ContactSection } from "../components/landing/ContactSection";
 
 // Course data for mapping
 const popularCourses = [
@@ -93,10 +97,12 @@ const LandingPage = () => {
       {/* <Header /> */}
       <HeroSection />
       <VideoSection />
+      <AboutSection /> 
       <TrustedCompaniesSection />
       <PopularCoursesSection />
       <TestimonialsSection />
       <CallToActionSection />
+      <ContactSection /> 
       {/* <FooterSection /> */}
     </div>
   );

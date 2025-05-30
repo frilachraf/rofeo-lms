@@ -14,7 +14,7 @@ export const HeroSection = () => {
         <img
           className="w-[214px] h-[30px] mb-6"
           alt="Sktech"
-          src="../../src/components/imges//sktech.svg"
+          src="https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/landingpage/sktech.svg"
         />
         <p className="text-[#565656] text-base leading-6 mb-12">
           ROFEO Academy aide les enfants à développer leurs compétences en

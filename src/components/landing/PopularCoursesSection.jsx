@@ -5,44 +5,44 @@ import { getCoursesLimit } from "@/services/coursesService";
 import { useState, useEffect } from "react";
 import CourseCard from "../theme/CourseCard";
 
-const popularCourses = [
-  {
-    id: 1,
-    title: "Introduction à la Robotique",
-    instructor: "Ibrahim Kamel",
-    rating: 4.5,
-    reviews: 122,
-    price: "109.99 DH",
-    image: "../../src/components/imges/intro to robots.jpg",
-  },
-  {
-    id: 2,
-    title: "les bases de la robotique grâce au BeeBot",
-    instructor: "Richard James",
-    rating: 4.5,
-    reviews: 122,
-    price: "610.99 DH",
-    image: "../../src/components/imges/cours.jpg",
-  },
-  {
-    id: 3,
-    title: "Le monde des robots",
-    instructor: "Richard James",
-    rating: 4.5,
-    reviews: 122,
-    price: "190.99 DH",
-    image: "../../src/components/imges/le monde des robots.jpg",
-  },
-  {
-    id: 4,
-    title: "Programmation du Robot Thymio (VPL & Thymio)",
-    instructor: "Richard James",
-    rating: 4.5,
-    reviews: 122,
-    price: "175.95 DH",
-    image: "../../src/components/imges/elec.jpg",
-  },
-];
+// const popularCourses = [
+//   {
+//     id: 1,
+//     title: "Introduction à la Robotique",
+//     instructor: "Ibrahim Kamel",
+//     rating: 4.5,
+//     reviews: 122,
+//     price: "109.99 DH",
+//     image: "../../src/components/imges/intro to robots.jpg",
+//   },
+//   {
+//     id: 2,
+//     title: "les bases de la robotique grâce au BeeBot",
+//     instructor: "Richard James",
+//     rating: 4.5,
+//     reviews: 122,
+//     price: "610.99 DH",
+//     image: "../../src/components/imges/cours.jpg",
+//   },
+//   {
+//     id: 3,
+//     title: "Le monde des robots",
+//     instructor: "Richard James",
+//     rating: 4.5,
+//     reviews: 122,
+//     price: "190.99 DH",
+//     image: "../../src/components/imges/le monde des robots.jpg",
+//   },
+//   {
+//     id: 4,
+//     title: "Programmation du Robot Thymio (VPL & Thymio)",
+//     instructor: "Richard James",
+//     rating: 4.5,
+//     reviews: 122,
+//     price: "175.95 DH",
+//     image: "../../src/components/imges/elec.jpg",
+//   },
+// ];
 
 export const PopularCoursesSection = () => {
   const [courses, setCourses] = useState([]);

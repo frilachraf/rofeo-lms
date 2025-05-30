@@ -22,7 +22,7 @@ export const Header = () => {
           <img
             className="w-12 aspect-square object-cover"
             alt="Logo"
-            src="./logo.png"
+            src="https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/landingpage/logo-removebg-preview-1-1.png"
           />
           <h1 className="font-semibold text-xl text-[#0e0e0e] hidden md:block">
             ROFEO Academy

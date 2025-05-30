@@ -53,7 +53,7 @@ export const VideoSection = () => {
             muted
             // playsInline
           >
-            <source src="https://videos.pexels.com/video-files/3740038/3740038-uhd_2560_1440_24fps.mp4" type="video/mp4" />
+            <source src="https://rmgcnvjloiiirvgedxvz.supabase.co/storage/v1/object/public/vd/vd/VID1.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>

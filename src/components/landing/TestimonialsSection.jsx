@@ -6,21 +6,21 @@ const testimonials = [
     name: "Sarah Belkadi",
     position: "Parent d'élève",
     text: '"Mon fils a adoré le cours de robotique ! Il est devenu passionné et passe son temps à créer de nouveaux projets. Merci ROFEO Academy !"',
-    image: "../../src/components/imges/profile-img-1.png",
+    image: "https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/landingpage/profile-img-1.png",
   },
   {
     id: 2,
     name: "Mohamed El Fassi",
     position: "Parent d'élève",
     text: '"Les cours sont très bien conçus, avec un équilibre parfait entre théorie et pratique. Ma fille a beaucoup progressé en programmation."',
-    image: "../../src/components/imges/profile-img-2.png",
+    image: "https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/landingpage/profile-img-2.png",
   },
   {
     id: 3,
     name: "Amine Tazi",
     position: "Enseignant",
     text: "\"En tant qu'enseignant, j'apprécie la qualité pédagogique des cours et les ressources disponibles. C'est un excellent outil pour initier les enfants à la technologie.\"",
-    image: "../../src/components/imges/profile-img-3.png",
+    image: "https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/landingpage/profile-img-3.png",
   },
 ];
 
@@ -66,10 +66,10 @@ export const TestimonialsSection = () => {
                     key={i}
                     className="w-[18px] h-4"
                     alt="Star"
-                    src="../../src/components/imges/star-6.svg"
+                    src="https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/landingpage/star-6.svg"
                   />
                 ))}
-                <img className="w-[17px] h-4" alt="Star" src="../../src/components/imges/star-9.png" />
+                <img className="w-[17px] h-4" alt="Star" src="https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/landingpage/star-9.png" />
               </div>
               <p className="text-gray-500 text-sm leading-[22px] mb-4">
                 {testimonial.text}
