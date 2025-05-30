@@ -1,12 +1,13 @@
-// import { useRef, useState, useEffect } from "react";
-// import { SearchIcon, StarIcon, Play, Pause, Volume2, VolumeX, Maximize, Minimize } from "lucide-react";
-// import { Button } from "../components/ui/button";
+import { useRef, useState, useEffect } from "react";
+import { SearchIcon, StarIcon, Play, Pause, Volume2, VolumeX, Maximize, Minimize } from "lucide-react";
+import { Button } from "../components/ui/button";
+import { Card, CardContent } from "../components/ui/card";
+import { Input } from "../components/ui/input";
+import { Separator } from "../components/ui/separator";
+import { Header } from "../components/landing/Header";
+import * as React from "react"
 // import { Card, CardContent } from "../components/ui/card";
-// import { Input } from "../components/ui/input";
-// import { Separator } from "../components/ui/separator";
-// import { Header } from "../components/landing/Header";
-// import * as React from "react"
-
+import { AspectRatio } from "../components/ui/aspect-ratio";
 import { HeroSection } from "../components/landing/HeroSection";
 import { VideoSection } from "../components/landing/VideoSection";
 import { TrustedCompaniesSection } from "../components/landing/TrustedCompaniesSection";
