@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { uploadFile, getFile } from '../../services/storageService';
 import { createLesson } from '../../services/coursesService';
 import TiptapEditor from '../blocks/TiptapEditor';
-
+import { getYouTubeEmbedUrl } from '../../services/uiServices';
 const LessonAddForm = ({ setOpen,courseId }) => {
     const [content, setContent] = useState('');
     const { register, handleSubmit, watch, formState } = useForm({
@@ -24,17 +24,7 @@ const LessonAddForm = ({ setOpen,courseId }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     // Function to convert YouTube URL to embed URL
-    const getYouTubeEmbedUrl = (url) => {
-        if (!url) return '';
-        
-        // Handle different YouTube URL formats
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-        const match = url.match(regExp);
-        
-        return match && match[2].length === 11
-            ? `https://www.youtube.com/embed/${match[2]}`
-            : '';
-    };
+    
 
     const onSubmit = async (data) => {
         try {

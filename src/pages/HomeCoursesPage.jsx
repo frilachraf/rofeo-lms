@@ -2,15 +2,19 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MagnifyingGlass } from "@phosphor-icons/react";
-import { getFilteredCourses } from "../services/coursesService";
-import CourseCard from "../components/theme/CourseCard";
-import { useSearchParams } from "react-router-dom";
+import { enrollCourse, getFilteredCourses } from "../services/coursesService";
+import CourseCard, { PublicCourseCard } from "../components/theme/CourseCard";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 export default function HomeCoursesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   // Get search query from URL params, default to empty string
   const searchQuery = searchParams.get("q") || "";
@@ -42,6 +46,23 @@ export default function HomeCoursesPage() {
     setSearchParams({ q: query });
   };
 
+  const handleEnroll = async (courseId,teacherId) => {
+    try {
+      const { data, error } = await enrollCourse(user.id, courseId,teacherId);
+      console.log(data);
+      if (error) {
+        console.error(error);
+      }
+      toast.success("Course enrolled successfully");
+      navigate(`/student/courses/${data[0].id}/content`);
+    } catch (error) {
+      toast.error("Failed to enroll course");
+      console.error(error);
+    }
+    finally {
+      setLoading(false);
+    }
+  };
   if (loading) {
     return <div>Loading...</div>;
   } 
@@ -75,7 +96,7 @@ export default function HomeCoursesPage() {
         {/* Course grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full mt-8">
          {courses.map((course) => (
-            <CourseCard key={course.id} course={course} />
+            <PublicCourseCard key={course.id} course={course} onEnroll={handleEnroll} />
          ))}
         </div>
       </div>
