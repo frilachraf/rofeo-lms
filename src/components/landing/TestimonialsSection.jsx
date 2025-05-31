@@ -114,7 +114,7 @@ const testimonials = [
 
 export const TestimonialsSection = () => {
   return (
-    <section className="w-full max-w-full px-4 py-20 mx-auto flex flex-col items-center bg-[#f8f9fc] rounded-2xl shadow-sm">
+    <section id="TestimonialsSection"  className="w-full max-w-full px-4 py-20 mx-auto flex flex-col items-center bg-[#f8f9fc] rounded-2xl shadow-sm">
       <motion.div
         className="text-center mb-10"
         initial={{ opacity: 0, y: 20 }}

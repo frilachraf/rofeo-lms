@@ -21,7 +21,7 @@ const fadeSlide = {
 
 export const AboutSection = () => {
   return (
-    <section className="w-full relative overflow-hidden text-white py-20 px-6 bg-gradient-to-br from-[#4964a3] via-[#134697] to-[#0f172a]">
+    <section id="AboutSection"  className="w-full scroll-mt-24  relative overflow-hidden text-white py-20 px-6 bg-gradient-to-br from-[#4964a3] via-[#134697] to-[#0f172a]">
       {/* Background visual elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute w-64 h-64 bg-blue-800 opacity-20 rounded-full blur-3xl top-0 left-1/4 animate-pulse" />

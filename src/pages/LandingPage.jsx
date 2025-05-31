@@ -91,7 +91,7 @@ const trustedCompanies = [
 const LandingPage = () => {
   return (
     <div className="bg-white flex flex-col items-center w-full">
-      {/* <Header /> */}
+      <Header />
       <HeroSection />
       <VideoSection />
       <AboutSection /> 

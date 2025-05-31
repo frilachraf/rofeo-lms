@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 
 export const ContactSection = () => {
   return (
-    <section id="contact" className="py-16 bg-white w-full border-t">
+    <section id="ContactSection" className="py-16 bg-white w-full border-t">
       <div className="container mx-auto px-4 w-full">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
