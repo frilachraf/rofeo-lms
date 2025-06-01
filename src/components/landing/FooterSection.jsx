@@ -30,8 +30,8 @@ export const FooterSection = () => {
             <h3 className="font-semibold text-base mb-6">Navigation</h3>
             <ul className="space-y-3">
               <li><a href="/" className="text-[#ffffffcc] text-sm hover:underline">Accueil</a></li>
-              <li><a href="/about" className="text-[#ffffffcc] text-sm hover:underline">À propos</a></li>
-              <li><a href="/contact" className="text-[#ffffffcc] text-sm hover:underline">Contact</a></li>
+              <li><a href="/AboutSection" className="text-[#ffffffcc] text-sm hover:underline">À propos</a></li>
+              <li><a href="/ContactSection" className="text-[#ffffffcc] text-sm hover:underline">Contact</a></li>
               <li><a href="/privacy" className="text-[#ffffffcc] text-sm hover:underline">Politique de confidentialité</a></li>
             </ul>
           </div>

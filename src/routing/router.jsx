@@ -17,6 +17,7 @@ import TeacherCoursesPage from "../pages/TeacherCoursesPage";
 import TeacherCoursePage from "../pages/TeacherCoursePage";
 import TeacherStudentsPage from "../pages/TeacherStudentsPage";
 import StudentCourseContentPage from "../pages/StudentCourseContentPage";
+import { StudentProfilePage } from "../pages/StudentProfilePage";
 
 // import { useAuth } from '../context/AuthContext';
 
@@ -118,7 +119,7 @@ const router = createBrowserRouter([
     children:[
       {
         path: 'profile',
-        element: <div />
+        element: <StudentProfilePage />
       },
       {
         path: 'courses',

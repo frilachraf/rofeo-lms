@@ -17,14 +17,16 @@ import { useAuth } from "../../context/AuthContext";
 
 const navLinks = [
   { name: "Qui sommes-nous ?", href: "#AboutSection" },
+   { name: "Ce que disent nos étudiants", href: "#TestimonialsSection" },
   { name: "Contactez-nous", href: "#ContactSection" },
-  { name: "Ce que disent nos étudiants", href: "#TestimonialsSection" },
+ 
 ];
 
 export const Header = () => {
   const { user, role } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,6 +40,36 @@ export const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleScrollSpy = () => {
+      const sectionIds = navLinks.map(link => link.href.replace('#', ''));
+      let current = "";
+      for (const id of sectionIds) {
+        const section = document.getElementById(id);
+        if (section) {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= 80 && rect.bottom > 80) { // 80 = hauteur du header
+            current = id;
+            break;
+          }
+        }
+      }
+      setActiveSection(current);
+    };
+
+    window.addEventListener("scroll", handleScrollSpy);
+    return () => window.removeEventListener("scroll", handleScrollSpy);
+  }, []);
+
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    const id = href.replace('#', '');
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <header
@@ -60,17 +92,22 @@ export const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium  text-gray-600">
-          {navLinks.map((link, index) => (
-            <motion.a
-              key={index}
-              href={link.href}
-              whileHover={{ scale: 1.05, color: "black" }}
-              transition={{ type: "spring", stiffness: 300 }}
-              className="transition-colors  hover:text-black"
-            >
-              {link.name}
-            </motion.a>
-          ))}
+          {navLinks.map((link, index) => {
+            const id = link.href.replace('#', '');
+            const isActive = activeSection === id;
+            return (
+              <motion.a
+                key={index}
+                href={link.href}
+                onClick={e => handleNavClick(e, link.href)}
+                whileHover={{ scale: 1.05, color: "black" }}
+                transition={{ type: "spring", stiffness: 300 }}
+                className={`transition-colors hover:text-black ${isActive ? " font-bold text-black" : ""}`}
+              >
+                {link.name}
+              </motion.a>
+            );
+          })}
         </nav>
 
         {/* Mobile Menu Icon */}
