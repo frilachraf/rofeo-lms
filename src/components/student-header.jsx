@@ -37,11 +37,11 @@ export function StudentHeader({}) {
     },
     
 
-    // {
-    //   name: 'Logout',
-    //   path: '/logout',
-    //   icon: LogOutIcon
-    // }
+   {
+    name: 'Logout',
+    path: '/logout',
+    icon: LogOutIcon
+   }
 
   ]
   const otherLinks = [
