@@ -46,6 +46,7 @@ const Login = () => {
         formData.password,
       );
       // get user role
+      console.log(data)
       const {role} =await getUserRole(data.user.id)
 
       if (signInError) throw signInError;

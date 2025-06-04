@@ -108,29 +108,29 @@ const data = {
     },
   ],
   navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
+    // {
+    //   title: "Settings",
+    //   url: "#",
+    //   icon: IconSettings,
+    // },
+    // {
+    //   title: "Get Help",
+    //   url: "#",
+    //   icon: IconHelp,
+    // },
+    // {
+    //   title: "Search",
+    //   url: "#",
+    //   icon: IconSearch,
+    // },
   ],
   documents: [
     
-    {
-      name: "Documents",
-      url: "#",
-      icon: IconReport,
-    },
+    // {
+    //   name: "Documents",
+    //   url: "#",
+    //   icon: IconReport,
+    // },
     // {
     //   name: "Word Assistant",
     //   url: "#",
@@ -149,6 +149,7 @@ export function TeacherSidebar({
     const fetchTeacherDetails = async () => {
       const { data } = await getTeacherAccountById(user?.id)
       setTeacherDetails(data)
+      console.log('teacher', data)
     }
     fetchTeacherDetails()
   }, [user?.id])
@@ -156,31 +157,34 @@ export function TeacherSidebar({
     <Sidebar collapsible="offcanvas" {...props} className=''>
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
-              <a href="">
-                <ChalkboardTeacher className="!size-5 text-primary" />
-                <span className="text-base font-semibold text-primary capitalize">{teacherDetails?.full_name}</span>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
-      
-      <SidebarContent>
-        <NavMain items={data.navMain} quickLink={{title:'Create Course',link:'/'}}/>
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
-      </SidebarContent>
-      <SidebarFooter>
         {user &&
           <NavUser user={{
             name: teacherDetails?.full_name ||"shadcn",
             email:  user?.email,
             avatar:  teacherDetails?.avatar || "https://avatar.iran.liara.run/public/boy",
             }
-          } />
+          } /> 
+          
         }
+
+          {/* <SidebarMenuItem>
+            <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
+              <a href="">
+                <ChalkboardTeacher className="!size-5 text-primary" />
+                <span className="text-base font-semibold text-primary capitalize">{teacherDetails?.full_name}</span>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem> */}
+        </SidebarMenu>
+      </SidebarHeader>
+      
+      <SidebarContent>
+        <NavMain items={data.navMain} />
+        {/* <NavDocuments items={data.documents} /> */}
+        {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
+      </SidebarContent>
+      <SidebarFooter>
+        
       </SidebarFooter>
     </Sidebar>
   );

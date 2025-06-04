@@ -12,15 +12,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
+import { DotsThreeVertical, UserCircle } from "@phosphor-icons/react";
 export function TeacherHeader() {
   const { user, signOut } = useAuth()
+  const navigate = useNavigate()
   const [teacherDetails, setTeacherDetails] = useState(null)
   useEffect(() => {
     const fetchTeacherDetails = async () => {
       const { data } = await getTeacherAccountById(user?.id)
       setTeacherDetails(data)
+      console.log('teacher',data)
     }
     fetchTeacherDetails()
   }, [user?.id])
@@ -32,29 +35,27 @@ export function TeacherHeader() {
         <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
         <h1 className="text-base font-medium"></h1>
         <div className="ml-auto flex items-center gap-2">
-
-          {teacherDetails && 
+          {
           <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Avatar className="w-10 h-10">
+          <DropdownMenuTrigger className='cursor-pointer flex gap-2 items-center '>
+            {/* <Avatar className="w-10 h-10">
               <AvatarImage src={teacherDetails?.avatar} />
               <AvatarFallback>
                 {user?.full_name?.slice(0, 2)}
               </AvatarFallback>
-            </Avatar>
+            </Avatar> */}
+            {/* <DotsThreeVertical weight="bold" className="w-5 h-5"/>   */}
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={()=> navigate('/teacher/profile')} className='cursor-pointer'>
               <Link to="/teacher/profile">Profile</Link>
             </DropdownMenuItem>
             {/* <DropdownMenuItem>Billing</DropdownMenuItem> */}
             {/* <DropdownMenuItem>Team</DropdownMenuItem> */}
-            <DropdownMenuItem>
-              <button className="w-full cursor-pointer text-start" variant="ghost" onClick={()=>signOut()}>
-              
-              Logout</button>
+            <DropdownMenuItem onClick={()=>signOut()} className='cursor-pointer'>              
+              Logout
               </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

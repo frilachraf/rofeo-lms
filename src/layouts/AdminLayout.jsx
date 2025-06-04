@@ -18,7 +18,7 @@ export default function AdminLayout() {
     //   <Outlet />
 
     // </div>
-    <div className=''>
+    <div className='bg-muted'>
     <SidebarProvider>
       <AppSidebar variant="inset" />
       <SidebarInset >

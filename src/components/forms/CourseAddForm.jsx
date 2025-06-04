@@ -13,7 +13,8 @@ import { createCourse } from '../../services/coursesService';
 import { getFile } from '../../services/storageService';
 import { toast } from 'react-toastify';
 
-const CourseAddForm = ({setOpen}) => {
+const CourseAddForm = ({teacherId, setOpen}) => {
+  
     const { register, handleSubmit, formState: { errors },watch } = useForm();
     const [image, setImage] = useState (null);
     const [file, setFile] = useState(null);
@@ -42,7 +43,7 @@ const CourseAddForm = ({setOpen}) => {
         data.thumbnail = getFile(imageData.path)
         data.level_id = level
         // console.log(data)
-        const {data:courseData,error:courseError} = await createCourse('2a1e1609-e6b6-468a-a4fd-3b141ed55038',data)
+        const {data:courseData,error:courseError} = await createCourse(teacherId,data)
         // console.log(courseData)
         setOpen(false)
         toast.success('Course created successfully')
@@ -150,11 +151,6 @@ const CourseAddForm = ({setOpen}) => {
             </Select>
           </div>
         </div>
-        {level}
-        {watch('title')}
-        {watch('description')}
-        {watch('duration')}
-        {watch('thumbnail')}
           
           <Button disabled={isLoading} type='submit'>
             Save

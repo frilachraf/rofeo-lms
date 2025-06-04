@@ -17,6 +17,7 @@ import TeacherCoursesPage from "../pages/TeacherCoursesPage";
 import TeacherCoursePage from "../pages/TeacherCoursePage";
 import TeacherStudentsPage from "../pages/TeacherStudentsPage";
 import StudentCourseContentPage from "../pages/StudentCourseContentPage";
+import TeachersPage from "../pages/TeachersPage";
 
 // import { useAuth } from '../context/AuthContext';
 
@@ -81,33 +82,15 @@ const router = createBrowserRouter([
       },
       {
         path: 'students',
-        children:[
-          {
-            path: '',
-            element: <div />
-          },
-          {
-            path: ':id/details',
-            element: <div />
-          },
-        ]
+        element: <div />
       },
       {
         path: 'teachers',
-        children:[
-          {
-            path: '',
-            element: <div />
-          },
-          {
-            path: 'add',
-            element: <div />
-          },
-          {
-            path: ':id/details',
-            element: <div />
-          },
-        ]
+        element: <TeachersPage />
+      },
+      {
+        path: 'courses',
+        element: <div />
       },
     ]
   },

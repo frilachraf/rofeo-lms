@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { ArrowCounterClockwise } from '@phosphor-icons/react'
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
 import { getTeacherStudents } from '../services/teacherService'
+import { useAuth } from '../context/AuthContext'
 export default function TeacherStudentsPage() {
     const [students, setStudents] = useState([])
     const [isLoading, setIsLoading] = useState(false)
@@ -25,7 +26,7 @@ export default function TeacherStudentsPage() {
 
     useEffect(() => {
         fetchStudents()
-    }, [teacherId])
+    }, [user?.id])
 
     if (isLoading) {
         return <div>Loading...</div>

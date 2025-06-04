@@ -1,18 +1,22 @@
-import { Outlet, Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { Navigate, Outlet } from 'react-router-dom';
 import { TeacherSidebar } from '../components/teacher-sidebar';
 // import AppSidebar from '../components/theme/Sidebar'
-import { ChartAreaInteractive } from "../components/chart-area-interactive"
-import { DataTable } from "../components/data-table"
-import { SectionCards } from "../components/section-cards"
 import { TeacherHeader } from "../components/teacher-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { ToastContainer } from 'react-toastify';
+import { useAuth } from '../context/AuthContext';
 
 export default function TeacherLayout() {
   const { role } = useAuth();
 
   // if (role !== 'admin') return <Navigate to="/" replace />;
+  // if(!isLoading && role && role !== 'teacher') <Navigate to="/" />
+  // if(!isLoading && role && role !== 'teache') return <>you don't have access </>
+  // if(isLoading) return (<>loading...</>)
+  // if(role !== 'teacher') return (<>
+  //   you don't have access
+  //   </>)
+  // if(isLoading) return (<>loading...</>)
   return (
     <div className='bg-muted'>
     <SidebarProvider>
@@ -20,7 +24,7 @@ export default function TeacherLayout() {
       <SidebarInset >
         <TeacherHeader />
         <div className="flex flex-1 flex-col">
-          <div className="@container/main flex flex-1 flex-col gap-2">
+          <div className="@container/main flex flex-1 flex-col gap-2 px-10 py-5">
             <Outlet/>
           </div>
         </div>
