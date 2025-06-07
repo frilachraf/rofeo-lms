@@ -78,7 +78,7 @@ export function StudentCourseCard({ course }) {
           </p>
         </div>
         <p className="text-sm text-muted-foreground mb-2">
-          {progress}%
+          {progress.toFixed(0)}%
 
         </p>
         <Progress value={progress} />

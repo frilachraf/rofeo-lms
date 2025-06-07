@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { getFilteredCourses, getCategories, getStudentCourses, getTeacherCourses, getCourseById, enrollCourse, unenrollCourse, updateCourseEnrollmentProgress } from '../services/coursesService';
 import { Button } from '@/components/ui/button';
 const TestPage = () => {
     const [courses, setCourses] = useState([]);
@@ -29,7 +28,7 @@ const TestPage = () => {
             //   const { data, error } = await getTeacherCourses("f273ab93-73f9-4c9a-8f2e-447e5da67b5f")
             // const { data, error } = await enrollCourse("4d71fe75-156f-4028-9137-28a1cb474210", "5", 4);
             // const { data, error } = await unenrollCourse("4d71fe75-156f-4028-9137-28a1cb474210", "5");
-            const { data, error } = await updateCourseEnrollmentProgress("4d71fe75-156f-4028-9137-28a1cb474210", "2");
+            // const { data, error } = await updateCourseEnrollmentProgress("4d71fe75-156f-4028-9137-28a1cb474210", "2");
 
             console.log(data, error)
             // console.log(data[0].lessons.length)

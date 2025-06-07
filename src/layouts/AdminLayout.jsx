@@ -8,16 +8,10 @@ import { SectionCards } from "../components/section-cards"
 import { AdminHeader } from "../components/admin-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 export default function AdminLayout() {
-  const { role } = useAuth();
-
-  // if (role !== 'admin') return <Navigate to="/" replace />;
+  const { user,role } = useAuth();
+  if(!user || role != 'admin') return  <Navigate to="/login" replace />
   return (
-    // <div>
-    //   <img src="./logo.webp" alt="s" className='h-12 w-12' />
-    //   <h1>Admin Area</h1>
-    //   <Outlet />
-
-    // </div>
+    
     <div className='bg-muted'>
     <SidebarProvider>
       <AppSidebar variant="inset" />

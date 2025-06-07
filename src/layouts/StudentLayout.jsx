@@ -6,10 +6,9 @@ import { StudentHeader } from '../components/student-header';
 import { BookOpenIcon, HomeIcon, HelpCircleIcon, LogOutIcon } from 'lucide-react';
 import { File } from '@phosphor-icons/react';
 export default function StudentLayout() {
-  const { role } = useAuth();
+  const { user,role } = useAuth();
+  if(!user || role != 'student') return  <Navigate to="/login" replace />
 
-  // if (role !== 'admin') return <Navigate to="/" replace />;
-  
   return (
     <div className='bg-muted min-h-screen'>
     {/* <SidebarProvider className=''>

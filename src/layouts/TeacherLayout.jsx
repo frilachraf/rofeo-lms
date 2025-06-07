@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 
 export default function TeacherLayout() {
-  const { role } = useAuth();
+  const { user, role } = useAuth();
 
   // if (role !== 'admin') return <Navigate to="/" replace />;
   // if(!isLoading && role && role !== 'teacher') <Navigate to="/" />
@@ -17,6 +17,7 @@ export default function TeacherLayout() {
   //   you don't have access
   //   </>)
   // if(isLoading) return (<>loading...</>)
+  if(!user || role != 'teacher') return  <Navigate to="/login" replace />
   return (
     <div className='bg-muted'>
     <SidebarProvider>

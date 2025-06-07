@@ -18,6 +18,7 @@ import TeacherCoursePage from "../pages/TeacherCoursePage";
 import TeacherStudentsPage from "../pages/TeacherStudentsPage";
 import StudentCourseContentPage from "../pages/StudentCourseContentPage";
 import TeachersPage from "../pages/TeachersPage";
+import { TeacherOverviewPage } from "../pages/TeacherOverviewPage";
 
 // import { useAuth } from '../context/AuthContext';
 
@@ -99,6 +100,10 @@ const router = createBrowserRouter([
     element:<StudentLayout/>,
     children:[
       {
+        path: '',
+        element: <Navigate to={'/courses'} replace/>
+      },
+      {
         path: 'profile',
         element: <div />
       },
@@ -118,7 +123,7 @@ const router = createBrowserRouter([
     children:[
       {
         path: 'dashboard',
-        element: <div />
+        element: <TeacherOverviewPage />
       },
       {
         path: 'profile',
