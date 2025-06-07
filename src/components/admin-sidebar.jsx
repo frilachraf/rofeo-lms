@@ -41,27 +41,27 @@ const data = {
   navMain: [
     {
       title: "Overview",
-      url: "",
+      url: "/admin/home",
       icon: HouseLine,
     },
-    {
-      title: "Analytics",
-      url: "",
-      icon: IconChartBar,
-    },
+    // {
+    //   title: "Analytics",
+    //   url: "",
+    //   icon: IconChartBar,
+    // },
     {
       title: "Teachers",
-      url: "",
+      url: "/admin/teachers",
       icon: Users,
     },
     {
       title: "Courses",
-      url: "#",
+      url: "/admin/courses",
       icon: Notebook,
     },
     {
       title: "Students",
-      url: "#",
+      url: "/admin/students",
       icon: UsersThree,
     },
   ],
@@ -114,21 +114,21 @@ const data = {
     },
   ],
   navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
+    // {
+    //   title: "Settings",
+    //   url: "#",
+    //   icon: IconSettings,
+    // },
+    // {
+    //   title: "Get Help",
+    //   url: "#",
+    //   icon: IconHelp,
+    // },
+    // {
+    //   title: "Search",
+    //   url: "#",
+    //   icon: IconSearch,
+    // },
   ],
   documents: [
     // {
@@ -156,21 +156,23 @@ export function AppSidebar({
   const {user}=useAuth()
   return (
     <Sidebar collapsible="offcanvas" {...props}>
+        {/* 
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
               <a href="#">
                 <IconInnerShadowTop className="!size-5 text-primary" />
-                <span className="text-base font-semibold text-primary">Admin Panel</span>
+                <span className="text-base font-semibold text"></span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
-        </SidebarMenu>
+        </SidebarMenu> 
       </SidebarHeader>
+        */}
       
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={data.navMain} quickLink={false} />
         {/* <NavDocuments items={data.documents} /> */}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>

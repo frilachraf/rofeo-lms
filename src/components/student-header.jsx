@@ -16,9 +16,14 @@ import { SheetClose } from "./ui/sheet";
 import { useAuth } from "../context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { signOut } from "../services/supabase";
 export function StudentHeader({}) {
   const [open, setOpen] = useState(false);
   const { user, role } = useAuth();
+  const logout = ()=>{
+    const {data,error } = signOut()
+    navigate('/login')
+  }
   const links = [
     {
       name: 'Home',
@@ -62,7 +67,9 @@ export function StudentHeader({}) {
       className="bg-white flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6 py-4">
         {/* <SidebarTrigger className="-ml-1" /> */}
+        <Link to="/">
         <img src="/logo.png" alt="logo" className="w-10 h-10 rounded-full" />
+        </Link>
         <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
         
         
@@ -108,9 +115,7 @@ export function StudentHeader({}) {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="text-red-600"
-                  onClick={() => {
-                    // Add your sign out logic here
-                  }}
+                  onClick={logout}
                 >
                   Log out
                 </DropdownMenuItem>

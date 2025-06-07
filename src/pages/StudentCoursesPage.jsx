@@ -1,63 +1,63 @@
 import React, { useState, useEffect } from 'react';
-import { getAllCourses, getCategories, getFilteredCourses, getStudentCourses } from '../services/coursesService';
+import { getStudentCourses } from '../services/coursesService';
 import { useIsMobile } from '../hooks/use-mobile';
 import CourseCard, { StudentCourseCard } from '../components/theme/CourseCard';
 import { useAuth } from '../context/AuthContext';
-import { Button } from '../components/ui/button';
-import { ArrowCounterClockwise } from '@phosphor-icons/react';
+// import { Button } from '../components/ui/button';
+// import { ArrowCounterClockwise } from '@phosphor-icons/react';
 
 const StudentCoursesPage = () => {
-  const [categories, setCategories] = useState([]);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [category, setCategory] = useState('');
-  const [sortBy, setSortBy] = useState('created_at');
+
   const isMobile = useIsMobile();
   const { user } = useAuth();
 
-  
   const fetchData = async () => {
     try {
       setLoading(true);
-      const { data: courses, error: coursesError } = await getStudentCourses(user?.id);
-      
-      
-      if (error) throw error;
-      setCourses(courses);
+      if (!user?.id) return;
+
+      const { data: fetchedCourses, error: coursesError } = await getStudentCourses(user.id);
+      if (coursesError) throw new Error(coursesError.message || 'Failed to fetch courses.');
+
+      setCourses(fetchedCourses);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
-    fetchData()
+    if (user?.id) {
+      fetchData();
+    }
+  }, [user]);
 
-    // Add debounce for search
-    
-
-    
-  }, []);
-
+  if (!user) return <div>Loading user...</div>;
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <div className="text-red-500">Error: {error}</div>;
 
   return (
     <div className="sm:px-10 py-4">
       <h1 className="text-2xl font-bold mb-6">My Courses</h1>
-      {/* <Button variant="outline" className='mb-4' onClick={() => fetchData()}><ArrowCounterClockwise size={18}/> Refresh</Button> */}
-      
 
-      {/* Courses Grid */}
-      <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10`}>
+      {/* Uncomment if you want a refresh button */}
+      {/* 
+      <Button variant="outline" className="mb-4" onClick={fetchData}>
+        <ArrowCounterClockwise size={18} /> Refresh
+      </Button> 
+      */}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {courses?.map((course) => (
-            <StudentCourseCard key={course?.id} course={course} />
+          <StudentCourseCard key={course?.id} course={course} />
         ))}
+        
       </div>
 
-      {/* No Results Message */}
       {courses?.length === 0 && (
         <div className="text-center py-8 text-gray-500">
           No courses found matching your criteria
