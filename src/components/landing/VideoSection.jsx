@@ -53,7 +53,7 @@ export const VideoSection = () => {
             muted
             // playsInline
           >
-            <source src="https://rmgcnvjloiiirvgedxvz.supabase.co/storage/v1/object/public/vd/vd/VID1.mp4" type="video/mp4" />
+            <source src="https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/landingpage/VID1.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
