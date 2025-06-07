@@ -27,7 +27,7 @@ export default function HomeCoursesPage() {
                 categoryId: null,
                 searchTerm: searchQuery,
                 sortBy: 'created_at'
-            }
+            } 
         );
         setCourses(data);
       } catch (err) {

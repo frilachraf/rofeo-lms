@@ -16,9 +16,14 @@ import { SheetClose } from "./ui/sheet";
 import { useAuth } from "../context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { signOut } from "../services/supabase";
 export function StudentHeader({}) {
   const [open, setOpen] = useState(false);
   const { user, role } = useAuth();
+  const logout = ()=>{
+    const {data,error } = signOut()
+    navigate('/login')
+  }
   const links = [
     {
       name: 'Home',
@@ -110,9 +115,7 @@ export function StudentHeader({}) {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="text-red-600"
-                  onClick={() => {
-                    // Add your sign out logic here
-                  }}
+                  onClick={logout}
                 >
                   Log out
                 </DropdownMenuItem>
