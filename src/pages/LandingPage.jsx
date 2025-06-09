@@ -11,15 +11,11 @@ import { TrustedCompaniesSection } from "../components/landing/TrustedCompaniesS
 import { PopularCoursesSection } from "../components/landing/PopularCoursesSection";
 import { TestimonialsSection } from "../components/landing/TestimonialsSection";
 import { CallToActionSection } from "../components/landing/CallToActionSection";
-import { AboutSection } from "../components/landing/AboutSection";
 import { ContactSection } from "../components/landing/ContactSection";
-import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 
-
-
 const LandingPage = () => {
-  const { t } = useTranslation();
+  const [search, setSearch] = useState("");
 
   const handleScrollToCourses = () => {
     const section = document.getElementById("PopularCoursesSection");
@@ -31,17 +27,13 @@ const LandingPage = () => {
   return (
     <div className="bg-white flex flex-col items-center w-full">
       <Header />
-      <HeroSection />
+      <HeroSection search={search} setSearch={setSearch} />
       <VideoSection />
-      <AboutSection /> 
       <TrustedCompaniesSection />
-      
-        <PopularCoursesSection />
-     
+      <PopularCoursesSection />
       <TestimonialsSection />
       <CallToActionSection />
-      <ContactSection /> 
-      {/* <FooterSection /> */}
+      <ContactSection />
     </div>
   );
 };

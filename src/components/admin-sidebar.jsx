@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/sidebar"
 import { HouseLine, Heart, Horse, Users, UsersThree, Notebook } from "@phosphor-icons/react";
 import { useAuth } from "../context/AuthContext"
+
 const data = {
   user: {
     name: "shadcn",
@@ -154,6 +155,7 @@ export function AppSidebar({
 }) {
 
   const {user}=useAuth()
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
         {/* 
@@ -172,14 +174,35 @@ export function AppSidebar({
         */}
       
       <SidebarContent>
-        <NavMain items={data.navMain} quickLink={false} />
+        <NavMain items={[
+          {
+            title: "Vue d'ensemble",
+            url: "/admin/home",
+            icon: HouseLine,
+          },
+          {
+            title: "Enseignants",
+            url: "/admin/teachers",
+            icon: Users,
+          },
+          {
+            title: "Cours",
+            url: "/admin/courses",
+            icon: Notebook,
+          },
+          {
+            title: "Étudiants",
+            url: "/admin/students",
+            icon: UsersThree,
+          },
+        ]} quickLink={false} />
         {/* <NavDocuments items={data.documents} /> */}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         {user &&
           <NavUser user={{
-            name: user?.user_metadata?.full_name ||"shadcn",
+            name: user?.user_metadata?.full_name || "Utilisateur par défaut",
             email:  user && user?.email,
             avatar:  user?.user_metadata?.picture || "https://avatar.iran.liara.run/public/boy",
             }

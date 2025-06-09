@@ -9,7 +9,7 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { ArrowCounterClockwise, Article, ArticleNyTimes, FilePdf, LinkSimple, Trash, Video, Warning, WarningCircle } from "@phosphor-icons/react"
 import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import { ContentViewer } from "../components/blocks/TiptapEditor"
 import LessonAddForm from "../components/forms/LessonAddForm"
@@ -20,51 +20,112 @@ import { Input } from "../components/ui/input"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import CourseEditForm from "../components/forms/CourseEditForm"
 import { Pen } from "lucide-react"
-export default function TeacherCoursePage() {
-    const [course, setCourse] = useState(null)
-    const { courseId } = useParams()
-    const [isLoading, setIsLoading] = useState(true)
-    const [open, setOpen] = useState(false)
-    const [editOpen, setEditOpen] = useState(false)
-    const [lessons, setLessons] = useState([])
-    const fetchCourse = async () => {
-        try {
-            const { data, error } = await getCourseById(courseId)
-            if (error) throw error
-            setCourse(data)
-            setLessons(data.lessons)
-            console.log(data)
-        } catch (error) {
-            console.error(error)
-        }
-        finally {
-            setIsLoading(false)
-        }
-    }
-    useEffect(() => {
+import { useAuth } from "../context/AuthContext"
 
+export default function TeacherCoursePage() {
+    const { id } = useParams()
+    const { user } = useAuth()
+    const navigate = useNavigate()
+    const [course, setCourse] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [isEditing, setIsEditing] = useState(false)
+    const [openLessonDialog, setOpenLessonDialog] = useState(false)
+    const [selectedLesson, setSelectedLesson] = useState(null)
+    const [openEditLessonDialog, setOpenEditLessonDialog] = useState(false)
+
+    useEffect(() => {
+        const fetchCourse = async () => {
+            try {
+                setLoading(true)
+                const { data, error } = await getCourseById(id)
+                if (error) throw error
+                setCourse(data)
+            } catch (error) {
+                console.error("Error fetching course:", error)
+                toast.error("Erreur lors de la récupération du cours.")
+            } finally {
+                setLoading(false)
+            }
+        }
 
         fetchCourse()
-        // if (courseId) {
-        // }
-    }, [courseId])
+    }, [id])
 
-    // if (isLoading) {
-    //     return <div>Loading...</div>
-    // }
-
-    const handleDelete = async (lessonId) => {
-        try {
-            await deleteLesson(lessonId)
-            toast.success('Lesson deleted successfully')
-            fetchCourse()
-        } catch (error) {
-            console.error(error)
+    const handleDeleteCourse = async () => {
+        if (window.confirm("Êtes-vous sûr de vouloir supprimer ce cours ?")) {
+            try {
+                const { error } = await deleteCourse(id)
+                if (error) throw error
+                toast.success("Cours supprimé avec succès !")
+                navigate("/teacher/courses")
+            } catch (error) {
+                console.error("Error deleting course:", error)
+                toast.error("Erreur lors de la suppression du cours.")
+            }
         }
     }
-    if (course) return (
-        <div className="container py-8 px-10">
 
+    const handleLessonAdded = async () => {
+        setOpenLessonDialog(false)
+        const { data, error } = await getCourseById(id)
+        if (error) {
+            toast.error("Erreur lors de la récupération des leçons.")
+            console.error(error)
+            return
+        }
+        setCourse(data)
+        toast.success("Leçon ajoutée avec succès !")
+    }
+
+    const handleLessonUpdated = async () => {
+        setOpenEditLessonDialog(false)
+        setSelectedLesson(null)
+        const { data, error } = await getCourseById(id)
+        if (error) {
+            toast.error("Erreur lors de la mise à jour des leçons.")
+            console.error(error)
+            return
+        }
+        setCourse(data)
+        toast.success("Leçon mise à jour avec succès !")
+    }
+
+    const handleLessonDelete = async (lessonId) => {
+        if (window.confirm("Êtes-vous sûr de vouloir supprimer cette leçon ?")) {
+            try {
+                const { error } = await deleteLesson(lessonId)
+                if (error) throw error
+                toast.success("Leçon supprimée avec succès !")
+                const { data, error: fetchError } = await getCourseById(id)
+                if (fetchError) throw fetchError
+                setCourse(data)
+            } catch (error) {
+                console.error("Error deleting lesson:", error)
+                toast.error("Erreur lors de la suppression de la leçon.")
+            }
+        }
+    }
+
+    const toggleEditMode = () => setIsEditing((prev) => !prev)
+
+    const handleCourseUpdate = async (updatedCourse) => {
+        try {
+            const { error } = await updateCourse(id, updatedCourse)
+            if (error) throw error
+            toast.success("Cours mis à jour avec succès !")
+            setCourse(updatedCourse)
+            setIsEditing(false)
+        } catch (error) {
+            console.error("Error updating course:", error)
+            toast.error("Erreur lors de la mise à jour du cours.")
+        }
+    }
+
+    if (loading) return <div>Chargement...</div>
+    if (!course) return <div>Cours introuvable.</div>
+
+    return (
+        <div className="container py-8 px-10">
             <>
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-3xl font-bold">Course Details</h1>
@@ -79,12 +140,12 @@ export default function TeacherCoursePage() {
                             <div className="">
                                 <div className="flex justify-between items-center">
                                     <h2 className="text-2xl font-semibold mb-4">{course.title}</h2>
-                                    <Dialog open={editOpen} onOpenChange={setEditOpen}>
+                                    <Dialog open={isEditing} onOpenChange={toggleEditMode}>
                                         <DialogTrigger>
                                             <Button variant="ghost"><Pen size={32} /></Button>
                                         </DialogTrigger>
                                         <DialogContent>
-                                            <CourseEditForm course={course} setOpen={() => { setEditOpen(false); fetchCourse() }} />
+                                            <CourseEditForm course={course} onUpdate={handleCourseUpdate} />
                                         </DialogContent>
                                     </Dialog>
                                 </div>
@@ -108,7 +169,7 @@ export default function TeacherCoursePage() {
                                         Are you sure you want to delete this course?
                                     </AlertDescription>
                                     </div>
-                                    <Button variant="destructive" className="">Delete</Button>
+                                    <Button variant="destructive" className="" onClick={handleDeleteCourse}>Delete</Button>
                                 </Alert>
 
                             </div>
@@ -133,8 +194,8 @@ export default function TeacherCoursePage() {
                 <div className="flex justify-between items-center mb-8">
                     <h2 className="text-xl font-semibold">Lessons </h2>
                     <div className="flex gap-2">
-                        <Button variant="outline" onClick={() => fetchCourse()}><ArrowCounterClockwise size={20} /></Button>
-                        <Button onClick={() => setOpen(true)}>Add Lesson</Button>
+                        <Button variant="outline" onClick={() => getCourseById(id)}><ArrowCounterClockwise size={20} /></Button>
+                        <Button onClick={() => setOpenLessonDialog(true)}>Add Lesson</Button>
                     </div>
                 </div>
 
@@ -162,7 +223,7 @@ export default function TeacherCoursePage() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {lessons.map((lesson, index) => (
+                        {course.lessons.map((lesson, index) => (
                             <>
                                 <TableRow key={lesson.id}>
                                     <TableCell>{index + 1}</TableCell>
@@ -181,7 +242,7 @@ export default function TeacherCoursePage() {
                                     <TableCell><Link to={lesson.video_url} target="_blank"><LinkSimple size={20} className="text-primary" /></Link></TableCell>
                                     <TableCell><Link to={lesson.file_url} target="_blank"><FilePdf size={20} className="text-primary" /></Link></TableCell>
                                     <TableCell>
-                                        <button type="button" className="cursor-pointer" onClick={() => handleDelete(lesson.id)}><Trash size={20} className="text-red-500" /></button>
+                                        <button type="button" className="cursor-pointer" onClick={() => handleLessonDelete(lesson.id)}><Trash size={20} className="text-red-500" /></button>
                                     </TableCell>
 
                                 </TableRow>
@@ -193,7 +254,7 @@ export default function TeacherCoursePage() {
 
 
             </div>
-            <Dialog open={open} onOpenChange={setOpen}>
+            <Dialog open={openLessonDialog} onOpenChange={setOpenLessonDialog}>
                 <DialogContent className="overflow-y-auto max-h-[90vh]">
                     <DialogHeader>
                         <DialogTitle>Add Lesson</DialogTitle>
@@ -201,7 +262,7 @@ export default function TeacherCoursePage() {
                             Add a new lesson to the course
                         </DialogDescription>
                     </DialogHeader>
-                    <LessonAddForm setOpen={(e) => { setOpen(e); fetchCourse() }} courseId={courseId} />
+                    <LessonAddForm courseId={id} onLessonAdded={handleLessonAdded} />
                 </DialogContent>
             </Dialog>
         </div>

@@ -56,10 +56,10 @@ const Login = () => {
       if (role === 'student') navigate('/student');
       if (role === 'teacher') navigate('/teacher/courses');
       
-      toast.success(`Welcome back! Logged in as ${role}`);
+      toast.success(`Bienvenue de retour ${role}`);
     } catch (err) {
       setError(err.message);
-      toast.error('Login failed. Please check your credentials.');
+      toast.error('Échec de la connexion');
     } finally {
       setLoading(false);
     }
@@ -80,10 +80,10 @@ const Login = () => {
       });
 
       if (error) throw error;
-      toast.success('Redirecting to Google...');
+      toast.success('Redirection vers Google...');
     } catch (error) {
-      console.error('Google auth error:', error);
-      toast.error(error.message || 'Google authentication failed. Please try again.');
+      console.error('Erreur d\'authentification Google', error);
+      toast.error(error.message || 'L\'authentification Google a échoué');
     } finally {
       setGoogleLoading(false);
     }
@@ -121,9 +121,9 @@ const Login = () => {
         </div>
         <Card className="w-full max-w-md shadow-lg">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center">Welcome Back</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center">Connexion</CardTitle>
             <CardDescription className="text-center">
-              Sign in to your account to continue
+              Avez-vous déjà un compte ?
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -137,21 +137,21 @@ const Login = () => {
                   name="email"
                   type="email"
                   required
-                  placeholder="Enter your email"
+                  placeholder="Email"
                   onChange={handleChange}
                   className="transition-all focus:ring-2 focus:ring-primary"
                 />
               </div>
               <div className="space-y-2">
                 <label htmlFor="password" className="text-sm font-medium">
-                  Password
+                  Mot de passe
                 </label>
                 <Input
                   id="password"
                   name="password"
                   type="password"
                   required
-                  placeholder="Enter your password"
+                  placeholder="Mot de passe"
                   onChange={handleChange}
                   className="transition-all focus:ring-2 focus:ring-primary"
                 />
@@ -161,7 +161,7 @@ const Login = () => {
                 className="w-full bg-primary hover:bg-primary/90 transition-all"
                 disabled={loading}
               >
-                {loading ? 'Signing in...' : 'Sign in'}
+                {loading ? 'Chargement...' : 'Se connecter'}
               </Button>
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
@@ -169,7 +169,7 @@ const Login = () => {
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
                   <span className="bg-background px-2 text-muted-foreground">
-                    Or continue with
+                    Se connecter avec Google
                   </span>
                 </div>
               </div>
@@ -181,7 +181,7 @@ const Login = () => {
                 disabled={googleLoading}
               >
                 <FcGoogle className="w-5 h-5" />
-                {googleLoading ? 'Connecting...' : 'Continue with Google'}
+                {googleLoading ? 'Chargement...' : 'Google'}
               </Button>
             </form>
             {error && (
@@ -196,12 +196,9 @@ const Login = () => {
           </CardContent>
           <CardFooter className="flex justify-center">
             <div className="text-sm text-muted-foreground">
-              Don't have an account?{' '}
-              <Link 
-                to="/signup" 
-                className="font-medium text-primary hover:text-primary/90 transition-colors"
-              >
-                Sign up
+              Pas encore de compte ?{" "}
+              <Link to="/signup" className="underline underline-offset-4">
+                S'inscrire
               </Link>
             </div>
           </CardFooter>

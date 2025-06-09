@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ContentEditable } from '@/components/editor/editor-ui/content-editable';
+import { useTranslation } from 'react-i18next';
 
 export function Plugins() {
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState(null);
+  const { t } = useTranslation();
 
   const onRef = (_floatingAnchorElem) => {
     if (_floatingAnchorElem !== null) {
@@ -21,7 +23,7 @@ export function Plugins() {
           contentEditable={
             <div className="">
               <div className="" ref={onRef}>
-                <ContentEditable placeholder={'Start typing ...'} />
+                <ContentEditable placeholder={t('editor_placeholder')} />
               </div>
             </div>
           }

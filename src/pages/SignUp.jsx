@@ -46,10 +46,10 @@ const SignUp = () => {
 
       if (error) throw error;
       
-      toast.success('Account created successfully! Please check your email for verification.');
+      toast.success('Compte créé avec succès');
       navigate('/');
     } catch (error) {
-      toast.error(error.message || 'An error occurred during sign up');
+      toast.error(error.message || 'Échec de la création du compte');
     } finally {
       setIsLoading(false);
     }
@@ -69,119 +69,121 @@ const SignUp = () => {
         pauseOnHover
         theme="light"
       />
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4"
-      >
-        <div className="absolute top-4 left-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => navigate('/')}
-            className="hover:bg-muted transition-all"
-          >
-            <Home className="h-5 w-5" />
-          </Button>
-        </div>
-        <Card className="w-full max-w-md shadow-lg">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center">Create an Account</CardTitle>
-            <CardDescription className="text-center">
-              Enter your information to get started
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.1 }}
-                className="space-y-2"
-              >
-                <label htmlFor="fullName" className="text-sm font-medium">
-                  Full Name
-                </label>
-                <Input
-                  id="fullName"
-                  name="fullName"
-                  type="text"
-                  required
-                  placeholder="Enter your full name"
-                  onChange={handleChange}
-                  disabled={isLoading}
-                  className="transition-all focus:ring-2 focus:ring-primary"
-                />
-              </motion.div>
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-                className="space-y-2"
-              >
-                <label htmlFor="email" className="text-sm font-medium">
-                  Email
-                </label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="Enter your email"
-                  onChange={handleChange}
-                  disabled={isLoading}
-                  className="transition-all focus:ring-2 focus:ring-primary"
-                />
-              </motion.div>
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 }}
-                className="space-y-2"
-              >
-                <label htmlFor="password" className="text-sm font-medium">
-                  Password
-                </label>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  placeholder="Create a password"
-                  onChange={handleChange}
-                  disabled={isLoading}
-                  className="transition-all focus:ring-2 focus:ring-primary"
-                />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                <Button 
-                  type="submit" 
-                  className="w-full bg-primary hover:bg-primary/90 transition-all"
-                  disabled={isLoading}
+      <div className="min-h-screen flex items-center justify-center bg-muted/50 p-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-md"
+        >
+          <Card className="shadow-lg">
+            <CardHeader className="space-y-1">
+              <CardTitle className="text-2xl font-bold text-center">
+                Créer un compte
+              </CardTitle>
+              <CardDescription className="text-center">
+                Entrez vos informations pour créer votre compte
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="space-y-2"
                 >
-                  {isLoading ? 'Creating Account...' : 'Create Account'}
-                </Button>
-              </motion.div>
-            </form>
-          </CardContent>
-          <CardFooter className="flex justify-center">
-            <div className="text-sm text-muted-foreground">
-              Already have an account?{' '}
-              <Link 
-                to="/login" 
-                className="font-medium text-primary hover:text-primary/90 transition-colors"
-              >
-                Sign in
+                  <label htmlFor="fullName" className="text-sm font-medium">
+                    Nom complet
+                  </label>
+                  <Input
+                    id="fullName"
+                    name="fullName"
+                    type="text"
+                    required
+                    placeholder="Entrez votre nom complet"
+                    onChange={handleChange}
+                    disabled={isLoading}
+                    className="transition-all focus:ring-2 focus:ring-primary"
+                  />
+                </motion.div>
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="space-y-2"
+                >
+                  <label htmlFor="email" className="text-sm font-medium">
+                    Email
+                  </label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="Entrez votre email"
+                    onChange={handleChange}
+                    disabled={isLoading}
+                    className="transition-all focus:ring-2 focus:ring-primary"
+                  />
+                </motion.div>
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="space-y-2"
+                >
+                  <label htmlFor="password" className="text-sm font-medium">
+                    Mot de passe
+                  </label>
+                  <Input
+                    id="password"
+                    name="password"
+                    type="password"
+                    required
+                    placeholder="Créer un mot de passe"
+                    onChange={handleChange}
+                    disabled={isLoading}
+                    className="transition-all focus:ring-2 focus:ring-primary"
+                  />
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-primary hover:bg-primary/90 transition-all"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Création du compte' : 'Créer un compte'}
+                  </Button>
+                </motion.div>
+              </form>
+            </CardContent>
+            <CardFooter className="flex justify-center">
+              <div className="text-sm text-muted-foreground">
+                Vous avez déjà un compte ?{' '}
+                <Link 
+                  to="/login" 
+                  className="font-medium text-primary hover:text-primary/90 transition-colors"
+                >
+                  Se connecter
+                </Link>
+              </div>
+            </CardFooter>
+          </Card>
+          <div className="mt-4 text-center">
+            <Button variant="link" asChild>
+              <Link to="/" className="flex items-center justify-center gap-2">
+                <Home className="h-4 w-4" />
+                Retour à l'accueil
               </Link>
-            </div>
-          </CardFooter>
-        </Card>
-      </motion.div>
+            </Button>
+          </div>
+        </motion.div>
+      </div>
     </>
   );
 };

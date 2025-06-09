@@ -7,6 +7,8 @@ import { DataTable } from "../components/data-table"
 import { SectionCards } from "../components/section-cards"
 import { AdminHeader } from "../components/admin-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
+import { Toaster } from "@/components/ui/toast"
+
 export default function AdminLayout() {
   const { user,role } = useAuth();
   if(!user || role != 'admin') return  <Navigate to="/login" replace />
@@ -24,6 +26,7 @@ export default function AdminLayout() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+    <Toaster />
     </div>
   );
 }

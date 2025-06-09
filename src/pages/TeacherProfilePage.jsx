@@ -1,44 +1,40 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useNavigate } from "react-router-dom";
+import { getTeacherAccountById } from "../services/teacherService";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { editTeacherAccount, deleteTeacherAccount } from "../services/teacherService";
 import { toast } from "sonner";
+import 'react-toastify/dist/ReactToastify.css';
+import { useSupabaseUpload } from "../hooks/use-supabase-upload";
+import { useNavigate } from "react-router-dom";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
-export const StudentProfilePage = () => {
+export default function TeacherProfilePage() {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
-  const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     full_name: user?.full_name || "",
     email: user?.email || "",
     bio: user?.bio || "",
     avatar_url: user?.avatar || "",
   });
-  const [profile, setProfile] = useState(null);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      if (!user) return;
-      const { data, error } = await getStudentAccountById(user.id);
-      if (data) {
-        setProfile(data);
-        setFormData({
-          full_name: data.full_name || "",
-          email: data.email || "",
-          bio: data.bio || "",
-          avatar_url: data.avatar || "",
-        });
-      }
-    };
-    fetchProfile();
+    if (user) {
+      setFormData({
+        full_name: user.full_name || "",
+        email: user.email || "",
+        bio: user.bio || "",
+        avatar_url: user.avatar || "",
+      });
+    }
   }, [user]);
 
   const validateForm = () => {
@@ -54,11 +50,7 @@ export const StudentProfilePage = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleFileChange = (e) => {
@@ -73,7 +65,7 @@ export const StudentProfilePage = () => {
     let avatarUrl = formData.avatar_url;
 
     if (file) {
-      const { data: uploadData, error: uploadError } = await uploadStudentAvatar(
+      const { data: uploadData, error: uploadError } = await uploadTeacherAvatar(
         user.id,
         file
       );
@@ -92,7 +84,7 @@ export const StudentProfilePage = () => {
       avatar: avatarUrl,
     };
 
-    const { error } = await editStudentAccount(user.id, updates);
+    const { data, error } = await editTeacherAccount(user.id, updates);
     if (error) {
       toast.error("Erreur lors de la mise à jour du profil.");
       console.error("Update error:", error.message);
@@ -105,7 +97,7 @@ export const StudentProfilePage = () => {
   const handleDeleteAccount = async () => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer votre compte ?")) {
       try {
-        const { error } = await deleteStudentAccount(user.id);
+        const { error } = await deleteTeacherAccount(user.id);
         if (error) throw error;
         toast.success("Compte supprimé avec succès. Redirection...");
         signOut();
@@ -121,7 +113,7 @@ export const StudentProfilePage = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-6">Mon Profil Étudiant</h1>
+      <h1 className="text-3xl font-bold mb-6">Mon Profil</h1>
       <div className="bg-white rounded-lg shadow p-6 mb-8">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="flex items-center space-x-4">
@@ -202,4 +194,4 @@ export const StudentProfilePage = () => {
       </div>
     </div>
   );
-}; 
+}

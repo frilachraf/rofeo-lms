@@ -2,82 +2,237 @@
 import { ChartAreaInteractive } from "../components/chart-area-interactive"
 import { DataTable } from "../components/data-table"
 import { SectionCards } from "../components/section-cards"
-import {getAllCourses, getCoursesCount, getTodayEnrollmentsCount, getTotalEnrollmentsPerDay} from '../services/adminServices'
-import {Button} from "../components/ui/button"
+import { getAllCourses, getCoursesCount, getTodayEnrollmentsCount, getTotalEnrollmentsPerDay, getTeachersCount, getStudentsCount, getPopularCourses, getRecentStudentActivities } from '../services/adminServices'
+import { Button } from "../components/ui/button"
 import { useEffect, useState } from "react"
 import { MyChart } from "../components/theme/Chart"
 import AdminDashboardCoursesTable from "../components/theme/AdminDashboardCoursesTable"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Users, BookOpen, GraduationCap, TrendingUp, ArrowUpRight } from "lucide-react"
+import { Loading } from "@/components/ui/loading"
+import { Badge } from "@/components/ui/badge"
+import { useNavigate } from "react-router-dom"
+import RecentActivitiesTable from "../components/theme/RecentActivitiesTable"
 
 export default function AdminOverviewPage() {
   const [totalCourses, setTotalCourses] = useState(null)
+  const [totalTeachers, setTotalTeachers] = useState(null)
+  const [totalStudents, setTotalStudents] = useState(null)
   const [totalTodayEnrollments, setTotalTodayEnrollments] = useState(null)
   const [chartData, setChartData] = useState(null)
   const [tableData, setTableData] = useState([])
+  const [popularCourses, setPopularCourses] = useState([])
+  const [recentActivities, setRecentActivities] = useState([])
+  const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
   
-  const fetchCardsData = async ()=> {
-    try{
-      const {count:coursesCount , error:coursesCountError} = await getCoursesCount()
-      const {count:todayEnrollmentsCount , enrollmentsCountError} = await getTodayEnrollmentsCount()
-      setTotalTodayEnrollments(todayEnrollmentsCount)
+  const fetchCardsData = async () => {
+    try {
+      const [
+        { count: coursesCount },
+        { count: teachersCount },
+        { count: studentsCount },
+        { count: todayEnrollmentsCount }
+      ] = await Promise.all([
+        getCoursesCount(),
+        getTeachersCount(),
+        getStudentsCount(),
+        getTodayEnrollmentsCount()
+      ])
+
       setTotalCourses(coursesCount)
+      setTotalTeachers(teachersCount)
+      setTotalStudents(studentsCount)
+      setTotalTodayEnrollments(todayEnrollmentsCount)
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données des cartes :", error)
     }
-    catch (error){
-      console.log(error.message)
-    }
-    finally{}
   }
-  const fetchChartData = async ()=>{
-    try{
-      const {data} = await getTotalEnrollmentsPerDay()
-      // console.log('data', JSON.stringify(data))
+
+  const fetchChartData = async () => {
+    try {
+      const { data } = await getTotalEnrollmentsPerDay()
       setChartData(data)
-
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données du graphique :", error)
     }
-    catch(error){
-      console.log(error)
-    }
-    finally{
-
-    }
-
   }
-  const fetchTableData = async ()=>{
-    try{
-      const {data} = await getAllCourses()
-      // console.log('data', JSON.stringify(data))
+
+  const fetchTableData = async () => {
+    try {
+      const { data } = await getAllCourses()
       setTableData(data)
-      console.log(data)
-    }
-    catch(error){
-      console.log(error)
-    }
-    finally{
-
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données du tableau :", error)
+    } finally {
+      setLoading(false)
     }
   }
-  useEffect(() => {
-    fetchCardsData()
-    fetchChartData()
-    fetchTableData()
 
-  },[])
+  const fetchPopularCourses = async () => {
+    try {
+      const { data } = await getPopularCourses()
+      setPopularCourses(data)
+    } catch (error) {
+      console.error("Erreur lors de la récupération des cours populaires :", error)
+    }
+  }
+
+  const fetchRecentActivities = async () => {
+    try {
+      const { data } = await getRecentStudentActivities()
+      setRecentActivities(data)
+    } catch (error) {
+      console.error("Erreur lors de la récupération des activités récentes :", error)
+    }
+  }
+
+  useEffect(() => {
+    const fetchAllData = async () => {
+      setLoading(true)
+      await Promise.all([
+        fetchCardsData(),
+        fetchChartData(),
+        fetchTableData(),
+        fetchPopularCourses(),
+        fetchRecentActivities()
+      ])
+    }
+    fetchAllData()
+  }, [])
+
+  if (loading) return <Loading />
+
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-      <SectionCards totalCourses={totalCourses} totalTodayEnrollments={totalTodayEnrollments} />
-      <div className="px-4 lg:px-6">
-        
-        {/* <Button onClick={()=>fetchTableData()}>
-          reload
-        </Button> */}
-        
-        <div className="flex flex-col row-gap-4 lg:grid grid-cols-12 gap-4">
-        <div className="col-span-4">
-        <MyChart data={chartData} />
-        </div>
-        <div className="col-span-8">
-        <AdminDashboardCoursesTable data={tableData} />
-        </div>
-        </div>
+    <div className="flex flex-col gap-6 p-6 md:p-8">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <Card className="shadow-sm hover:shadow-md transition-all duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total des Cours</CardTitle>
+            <div className="rounded-full bg-primary/10 p-2">
+              <BookOpen className="h-4 w-4 text-primary" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalCourses}</div>
+            <div className="flex items-center gap-2 mt-1">
+              <Badge variant="secondary" className="bg-primary/10">
+                Cours Actifs
+              </Badge>
+              <ArrowUpRight className="h-4 w-4 text-green-500" />
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="shadow-sm hover:shadow-md transition-all duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total des Enseignants</CardTitle>
+            <div className="rounded-full bg-primary/10 p-2">
+              <Users className="h-4 w-4 text-primary" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalTeachers}</div>
+            <div className="flex items-center gap-2 mt-1">
+              <Badge variant="secondary" className="bg-primary/10">
+                Enseignants Enregistrés
+              </Badge>
+              <ArrowUpRight className="h-4 w-4 text-green-500" />
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="shadow-sm hover:shadow-md transition-all duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total des Étudiants</CardTitle>
+            <div className="rounded-full bg-primary/10 p-2">
+              <GraduationCap className="h-4 w-4 text-primary" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalStudents}</div>
+            <div className="flex items-center gap-2 mt-1">
+              <Badge variant="secondary" className="bg-primary/10">
+                Étudiants Actifs
+              </Badge>
+              <ArrowUpRight className="h-4 w-4 text-green-500" />
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="shadow-sm hover:shadow-md transition-all duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Inscriptions du Jour</CardTitle>
+            <div className="rounded-full bg-primary/10 p-2">
+              <TrendingUp className="h-4 w-4 text-primary" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalTodayEnrollments}</div>
+            <div className="flex items-center gap-2 mt-1">
+              <Badge variant="secondary" className="bg-primary/10">
+                Nouvelles Inscriptions
+              </Badge>
+              <ArrowUpRight className="h-4 w-4 text-green-500" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+        <Card className="col-span-4 shadow-sm hover:shadow-md transition-all duration-200">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold">Aperçu des Inscriptions</CardTitle>
+            <p className="text-sm text-muted-foreground">Inscriptions des 7 derniers jours</p>
+          </CardHeader>
+          <CardContent>
+            <MyChart data={chartData} />
+          </CardContent>
+        </Card>
+        <Card className="col-span-3 shadow-sm hover:shadow-md transition-all duration-200">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold">Cours Populaires</CardTitle>
+            <p className="text-sm text-muted-foreground">Les cours les plus suivis</p>
+          </CardHeader>
+          <CardContent>
+            <AdminDashboardCoursesTable data={popularCourses} />
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card className="shadow-sm hover:shadow-md transition-all duration-200">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold">Activités Récentes</CardTitle>
+            <p className="text-sm text-muted-foreground">Dernières inscriptions aux cours</p>
+          </CardHeader>
+          <CardContent>
+            <RecentActivitiesTable data={recentActivities} />
+          </CardContent>
+        </Card>
+        <Card className="shadow-sm hover:shadow-md transition-all duration-200">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold">Actions Rapides</CardTitle>
+            <p className="text-sm text-muted-foreground">Tâches administratives courantes</p>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 gap-4">
+              <Button variant="outline" className="h-auto py-4 flex flex-col items-center gap-2" onClick={() => navigate('/admin/teachers')}>
+                <Users className="h-6 w-6" />
+                <span>Gérer les Enseignants</span>
+              </Button>
+              <Button variant="outline" className="h-auto py-4 flex flex-col items-center gap-2" onClick={() => navigate('/admin/students')}>
+                <GraduationCap className="h-6 w-6" />
+                <span>Gérer les Étudiants</span>
+              </Button>
+              <Button variant="outline" className="h-auto py-4 flex flex-col items-center gap-2" onClick={() => navigate('/admin/courses')}>
+                <BookOpen className="h-6 w-6" />
+                <span>Gérer les Cours</span>
+              </Button>
+              <Button variant="outline" className="h-auto py-4 flex flex-col items-center gap-2" onClick={() => navigate('/admin/courses')}>
+                <TrendingUp className="h-6 w-6" />
+                <span>Voir les Statistiques</span>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

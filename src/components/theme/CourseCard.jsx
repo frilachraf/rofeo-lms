@@ -83,7 +83,6 @@ export function StudentCourseCard({ course }) {
 
         </p>
         <Progress value={progress} />
-        <Progress value={progress} />
       </CardContent>
 
       <CardFooter className="flex ">

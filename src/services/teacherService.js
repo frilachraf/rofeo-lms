@@ -11,9 +11,25 @@ export const getTeacherAccountById = async (userId)=>{
     .single();
     return {data,error}
 }
-export const editTeacherAccount = async ()=>{
 
-}
+export const editTeacherAccount = async (userId, updates) => {
+    const { data, error } = await supabase
+        .from('teachers_accounts')
+        .update(updates)
+        .eq('id', userId)
+        .single();
+    return { data, error };
+};
+
+export const deleteTeacherAccount = async (userId) => {
+    const { data, error } = await supabase
+        .from('teachers_accounts')
+        .delete()
+        .eq('id', userId)
+        .single();
+    return { data, error };
+};
+
 export const getAllTeachers = async ()=>{
 
 }
