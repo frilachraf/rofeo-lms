@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dialog"
 import CourseAddForm from "../components/forms/CourseAddForm"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { motion } from "framer-motion"
 
 export default function AdminCoursesPage() {
     const [courses, setCourses] = useState([])
@@ -61,7 +62,12 @@ export default function AdminCoursesPage() {
     if (loading) return <Loading />
 
     return (
-        <div className="flex flex-col gap-6 p-6 md:p-8">
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col gap-6 p-6 md:p-8"
+        >
             <div className="flex justify-between items-center">
                 <div>
                     <h2 className="text-2xl font-bold">Gestion des Cours</h2>
@@ -69,10 +75,16 @@ export default function AdminCoursesPage() {
                 </div>
                 <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger asChild>
-                        <Button className="shadow-sm hover:shadow-md transition-all duration-200">
-                            <Plus className="h-4 w-4 mr-2" />
-                            Ajouter un Nouveau Cours
-                        </Button>
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                        >
+                            <Button className="shadow-sm hover:shadow-md transition-all duration-200">
+                                <Plus className="h-4 w-4 mr-2" />
+                                Ajouter un Nouveau Cours
+                            </Button>
+                        </motion.div>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[600px]">
                         <DialogHeader>
@@ -91,7 +103,12 @@ export default function AdminCoursesPage() {
                 </Dialog>
             </div>
 
-            <div className="rounded-lg border shadow-sm">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="rounded-lg border shadow-sm"
+            >
                 <Table>
                     <TableHeader>
                         <TableRow className="bg-muted/50">
@@ -104,14 +121,18 @@ export default function AdminCoursesPage() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {courses.map((course) => (
-                            <TableRow key={course.id} className="hover:bg-muted/50 transition-colors">
+                        {courses.map((course, index) => (
+                            <motion.tr
+                                key={course.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.3, delay: 0.1 * index }}
+                                className="hover:bg-muted/50 transition-colors"
+                            >
                                 <TableCell>
                                     <div className="flex flex-col gap-1">
                                         <span className="font-medium line-clamp-1">{course.title}</span>
-                                        <span className="text-xs text-muted-foreground line-clamp-1">
-                                            {course.description || "Pas de description disponible"}
-                                        </span>
+                                      
                                     </div>
                                 </TableCell>
                                 <TableCell>
@@ -172,11 +193,11 @@ export default function AdminCoursesPage() {
                                         </Button>
                                     </div>
                                 </TableCell>
-                            </TableRow>
+                            </motion.tr>
                         ))}
                     </TableBody>
                 </Table>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     )
 } 

@@ -6,6 +6,7 @@ import StudentLayout from "../layouts/StudentLayout";
 import TeacherLayout from "../layouts/TeacherLayout";
 import AdminOverviewPage from "../pages/AdminOverviewPage";
 import AdminLoginPage from "../pages/AdminLoginPage";
+import AddCoursePage from "../pages/AddCourse";
 import TeacherFilesPages from "../pages/TeacherFilesPage";
 import LandingPage from "../pages/LandingPage";
 import HomeLayout from "../layouts/HomeLayout";
@@ -15,17 +16,19 @@ import TestPage from "../pages/TestPage";
 import TeacherCoursesPage from "../pages/TeacherCoursesPage";
 import TeacherCoursePage from "../pages/TeacherCoursePage";
 import TeacherStudentsPage from "../pages/TeacherStudentsPage";
+import TeacherProfilePage from "../pages/TeacherProfilePage";
 import StudentCourseContentPage from "../pages/StudentCourseContentPage";
 import TeachersPage from "../pages/TeachersPage";
 import { TeacherOverviewPage } from "../pages/TeacherOverviewPage";
 import { StudentProfilePage } from "../pages/StudentProfilePage";
-import TeacherProfilePage from "../pages/TeacherProfilePage";
-import AdminTeachersPage from "../pages/AdminTeachersPage";
-import AdminEditTeacherPage from "../pages/AdminEditTeacherPage";
-import AdminStudentsPage from "../pages/AdminStudentsPage";
-import AdminEditStudentPage from "../pages/AdminEditStudentPage";
 import AdminCoursesPage from "../pages/AdminCoursesPage";
+import AdminStudentsPage from "../pages/AdminStudentsPage";
+import AdminTeachersPage from "../pages/AdminTeachersPage";
 import AdminEditCoursePage from "../pages/AdminEditCoursePage";
+import AdminEditTeacherPage from "../pages/AdminEditTeacherPage";
+import AdminEditStudentPage from "../pages/AdminEditStudentPage";
+import AdminReportsPage from "../pages/AdminReportsPage";
+import AdminSettingsPage from "../pages/AdminSettingsPage";
 
 // import { useAuth } from '../context/AuthContext';
 
@@ -45,7 +48,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/test',
-    element: <TestPage/>,
+    element: <TestPage />,
   },
   {
     path: '/',
@@ -57,7 +60,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'courses',
-        element: <HomeCoursesPage/>,
+        element: <HomeCoursesPage />,
       },
     ],
   },
@@ -71,7 +74,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/signup",
-    element: <SignUp />
+    element: <SignUp />,
   },
   {
     path: "/homepage",
@@ -83,11 +86,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <Navigate to="home" replace />
+        element: <AdminOverviewPage />
       },
       {
         path: 'home',
-        element: <AdminOverviewPage/>
+        element: <AdminOverviewPage />
       },
       {
         path: 'profile',
@@ -132,11 +135,19 @@ const router = createBrowserRouter([
           }
         ]
       },
+      {
+        path: 'reports',
+        element: <AdminReportsPage />
+      },
+      {
+        path: 'settings',
+        element: <AdminSettingsPage />
+      },
     ]
   },
   {
     path:'/student',
-    element:<StudentLayout/>,
+    element:<StudentLayout />,
     children:[
       {
         path: '',
@@ -158,7 +169,7 @@ const router = createBrowserRouter([
   },
   {
     path:'/teacher',
-    element:<TeacherLayout/>,
+    element:<TeacherLayout />,
     children:[
       {
         path: 'dashboard',
@@ -173,11 +184,15 @@ const router = createBrowserRouter([
         children:[
           {
             path:'',
-            element: <TeacherCoursesPage/>
+            element: <TeacherCoursesPage />
+          },
+          {
+            path:'add',
+            element: <AddCoursePage />
           },
           {
             path:':courseId/edit',
-            element: <TeacherCoursePage/>
+            element: <TeacherCoursePage />
           },
         ]
       },

@@ -1,58 +1,58 @@
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { BookOpen } from "lucide-react"
-import moment from "moment"
+import { formatDistanceToNow } from "date-fns"
+import { fr } from "date-fns/locale"
 
 export default function RecentActivitiesTable({ data }) {
+  if (!data || data.length === 0) {
     return (
-        <div className="relative flex flex-col gap-4 overflow-auto h-full">
-            <div className="overflow-hidden rounded-lg border shadow-sm">
-                <Table>
-                    <TableHeader>
-                        <TableRow className="bg-muted/50">
-                            <TableHead className="font-semibold">Étudiant</TableHead>
-                            <TableHead className="font-semibold">Cours</TableHead>
-                            <TableHead className="font-semibold">Date</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {data.map((activity) => (
-                            <TableRow key={activity.id} className="hover:bg-muted/50 transition-colors">
-                                <TableCell>
-                                    <div className="flex items-center gap-2">
-                                        <Avatar className="h-8 w-8">
-                                            <AvatarImage src={activity.student?.avatar} />
-                                            <AvatarFallback className="bg-primary/10">
-                                                {activity.student?.full_name?.charAt(0)}
-                                            </AvatarFallback>
-                                        </Avatar>
-                                        <span className="font-medium">{activity.student?.full_name}</span>
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <Badge variant="secondary" className="bg-primary/10">
-                                        <BookOpen className="h-3 w-3 mr-1" />
-                                        {activity.course?.title}
-                                    </Badge>
-                                </TableCell>
-                                <TableCell>
-                                    <span className="text-sm text-muted-foreground">
-                                        {moment(activity.created_at).fromNow()}
-                                    </span>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
-        </div>
+      <div className="text-center py-6 text-muted-foreground">
+        Aucune activité récente
+      </div>
     )
+  }
+
+  return (
+    <div className="space-y-4">
+      {data.map((activity) => (
+        <div
+          key={activity.id}
+          className="flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
+        >
+          <Avatar className="h-10 w-10">
+            <AvatarImage src={activity.student?.avatar} alt={activity.student?.full_name} />
+            <AvatarFallback>
+              {activity.student?.full_name
+                ?.split(" ")
+                .map((n) => n[0])
+                .join("")}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex-1 space-y-1">
+            <p className="text-sm font-medium leading-none">
+              {activity.student?.full_name}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              a rejoint le cours <span className="font-medium">{activity.course?.title}</span>
+            </p>
+          </div>
+          <div className="flex flex-col items-end gap-1">
+            <Badge variant="secondary">
+              {formatDistanceToNow(new Date(activity.created_at), {
+                addSuffix: true,
+                locale: fr,
+              })}
+            </Badge>
+            <span className="text-xs text-muted-foreground">
+              {new Date(activity.created_at).toLocaleDateString("fr-FR", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
 } 

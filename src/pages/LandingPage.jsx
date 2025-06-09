@@ -11,6 +11,7 @@ import { TrustedCompaniesSection } from "../components/landing/TrustedCompaniesS
 import { PopularCoursesSection } from "../components/landing/PopularCoursesSection";
 import { TestimonialsSection } from "../components/landing/TestimonialsSection";
 import { CallToActionSection } from "../components/landing/CallToActionSection";
+import { AboutSection } from "../components/landing/AboutSection";
 import { ContactSection } from "../components/landing/ContactSection";
 import { motion } from "framer-motion";
 
@@ -29,6 +30,7 @@ const LandingPage = () => {
       <Header />
       <HeroSection search={search} setSearch={setSearch} />
       <VideoSection />
+      <AboutSection /> 
       <TrustedCompaniesSection />
       <PopularCoursesSection />
       <TestimonialsSection />

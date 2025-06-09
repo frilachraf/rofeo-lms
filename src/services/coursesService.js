@@ -51,7 +51,12 @@ const getCategories = async () => {
 const getCoursesLimit = async (limit) => {
     const { data, error } = await supabase
         .from('courses')
-        .select('*', { count: 'exact' })
+        .select(`
+            *,
+            teacher:teacher_id(full_name, avatar),
+            enrollments:enrollments(count)
+        `)
+        .order('enrollments.count', { ascending: false })
         .limit(limit)
     return { data, error }
 }

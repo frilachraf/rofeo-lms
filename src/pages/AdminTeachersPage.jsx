@@ -23,6 +23,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import TeacherForm from "../components/forms/TeacherForm"
+import { motion } from "framer-motion"
 
 export default function AdminTeachersPage() {
     const [teachers, setTeachers] = useState([])
@@ -61,7 +62,12 @@ export default function AdminTeachersPage() {
     if (loading) return <Loading />
 
     return (
-        <div className="flex flex-col gap-6 p-6 md:p-8">
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col gap-6 p-6 md:p-8"
+        >
             <div className="flex justify-between items-center">
                 <div>
                     <h2 className="text-2xl font-bold">Gestion des Enseignants</h2>
@@ -69,10 +75,16 @@ export default function AdminTeachersPage() {
                 </div>
                 <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger asChild>
-                        <Button className="shadow-sm hover:shadow-md transition-all duration-200">
-                            <Plus className="h-4 w-4 mr-2" />
-                            Ajouter un Nouvel Enseignant
-                        </Button>
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                        >
+                            <Button className="shadow-sm hover:shadow-md transition-all duration-200">
+                                <Plus className="h-4 w-4 mr-2" />
+                                Ajouter un Nouvel Enseignant
+                            </Button>
+                        </motion.div>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[600px]">
                         <DialogHeader>
@@ -92,7 +104,12 @@ export default function AdminTeachersPage() {
                 </Dialog>
             </div>
 
-            <div className="rounded-lg border shadow-sm">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="rounded-lg border shadow-sm"
+            >
                 <Table>
                     <TableHeader>
                         <TableRow className="bg-muted/50">
@@ -159,7 +176,7 @@ export default function AdminTeachersPage() {
                         ))}
                     </TableBody>
                 </Table>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     )
 } 
