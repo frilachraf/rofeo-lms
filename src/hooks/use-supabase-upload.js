@@ -7,7 +7,7 @@ import { supabase } from '../supabaseClient';
 
 const useSupabaseUpload = (options) => {
   const {
-    bucketName,
+    bucketName="rofeofiles",
     path,
     allowedMimeTypes = [],
     maxFileSize = Number.POSITIVE_INFINITY,
@@ -76,7 +76,7 @@ const useSupabaseUpload = (options) => {
 
     const responses = await Promise.all(filesToUpload.map(async (file) => {
       const { error } = await supabase.storage
-        .from(bucketName)
+        .from("rofeofiles")
         .upload(!!path ? `${path}/${file.name}` : file.name, file, {
           cacheControl: cacheControl.toString(),
           upsert,
