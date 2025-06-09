@@ -17,6 +17,8 @@ import TeacherCoursesPage from "../pages/TeacherCoursesPage";
 import TeacherCoursePage from "../pages/TeacherCoursePage";
 import TeacherStudentsPage from "../pages/TeacherStudentsPage";
 import StudentCourseContentPage from "../pages/StudentCourseContentPage";
+import TeachersPage from "../pages/TeachersPage";
+import { TeacherOverviewPage } from "../pages/TeacherOverviewPage";
 import { StudentProfilePage } from "../pages/StudentProfilePage";
 
 // import { useAuth } from '../context/AuthContext';
@@ -83,33 +85,15 @@ const router = createBrowserRouter([
       },
       {
         path: 'students',
-        children:[
-          {
-            path: '',
-            element: <div />
-          },
-          {
-            path: ':id/details',
-            element: <div />
-          },
-        ]
+        element: <div />
       },
       {
         path: 'teachers',
-        children:[
-          {
-            path: '',
-            element: <div />
-          },
-          {
-            path: 'add',
-            element: <div />
-          },
-          {
-            path: ':id/details',
-            element: <div />
-          },
-        ]
+        element: <TeachersPage />
+      },
+      {
+        path: 'courses',
+        element: <div />
       },
     ]
   },
@@ -117,6 +101,10 @@ const router = createBrowserRouter([
     path:'/student',
     element:<StudentLayout/>,
     children:[
+      {
+        path: '',
+        element: <Navigate to={'/courses'} replace/>
+      },
       {
         path: 'profile',
         element: <StudentProfilePage />
@@ -126,6 +114,7 @@ const router = createBrowserRouter([
         element: <StudentCoursesPage />
       },
       {
+        path: 'courses/:id/content',
         path: 'courses/:id/content',
         element: <StudentCourseContentPage />
       },
@@ -137,7 +126,7 @@ const router = createBrowserRouter([
     children:[
       {
         path: 'dashboard',
-        element: <div />
+        element: <TeacherOverviewPage />
       },
       {
         path: 'profile',

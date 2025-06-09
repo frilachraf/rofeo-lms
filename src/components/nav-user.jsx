@@ -53,7 +53,7 @@ export function NavUser({
               </div>
               {/* <IconDotsVertical className="ml-auto size-4" /> */}
             </SidebarMenuButton>
-        {/* <DropdownMenu>
+        {<DropdownMenu>
           <DropdownMenuTrigger asChild>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -96,7 +96,7 @@ export function NavUser({
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu> */}
+        </DropdownMenu> }
       </SidebarMenuItem>
     </SidebarMenu>
   );
