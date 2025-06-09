@@ -46,7 +46,6 @@ export default function CourseCard({ course }) {
 
 export function StudentCourseCard({ course }) {
   const progress = course.enrollment_progress?.length / course.details?.lessons?.length * 100 || 0;
-  const progress = course.enrollment_progress?.length / course.details?.lessons?.length * 100 || 0;
   return (
     <Card className="w-full rounded-2xl duration-300 overflow-hidden shadow-none pt-0">
       <img
@@ -89,7 +88,6 @@ export function StudentCourseCard({ course }) {
 
       <CardFooter className="flex ">
         <Link to={`/student/courses/${course.id}/content`}>
-        <Link to={`/student/courses/${course.id}/content`}>
           <Button className="w-full">
             Continue
           </Button>
@@ -98,51 +96,51 @@ export function StudentCourseCard({ course }) {
     </Card>
   )
 }
-export function PublicCourseCard({ course, onEnroll }) {
-  return (
-    <Card className="w-full rounded-2xl duration-300 overflow-hidden shadow-none pt-0">
-      <img
-        src={course?.thumbnail || 'https://picsum.photos/200/300'}
-        alt={course?.title}
-        className="w-full min-h-48 max-h-48 object-cover border bg-white"
-      />
-      <CardHeader className="">
-        <CardTitle className="text-xl font-semibold truncate">
-          {course?.title}
-        </CardTitle>
-        <p className="text-sm text-muted-foreground line-clamp-2">
-          {course?.description}
-        </p>
-        {/* <Badge variant="outline" className="mt-1 capitalize w-fit">
-          {course?.category?.name}
-        </Badge> */}
-      </CardHeader>
-      <CardContent className="sm:h-full">
+// export function PublicCourseCard({ course, onEnroll }) {
+//   return (
+//     <Card className="w-full rounded-2xl duration-300 overflow-hidden shadow-none pt-0">
+//       <img
+//         src={course?.thumbnail || 'https://picsum.photos/200/300'}
+//         alt={course?.title}
+//         className="w-full min-h-48 max-h-48 object-cover border bg-white"
+//       />
+//       <CardHeader className="">
+//         <CardTitle className="text-xl font-semibold truncate">
+//           {course?.title}
+//         </CardTitle>
+//         <p className="text-sm text-muted-foreground line-clamp-2">
+//           {course?.description}
+//         </p>
+//         {/* <Badge variant="outline" className="mt-1 capitalize w-fit">
+//           {course?.category?.name}
+//         </Badge> */}
+//       </CardHeader>
+//       <CardContent className="sm:h-full">
 
-        <div className="flex justify-between items-center mb-4">
-          <p className="flex text-sm text-muted-foreground items-center gap-2">
-            <ClockCountdown size={18} />
-            <span>{course?.duration} minutes</span>
-          </p>
-          <p className="text-sm text-muted-foreground text-right flex items-center gap-2">
-            <UserCircle size={18} />
-            <span className="truncate capitalize">
-              By {course?.teacher?.full_name}
-            </span>
-          </p>
-        </div>
+//         <div className="flex justify-between items-center mb-4">
+//           <p className="flex text-sm text-muted-foreground items-center gap-2">
+//             <ClockCountdown size={18} />
+//             <span>{course?.duration} minutes</span>
+//           </p>
+//           <p className="text-sm text-muted-foreground text-right flex items-center gap-2">
+//             <UserCircle size={18} />
+//             <span className="truncate capitalize">
+//               By {course?.teacher?.full_name}
+//             </span>
+//           </p>
+//         </div>
 
-      </CardContent>
+//       </CardContent>
 
-      <CardFooter className="flex ">
-        <Button className="w-full" onClick={() => onEnroll(course.id,course.teacher_id)}>
-          Enroll course
-        </Button>
+//       <CardFooter className="flex ">
+//         <Button className="w-full" onClick={() => onEnroll(course.id,course.teacher_id)}>
+//           Enroll course
+//         </Button>
 
-      </CardFooter>
-    </Card>
-  )
-}
+//       </CardFooter>
+//     </Card>
+//   )
+// }
 
 export function PublicCourseCard({ course, onEnroll }) {
   return (
