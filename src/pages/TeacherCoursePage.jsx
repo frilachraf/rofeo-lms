@@ -120,8 +120,8 @@ export default function TeacherCoursePage() {
             toast.error("Erreur lors de la mise à jour du cours.")
         }
     }
+    // if (loading) return <div>Chargement...</div>
 
-    if (loading) return <div>Chargement...</div>
     if (!course) return <div>Cours introuvable.</div>
 
     return (

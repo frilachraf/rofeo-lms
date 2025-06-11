@@ -54,8 +54,8 @@ export const getTeacherStudents = async (teacherId)=>{
 export const getTeacherCourses = async (userId) => {
     const { data, error } = await supabase
         .from('courses')
-        .select('*, level:level_id(*)')
-        .eq('teacher_account_id', userId)
+        .select('*, level:level_id(*), teacher:teacher_id(full_name, avatar)')
+        .eq('teacher_id', userId)
     return { data, error }
 }
 

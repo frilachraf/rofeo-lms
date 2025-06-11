@@ -256,7 +256,7 @@ const StudentSignUp = () => {
                       name="level"
                       type="text"
                       required
-                      placeholder="Votre niveau d'étude (Ex: Licence 1, Master 2)"
+                      placeholder="Votre niveau d'étude"
                       onChange={handleChange}
                       disabled={isLoading}
                       className={`pl-9 transition-all focus:ring-2 focus:ring-primary ${errors.level ? 'border-red-500' : ''}`}
@@ -296,7 +296,7 @@ const StudentSignUp = () => {
                   transition={{ delay: 0.6 }}
                   className="space-y-2"
                 >
-                  <label htmlFor="avatar">Image de profil (Avatar)</label>
+                  <label htmlFor="avatar">Image de profil</label>
                   <div className="relative">
                     <Image className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
                     <Input

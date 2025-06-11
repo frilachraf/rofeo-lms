@@ -75,7 +75,10 @@ export const signUp = async (email, password, userData) => {
 };
 
 export const signIn = async (email, password) => {
+  console.log("signIn: Attempting sign-in for email:", email);
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  console.log("signIn: Supabase response data:", data);
+  console.log("signIn: Supabase response error:", error);
   return { data, error };
 };
 
@@ -90,12 +93,24 @@ export const onAuthStateChange = (callback) =>
   supabase.auth.onAuthStateChange(callback);
 
 export const getUserRole = async (userId) => {
-  const { data, error } = await supabase
-    .from('users_roles')
-    .select('name')
-    .eq('user_id', userId)
-    .single();
-  return { role: data?.name, error };
+  console.log("getUserRole: Received userId:", userId);
+  try {
+    console.log("getUserRole: Before users_roles query.");
+    const { data, error } = await supabase
+      .from('users_roles')
+      .select('name')
+      .eq('user_id', userId)
+      .single();
+    console.log("getUserRole: After users_roles query, raw data:", data, "raw error:", error);
+    console.log("getUserRole: Supabase response data (raw):", data);
+    console.log("getUserRole: Supabase response error (raw):", error);
+    const role = data?.name;
+    console.log("getUserRole: Extracted role:", role);
+    return { role, error };
+  } catch (error) {
+    console.error("Error in getUserRole:", error);
+    return { role: null, error };
+  }
 };
 
 export const getUserProfile = async (userId) => {

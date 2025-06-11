@@ -60,44 +60,63 @@ const useSupabaseUpload = (options) => {
     multiple: maxFiles !== 1,
   })
 
-  const onUpload = useCallback(async () => {
+  const onUpload = useCallback(async (filesToUploadProp) => {
+    console.log("onUpload: Starting upload process.");
     setLoading(true)
+    setErrors([]) // Clear previous errors on new upload attempt
+    setSuccesses([]) // Clear previous successes
+
+    const filesToUse = filesToUploadProp || files; // Use prop if provided, else use state files
+    console.log("onUpload: Files to use:", filesToUse);
 
     // [Joshen] This is to support handling partial successes
     // If any files didn't upload for any reason, hitting "Upload" again will only upload the files that had errors
     const filesWithErrors = errors.map((x) => x.name)
-    const filesToUpload =
+    const filesToUploadFiltered =
       filesWithErrors.length > 0
         ? [
-            ...files.filter((f) => filesWithErrors.includes(f.name)),
-            ...files.filter((f) => !successes.includes(f.name)),
+            ...filesToUse.filter((f) => filesWithErrors.includes(f.name)),
+            ...filesToUse.filter((f) => !successes.includes(f.name)),
           ]
-        : files
+        : filesToUse
+    console.log("onUpload: Filtered files for upload:", filesToUploadFiltered);
 
-    const responses = await Promise.all(filesToUpload.map(async (file) => {
-      const { error, data } = await supabase.storage
-        .from("rofeofiles")
-        .upload(!!path ? `${path}/${file.name}` : file.name, file, {
-          cacheControl: cacheControl.toString(),
-          upsert,
-        })
-      if (error) {
-        return { name: file.name, message: error.message }
-      } else {
-        return { name: file.name, path: data.path, message: undefined }
+    const results = await Promise.all(filesToUploadFiltered.map(async (file) => {
+      try {
+        const { error, data } = await supabase.storage
+          .from(bucketName)
+          .upload(!!path ? `${path}/${file.name}` : file.name, file, {
+            cacheControl: cacheControl.toString(),
+            upsert,
+          })
+        if (error) {
+          console.error(`onUpload: Error uploading ${file.name}:`, error);
+          return { name: file.name, message: error.message, error: error }
+        } else {
+          console.log(`onUpload: Successfully uploaded ${file.name}:`, data);
+          return { name: file.name, path: data.path, message: undefined, data: data }
+        }
+      } catch (uploadError) {
+        console.error(`onUpload: Unexpected error during upload for ${file.name}:`, uploadError);
+        return { name: file.name, message: uploadError.message, error: uploadError }
       }
     }))
+    console.log("onUpload: All upload results:", results);
 
-    const responseErrors = responses.filter((x) => x.message !== undefined)
-    // if there were errors previously, this function tried to upload the files again so we should clear/overwrite the existing errors.
-    setErrors(responseErrors)
-
-    const responseSuccesses = responses.filter((x) => x.message === undefined)
-    const newSuccesses = Array.from(new Set([...successes, ...responseSuccesses.map((x) => x.name)]))
-    setSuccesses(newSuccesses)
+    const uploadErrors = results.filter((x) => x.error !== undefined)
+    const uploadSuccesses = results.filter((x) => x.error === undefined)
+    
+    setErrors(uploadErrors)
+    setSuccesses(Array.from(new Set([...successes, ...uploadSuccesses.map((x) => x.name)])))
+    console.log("onUpload: Errors after filter:", uploadErrors);
+    console.log("onUpload: Successes after filter:", uploadSuccesses);
 
     setLoading(false)
-  }, [files, path, bucketName, errors, successes])
+
+    const finalReturn = { data: uploadSuccesses.map(s => s.data), error: uploadErrors.length > 0 ? { message: "One or more files failed to upload.", details: uploadErrors } : null };
+    console.log("onUpload: Final return value:", finalReturn);
+    return finalReturn;
+  }, [files, path, bucketName, errors, successes, cacheControl, upsert]);
 
   useEffect(() => {
     if (files.length === 0) {

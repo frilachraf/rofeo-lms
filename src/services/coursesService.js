@@ -53,10 +53,8 @@ const getCoursesLimit = async (limit) => {
         .from('courses')
         .select(`
             *,
-            teacher:teacher_id(full_name, avatar),
-            enrollments:enrollments(count)
+            teacher:teacher_id(full_name, avatar)
         `)
-        .order('enrollments.count', { ascending: false })
         .limit(limit)
     return { data, error }
 }

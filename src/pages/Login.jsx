@@ -41,6 +41,7 @@ const Login = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    console.log("handleSubmit triggered");
     setLoading(true);
     setError(null);
     try {
@@ -48,10 +49,15 @@ const Login = () => {
         formData.email,
         formData.password,
       );
-      const { role } = await getUserRole(data.user.id);
+      console.log("Sign-in data:", data);
+      console.log("Sign-in error:", signInError);
 
       if (signInError) throw signInError;
       
+      console.log("Login.jsx: Attempting to get user role for user ID:", data?.user?.id);
+      const { role } = await getUserRole(data.user.id);
+      console.log("Login.jsx: User role received:", role);
+
       if (role === 'admin') navigate('/admin');
       if (role === 'student') navigate('/student');
       if (role === 'teacher') navigate('/teacher/courses');

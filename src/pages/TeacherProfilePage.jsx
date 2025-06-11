@@ -77,30 +77,49 @@ export default function TeacherProfilePage() {
     let avatarUrl = formData.avatar_url;
 
     if (file) {
-      const { data: uploadData, error: uploadError } = await onUpload([file]);
-      if (uploadError || !uploadData || uploadData.length === 0) {
+      const uploadResult = await onUpload([file]);
+      // console.log("Upload result in TeacherProfilePage:", uploadResult);
+
+      if (!uploadResult || uploadResult.error || !uploadResult.data || uploadResult.data.length === 0) {
         toast.error("Erreur lors du téléchargement de l'avatar.");
         setLoading(false);
         return;
       }
-      avatarUrl = `https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/${uploadData[0].path}`;
+      avatarUrl = `https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/${uploadResult.data[0].path}`;
     }
 
     const updates = {
       full_name: formData.full_name,
-      email: formData.email,
+      // email: formData.email, // Removed as email is managed by Supabase Auth
       bio: formData.bio,
       avatar: avatarUrl,
     };
 
-    const { data, error } = await editTeacherAccount(user.id, updates);
-    if (error) {
-      toast.error("Erreur lors de la mise à jour du profil.");
-      console.error("Update error:", error.message);
-    } else {
-      toast.success("Profil mis à jour avec succès !");
+    try {
+      const result = await editTeacherAccount(user.id, updates);
+
+      // Check if result is an object and contains data and error properties
+      if (!result || typeof result.data === 'undefined' || typeof result.error === 'undefined') {
+        toast.error("Erreur inattendue lors de la mise à jour du profil: Réponse du service invalide.");
+        console.error("Unexpected result from editTeacherAccount:", result);
+        setLoading(false);
+        return; // Exit if the result is malformed
+      }
+
+      const { data, error } = result;
+
+      if (error) {
+        toast.error("Erreur lors de la mise à jour du profil.");
+        console.error("Update error:", error.message);
+      } else {
+        toast.success("Profil mis à jour avec succès !");
+      }
+    } catch (error) {
+      toast.error("Une erreur inattendue est survenue lors de la mise à jour du profil.");
+      console.error("Unexpected update error:", error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleDeleteAccount = async () => {
@@ -168,6 +187,7 @@ export default function TeacherProfilePage() {
               value={formData.email}
               onChange={handleChange}
               className={errors.email ? "border-red-500" : ""}
+              disabled // Disable the email input field
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">{errors.email}</p>

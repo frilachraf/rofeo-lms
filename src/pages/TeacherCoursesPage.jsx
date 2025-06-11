@@ -39,7 +39,7 @@ export default function TeacherCoursesPage() {
         fetchCourses()
     }, [user.id])
 
-    if (loading) return <div>Chargement...</div>
+    // if (loading) return <div>Chargement...</div>
 
     return (
         <div className="">

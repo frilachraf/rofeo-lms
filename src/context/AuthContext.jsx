@@ -5,30 +5,56 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [role,setRole]=useState()
+  const [role, setRole] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getUser().then(({ data }) => setUser(data?.user ?? null));
+    const initializeAuth = async () => {
+      try {
+        const { data } = await getUser();
+        const currentUser = data?.user ?? null;
+        setUser(currentUser);
+        
+        if (currentUser?.id) {
+          const { role: userRole } = await getUserRole(currentUser.id);
+          setRole(userRole);
+        }
+      } catch (error) {
+        console.error('Error initializing auth:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    const { data: listener } = onAuthStateChange((event, session) => {
-      setUser(session?.user ?? null);
-      fetchRole(session?.user)
+    initializeAuth();
+
+    const { data: listener } = onAuthStateChange(async (event, session) => {
+      const currentUser = session?.user ?? null;
+      setUser(currentUser);
+      
+      if (currentUser?.id) {
+        const { role: userRole } = await getUserRole(currentUser.id);
+        setRole(userRole);
+      } else {
+        setRole(null);
+      }
     });
+
     return () => listener.subscription.unsubscribe();
   }, []);
-  
-  const fetchRole = async(user)=>{
-    const {role} = await getUserRole(user?.id)
-    setRole(role)
-  }
   
   const value = {
     user,
     role,
+    loading,
     signIn,
     signUp,
     signOut,
   };
+
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

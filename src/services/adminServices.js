@@ -302,8 +302,8 @@ export const createStudent = async (extractedData) => {
 export const getPopularCourses = async () => {
     const { data, error } = await supabase
         .from('courses')
-        .select('*, teacher:teachers_accounts(full_name,avatar), enrollments(count)')
-        .order('enrollments.count', { ascending: false })
+        .select('*, teacher:teachers_accounts(full_name,avatar)')
+        .order('created_at', { ascending: false })
         .limit(5)
     if(error){ return handleError(error, 'Erreur lors de la récupération des cours populaires') }
     return { data, error }

@@ -287,7 +287,7 @@ const TeacherSignUp = () => {
                   transition={{ delay: 0.6 }}
                   className="space-y-2"
                 >
-                  <label htmlFor="avatar">Image de profil (Avatar)</label>
+                  <label htmlFor="avatar">Image de profil</label>
                   <div className="relative">
                     <Image className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
                     <Input
