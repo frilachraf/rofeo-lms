@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -6,8 +5,10 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { motion } from 'framer-motion';
-import { Home, Phone, Mail, User, Lock } from 'lucide-react';
+import { Home, Mail, User, Lock, GraduationCap, School, Image } from 'lucide-react';
+import { useSupabaseUpload } from "../hooks/use-supabase-upload";
 
 import {
   Card,
@@ -18,17 +19,22 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-const SignUp = () => {
+const StudentSignUp = () => {
   const navigate = useNavigate();
   const { signUp } = useAuth();
+  const { onUpload: uploadAvatar } = useSupabaseUpload({ bucketName: "rofeofiles" });
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     password: '',
-    phone: ''
+    level: '',
+    school: '',
+    avatar: null
   });
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [avatarFile, setAvatarFile] = useState(null);
 
   const validateForm = () => {
     const newErrors = {};
@@ -48,11 +54,13 @@ const SignUp = () => {
     } else if (formData.password.length < 6) {
       newErrors.password = 'Le mot de passe doit contenir au moins 6 caractères';
     }
-    
-    if (!formData.phone.trim()) {
-      newErrors.phone = 'Le numéro de téléphone est requis';
-    } else if (!/^[0-9]{10}$/.test(formData.phone.replace(/\s/g, ''))) {
-      newErrors.phone = 'Le numéro de téléphone n\'est pas valide';
+
+    if (!formData.level.trim()) {
+      newErrors.level = 'Le niveau est requis';
+    }
+
+    if (!formData.school.trim()) {
+      newErrors.school = 'L\'établissement scolaire est requis';
     }
 
     setErrors(newErrors);
@@ -65,7 +73,6 @@ const SignUp = () => {
       ...prevFormData,
       [name]: value
     }));
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -73,6 +80,12 @@ const SignUp = () => {
       }));
     }
   }
+
+  const handleAvatarChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setAvatarFile(e.target.files[0]);
+    }
+  };
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -82,18 +95,38 @@ const SignUp = () => {
     }
 
     setIsLoading(true);
+    let avatarUrl = null;
+
+    if (avatarFile) {
+      const { data: uploadData, error: uploadError } = await uploadAvatar([avatarFile]);
+      if (uploadError || !uploadData || uploadData.length === 0) {
+        console.error('Error uploading avatar:', uploadError);
+        toast.error('Erreur lors du téléchargement de l\'avatar.');
+        setIsLoading(false);
+        return;
+      }
+      avatarUrl = `https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/${uploadData[0].path}`;
+    }
 
     try {
       const { error } = await signUp(
         formData.email,
         formData.password,
+        {
+          full_name: formData.fullName,
+          level: formData.level,
+          school: formData.school,
+          avatar: avatarUrl,
+          role: 'student'
+        }
       );
 
       if (error) throw error;
       
-      toast.success('Compte créé avec succès');
-      navigate('/');
+      toast.success('Compte étudiant créé avec succès');
+      navigate('/student/dashboard');
     } catch (error) {
+      console.error('Error during signup:', error);
       toast.error(error.message || 'Échec de la création du compte');
     } finally {
       setIsLoading(false);
@@ -124,10 +157,10 @@ const SignUp = () => {
           <Card className="shadow-lg">
             <CardHeader className="space-y-1">
               <CardTitle className="text-2xl font-bold text-center">
-                Créer un compte
+                Inscription Étudiant
               </CardTitle>
               <CardDescription className="text-center">
-                Entrez vos informations pour créer votre compte
+                Créez votre compte étudiant pour accéder aux cours
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -188,31 +221,6 @@ const SignUp = () => {
                   transition={{ delay: 0.3 }}
                   className="space-y-2"
                 >
-                  <label htmlFor="phone" className="text-sm font-medium">
-                    Numéro de téléphone
-                  </label>
-                  <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                    <Input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      required
-                      placeholder="Entrez votre numéro de téléphone"
-                      onChange={handleChange}
-                      disabled={isLoading}
-                      className={`pl-9 transition-all focus:ring-2 focus:ring-primary ${errors.phone ? 'border-red-500' : ''}`}
-                    />
-                  </div>
-                  {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
-                </motion.div>
-
-                <motion.div 
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="space-y-2"
-                >
                   <label htmlFor="password" className="text-sm font-medium">
                     Mot de passe
                   </label>
@@ -232,17 +240,87 @@ const SignUp = () => {
                   {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
                 </motion.div>
 
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="space-y-2"
+                >
+                  <label htmlFor="level" className="text-sm font-medium">
+                    Niveau d'étude
+                  </label>
+                  <div className="relative">
+                    <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <Input
+                      id="level"
+                      name="level"
+                      type="text"
+                      required
+                      placeholder="Votre niveau d'étude (Ex: Licence 1, Master 2)"
+                      onChange={handleChange}
+                      disabled={isLoading}
+                      className={`pl-9 transition-all focus:ring-2 focus:ring-primary ${errors.level ? 'border-red-500' : ''}`}
+                    />
+                  </div>
+                  {errors.level && <p className="text-sm text-red-500">{errors.level}</p>}
+                </motion.div>
+
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="space-y-2"
+                >
+                  <label htmlFor="school" className="text-sm font-medium">
+                    Établissement scolaire
+                  </label>
+                  <div className="relative">
+                    <School className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <Input
+                      id="school"
+                      name="school"
+                      type="text"
+                      required
+                      placeholder="Nom de votre école ou université"
+                      onChange={handleChange}
+                      disabled={isLoading}
+                      className={`pl-9 transition-all focus:ring-2 focus:ring-primary ${errors.school ? 'border-red-500' : ''}`}
+                    />
+                  </div>
+                  {errors.school && <p className="text-sm text-red-500">{errors.school}</p>}
+                </motion.div>
+
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="space-y-2"
+                >
+                  <label htmlFor="avatar">Image de profil (Avatar)</label>
+                  <div className="relative">
+                    <Image className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <Input
+                      id="avatar"
+                      name="avatar"
+                      type="file"
+                      onChange={handleAvatarChange}
+                      disabled={isLoading}
+                      className="pl-9"
+                    />
+                  </div>
+                </motion.div>
+
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
+                  transition={{ delay: 0.7 }}
                 >
                   <Button 
                     type="submit" 
                     className="w-full bg-primary hover:bg-primary/90 transition-all"
                     disabled={isLoading}
                   >
-                    {isLoading ? 'Création du compte...' : 'Créer un compte'}
+                    {isLoading ? 'Création du compte...' : 'Créer un compte étudiant'}
                   </Button>
                 </motion.div>
               </form>
@@ -273,4 +351,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default StudentSignUp; 

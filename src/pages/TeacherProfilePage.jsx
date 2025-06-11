@@ -15,7 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 export default function TeacherProfilePage() {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
-  const { uploadTeacherAvatar } = useSupabaseUpload();
+  const { onUpload } = useSupabaseUpload({ bucketName: "rofeofiles" });
   const [formData, setFormData] = useState({
     full_name: user?.full_name || "",
     email: user?.email || "",
@@ -77,16 +77,13 @@ export default function TeacherProfilePage() {
     let avatarUrl = formData.avatar_url;
 
     if (file) {
-      const { data: uploadData, error: uploadError } = await uploadTeacherAvatar(
-        user.id,
-        file
-      );
-      if (uploadError) {
+      const { data: uploadData, error: uploadError } = await onUpload([file]);
+      if (uploadError || !uploadData || uploadData.length === 0) {
         toast.error("Erreur lors du téléchargement de l'avatar.");
         setLoading(false);
         return;
       }
-      avatarUrl = uploadData.path;
+      avatarUrl = `https://qwcxskzpvafmhfczdscy.supabase.co/storage/v1/object/public/rofeofiles/${uploadData[0].path}`;
     }
 
     const updates = {

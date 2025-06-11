@@ -75,7 +75,7 @@ const useSupabaseUpload = (options) => {
         : files
 
     const responses = await Promise.all(filesToUpload.map(async (file) => {
-      const { error } = await supabase.storage
+      const { error, data } = await supabase.storage
         .from("rofeofiles")
         .upload(!!path ? `${path}/${file.name}` : file.name, file, {
           cacheControl: cacheControl.toString(),
@@ -84,7 +84,7 @@ const useSupabaseUpload = (options) => {
       if (error) {
         return { name: file.name, message: error.message }
       } else {
-        return { name: file.name, message: undefined }
+        return { name: file.name, path: data.path, message: undefined }
       }
     }))
 

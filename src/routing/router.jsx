@@ -29,6 +29,9 @@ import AdminEditTeacherPage from "../pages/AdminEditTeacherPage";
 import AdminEditStudentPage from "../pages/AdminEditStudentPage";
 import AdminReportsPage from "../pages/AdminReportsPage";
 import AdminSettingsPage from "../pages/AdminSettingsPage";
+import StudentSignUp from "../pages/StudentSignUp";
+import TeacherSignUp from "../pages/TeacherSignUp";
+import SignUpChoice from "../pages/SignUpChoice";
 
 // import { useAuth } from '../context/AuthContext';
 
@@ -74,7 +77,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/signup",
-    element: <SignUp />,
+    element: <SignUpChoice />,
+  },
+  {
+    path: "/signup/student",
+    element: <StudentSignUp />,
+  },
+  {
+    path: "/signup/teacher",
+    element: <TeacherSignUp />,
   },
   {
     path: "/homepage",
