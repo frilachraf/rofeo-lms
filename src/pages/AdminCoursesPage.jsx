@@ -80,10 +80,10 @@ export default function AdminCoursesPage() {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5, delay: 0.2 }}
                         >
-                            <Button className="shadow-sm hover:shadow-md transition-all duration-200">
+                            {/* <Button className="shadow-sm hover:shadow-md transition-all duration-200">
                                 <Plus className="h-4 w-4 mr-2" />
                                 Ajouter un Nouveau Cours
-                            </Button>
+                            </Button> */}
                         </motion.div>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[600px]">
