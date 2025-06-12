@@ -184,19 +184,22 @@ export default function AdminOverviewPage() {
   }
 
   return (
-    <div className="flex flex-col gap-6 p-6 md:p-8">
+    <div className="flex flex-col gap-8 p-8 bg-background/95">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Tableau de Bord</h1>
-        <div className="flex gap-2">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Tableau de Bord</h1>
+          <p className="text-muted-foreground mt-1">Bienvenue sur votre espace d'administration</p>
+        </div>
+        <div className="flex gap-3">
           <motion.div whileTap={{ scale: 0.95 }}>
-            <Button variant="outline" onClick={() => navigate('/admin/settings')}>
-              <Settings className="h-4 w-4 mr-2" />
+            <Button variant="outline" className="gap-2" onClick={() => navigate('/admin/settings')}>
+              <Settings className="h-4 w-4" />
               Paramètres
             </Button>
           </motion.div>
           <motion.div whileTap={{ scale: 0.95 }}>
-            <Button variant="outline" onClick={() => navigate('/admin/reports')}>
-              <FileText className="h-4 w-4 mr-2" />
+            <Button variant="outline" className="gap-2" onClick={() => navigate('/admin/reports')}>
+              <FileText className="h-4 w-4" />
               Rapports
             </Button>
           </motion.div>
@@ -204,14 +207,14 @@ export default function AdminOverviewPage() {
       </div>
 
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList>
-          <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
-          <TabsTrigger value="analytics">Analytique</TabsTrigger>
-          <TabsTrigger value="reports">Rapports</TabsTrigger>
+        <TabsList className="w-full justify-start p-1 bg-muted/50">
+          <TabsTrigger value="overview" className="data-[state=active]:bg-background">Vue d'ensemble</TabsTrigger>
+          <TabsTrigger value="analytics" className="data-[state=active]:bg-background">Analytique</TabsTrigger>
+          <TabsTrigger value="reports" className="data-[state=active]:bg-background">Rapports</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <TabsContent value="overview" className="text-center space-y-8 mt-6">
+          <div className="grid text-center gap-6 grid-cols-2">
             <StatCard
               title="Total des Cours"
               value={totalCourses}
@@ -242,35 +245,35 @@ export default function AdminOverviewPage() {
             />
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+          <div className="grid gap-6 grid-cols-2">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="col-span-7"
             >
-              <Card className="shadow-sm hover:shadow-md transition-all duration-200">
-                <CardHeader>
-                  <CardTitle className="text-lg font-semibold">Aperçu des Inscriptions</CardTitle>
-                  <p className="text-sm text-muted-foreground">Inscriptions des 7 derniers jours</p>
+              <Card className="shadow-sm hover:shadow-md transition-all duration-200 border-muted/50">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-xl font-semibold">Inscriptions par Jour</CardTitle>
+                  <p className="text-sm text-muted-foreground">Affichage du nombre total de visiteurs sur les 6 derniers mois</p>
                 </CardHeader>
                 <CardContent>
                   <MyChart data={chartData} />
+                  <div className="mt-6 flex flex-col items-start">
+                    
+                   
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
-          </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="col-span-full"
             >
-              <Card className="shadow-sm hover:shadow-md transition-all duration-200">
-                <CardHeader>
-                  <CardTitle className="text-lg font-semibold">Activités Récentes</CardTitle>
+              <Card className="shadow-sm hover:shadow-md transition-all duration-200 border-muted/50">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-xl font-semibold">Activités Récentes</CardTitle>
                   <p className="text-sm text-muted-foreground">Dernières inscriptions aux cours</p>
                 </CardHeader>
                 <CardContent>
@@ -279,19 +282,19 @@ export default function AdminOverviewPage() {
               </Card>
             </motion.div>
           </div>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="w-full"
           >
-            <Card className="shadow-sm hover:shadow-md transition-all duration-200 h-full">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold">Actions Rapides</CardTitle>
+            <Card className="shadow-sm hover:shadow-md transition-all duration-200 border-muted/50">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-xl font-semibold">Actions Rapides</CardTitle>
                 <p className="text-sm text-muted-foreground">Tâches administratives courantes</p>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   <QuickActionButton
                     icon={Users}
                     text="Gérer les Enseignants"
@@ -318,27 +321,27 @@ export default function AdminOverviewPage() {
           </motion.div>
         </TabsContent>
 
-        <TabsContent value="analytics" className="space-y-6">
-          <Card className="shadow-sm hover:shadow-md transition-all duration-200">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold">Analyse des Performances</CardTitle>
+        <TabsContent value="analytics" className="space-y-6 mt-6">
+          <Card className="shadow-sm hover:shadow-md transition-all duration-200 border-muted/50">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-xl font-semibold">Analyse des Performances</CardTitle>
               <p className="text-sm text-muted-foreground">Statistiques détaillées sur les performances de la plateforme</p>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-8 md:grid-cols-3">
                 <div className="space-y-2">
-                  <h3 className="text-sm font-medium">Taux de Complétion</h3>
-                  <div className="text-2xl font-bold">75%</div>
+                  <h3 className="text-sm font-medium text-muted-foreground">Taux de Complétion</h3>
+                  <div className="text-3xl font-bold">75%</div>
                   <p className="text-sm text-muted-foreground">Moyenne des cours complétés</p>
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-sm font-medium">Taux de Rétention</h3>
-                  <div className="text-2xl font-bold">85%</div>
+                  <h3 className="text-sm font-medium text-muted-foreground">Taux de Rétention</h3>
+                  <div className="text-3xl font-bold">85%</div>
                   <p className="text-sm text-muted-foreground">Étudiants actifs mensuellement</p>
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-sm font-medium">Satisfaction</h3>
-                  <div className="text-2xl font-bold">4.5/5</div>
+                  <h3 className="text-sm font-medium text-muted-foreground">Satisfaction</h3>
+                  <div className="text-3xl font-bold">4.5/5</div>
                   <p className="text-sm text-muted-foreground">Note moyenne des cours</p>
                 </div>
               </div>
@@ -346,24 +349,24 @@ export default function AdminOverviewPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="reports" className="space-y-6">
-          <Card className="shadow-sm hover:shadow-md transition-all duration-200">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold">Rapports Disponibles</CardTitle>
+        <TabsContent value="reports" className="space-y-6 mt-6">
+          <Card className="shadow-sm hover:shadow-md transition-all duration-200 border-muted/50">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-xl font-semibold">Rapports Disponibles</CardTitle>
               <p className="text-sm text-muted-foreground">Générez et téléchargez des rapports détaillés</p>
             </CardHeader>
             <CardContent>
               <div className="grid gap-4">
-                <Button variant="outline" className="w-full justify-start">
-                  <FileText className="h-4 w-4 mr-2" />
+                <Button variant="outline" className="w-full justify-start gap-2 hover:bg-muted/50">
+                  <FileText className="h-4 w-4" />
                   Rapport des Inscriptions
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <FileText className="h-4 w-4 mr-2" />
+                <Button variant="outline" className="w-full justify-start gap-2 hover:bg-muted/50">
+                  <FileText className="h-4 w-4" />
                   Rapport des Performances
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <FileText className="h-4 w-4 mr-2" />
+                <Button variant="outline" className="w-full justify-start gap-2 hover:bg-muted/50">
+                  <FileText className="h-4 w-4" />
                   Rapport Financier
                 </Button>
               </div>
