@@ -125,6 +125,40 @@ export const getTeacherProfile = async (userId) => {
   return { teacherProfile: data, error };
 };
 
-export const signupAsStudent = async ()=>{
-  
+export async function signUpStudent({ fullName, email, password, level, school }) {
+  // 1. Create auth account
+  const { data: authData, error: signUpError } = await supabase.auth.signUp({
+    email,
+    password
+  });
+
+  if (signUpError) throw new Error(signUpError.message);
+
+  const user = authData.user;
+
+  // 2. Insert into "students" table
+  const { error: insertError } = await supabase
+    .from('students_accounts')
+    .insert({
+      id: user.id,            // Matches auth user ID
+      full_name: fullName,
+      level,
+      school
+    });
+
+  if (insertError) {
+    // Optional: rollback user creation
+    await supabase.auth.admin.deleteUser(user.id);
+    throw new Error(insertError.message);
+  }
+  const { error: roleError } = await supabase
+            .from('users_roles')
+            .insert({
+                user_id: userAuth.user.id,
+                name: 'student',
+            })
+        if (roleError) throw roleError
+
+  return user;
 }
+
