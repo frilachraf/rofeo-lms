@@ -23,7 +23,7 @@ import { Pen } from "lucide-react"
 import { useAuth } from "../context/AuthContext"
 
 export default function TeacherCoursePage() {
-    const { id } = useParams()
+    const { courseId } = useParams()
     const { user } = useAuth()
     const navigate = useNavigate()
     const [course, setCourse] = useState(null)
@@ -35,9 +35,14 @@ export default function TeacherCoursePage() {
 
     useEffect(() => {
         const fetchCourse = async () => {
+            if (!courseId) {
+                console.warn("Course ID is undefined. Cannot fetch course details.")
+                setLoading(false)
+                return
+            }
             try {
                 setLoading(true)
-                const { data, error } = await getCourseById(id)
+                const { data, error } = await getCourseById(courseId)
                 if (error) throw error
                 setCourse(data)
             } catch (error) {
@@ -49,12 +54,12 @@ export default function TeacherCoursePage() {
         }
 
         fetchCourse()
-    }, [id])
+    }, [courseId])
 
     const handleDeleteCourse = async () => {
         if (window.confirm("Êtes-vous sûr de vouloir supprimer ce cours ?")) {
             try {
-                const { error } = await deleteCourse(id)
+                const { error } = await deleteCourse(courseId)
                 if (error) throw error
                 toast.success("Cours supprimé avec succès !")
                 navigate("/teacher/courses")
@@ -67,7 +72,7 @@ export default function TeacherCoursePage() {
 
     const handleLessonAdded = async () => {
         setOpenLessonDialog(false)
-        const { data, error } = await getCourseById(id)
+        const { data, error } = await getCourseById(courseId)
         if (error) {
             toast.error("Erreur lors de la récupération des leçons.")
             console.error(error)
@@ -80,7 +85,7 @@ export default function TeacherCoursePage() {
     const handleLessonUpdated = async () => {
         setOpenEditLessonDialog(false)
         setSelectedLesson(null)
-        const { data, error } = await getCourseById(id)
+        const { data, error } = await getCourseById(courseId)
         if (error) {
             toast.error("Erreur lors de la mise à jour des leçons.")
             console.error(error)
@@ -96,7 +101,7 @@ export default function TeacherCoursePage() {
                 const { error } = await deleteLesson(lessonId)
                 if (error) throw error
                 toast.success("Leçon supprimée avec succès !")
-                const { data, error: fetchError } = await getCourseById(id)
+                const { data, error: fetchError } = await getCourseById(courseId)
                 if (fetchError) throw fetchError
                 setCourse(data)
             } catch (error) {
@@ -110,7 +115,7 @@ export default function TeacherCoursePage() {
 
     const handleCourseUpdate = async (updatedCourse) => {
         try {
-            const { error } = await updateCourse(id, updatedCourse)
+            const { error } = await updateCourse(courseId, updatedCourse)
             if (error) throw error
             toast.success("Cours mis à jour avec succès !")
             setCourse(updatedCourse)
@@ -122,6 +127,17 @@ export default function TeacherCoursePage() {
     }
 
     if (loading) return <div>Chargement...</div>
+    if (!courseId) {
+        return (
+            <div className="container py-8 px-10 text-center">
+                <h1 className="text-2xl font-bold mb-4">Erreur: ID du cours manquant</h1>
+                <p className="text-muted-foreground mb-6">
+                    Impossible de charger les détails du cours car l'identifiant est introuvable dans l'URL.
+                </p>
+                <Button onClick={() => navigate('/teacher/courses')}>Retourner à la liste des cours</Button>
+            </div>
+        )
+    }
     if (!course) return <div>Cours introuvable.</div>
 
     return (
@@ -141,7 +157,7 @@ export default function TeacherCoursePage() {
                                 <div className="flex justify-between items-center">
                                     <h2 className="text-2xl font-semibold mb-4">{course.title}</h2>
                                     <Dialog open={isEditing} onOpenChange={toggleEditMode}>
-                                        <DialogTrigger>
+                                        <DialogTrigger asChild>
                                             <Button variant="ghost"><Pen size={32} /></Button>
                                         </DialogTrigger>
                                         <DialogContent>
@@ -194,7 +210,7 @@ export default function TeacherCoursePage() {
                 <div className="flex justify-between items-center mb-8">
                     <h2 className="text-xl font-semibold">Lessons </h2>
                     <div className="flex gap-2">
-                        <Button variant="outline" onClick={() => getCourseById(id)}><ArrowCounterClockwise size={20} /></Button>
+                        <Button variant="outline" onClick={() => getCourseById(courseId)}><ArrowCounterClockwise size={20} /></Button>
                         <Button onClick={() => setOpenLessonDialog(true)}>Add Lesson</Button>
                     </div>
                 </div>
@@ -224,13 +240,12 @@ export default function TeacherCoursePage() {
                     </TableHeader>
                     <TableBody>
                         {course.lessons.map((lesson, index) => (
-                            <>
                                 <TableRow key={lesson.id}>
                                     <TableCell>{index + 1}</TableCell>
                                     <TableCell>{lesson.title}</TableCell>
                                     <TableCell>
                                         <Dialog >
-                                            <DialogTrigger>
+                                            <DialogTrigger asChild>
                                                 <button type="button" className="cursor-pointer"><Article size={20} className="text-primary" /></button>
                                             </DialogTrigger>
                                             <DialogContent>
@@ -247,7 +262,6 @@ export default function TeacherCoursePage() {
 
                                 </TableRow>
 
-                            </>
                         ))}
                     </TableBody>
                 </Table>
@@ -262,7 +276,7 @@ export default function TeacherCoursePage() {
                             Add a new lesson to the course
                         </DialogDescription>
                     </DialogHeader>
-                    <LessonAddForm courseId={id} onLessonAdded={handleLessonAdded} />
+                    <LessonAddForm courseId={courseId} onLessonAdded={handleLessonAdded} />
                 </DialogContent>
             </Dialog>
         </div>

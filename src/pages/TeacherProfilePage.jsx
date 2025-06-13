@@ -15,7 +15,12 @@ import { Textarea } from "@/components/ui/textarea";
 export default function TeacherProfilePage() {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
-  const { uploadTeacherAvatar } = useSupabaseUpload();
+  const { setFiles, onUpload, uploadedFilesWithUrls } = useSupabaseUpload({
+    bucketName: "rofeofiles",
+    path: `avatars/${user?.id}`,
+    maxFiles: 1,
+    allowedMimeTypes: ["image/jpeg", "image/png", "image/webp"],
+  });
   const [formData, setFormData] = useState({
     full_name: user?.full_name || "",
     email: user?.email || "",
@@ -66,7 +71,7 @@ export default function TeacherProfilePage() {
   };
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    setFiles(e.target.files);
   };
 
   const handleSubmit = async (e) => {
@@ -77,16 +82,14 @@ export default function TeacherProfilePage() {
     let avatarUrl = formData.avatar_url;
 
     if (file) {
-      const { data: uploadData, error: uploadError } = await uploadTeacherAvatar(
-        user.id,
-        file
-      );
-      if (uploadError) {
+      await onUpload();
+      if (uploadedFilesWithUrls.length > 0 && uploadedFilesWithUrls[0].publicUrl) {
+        avatarUrl = uploadedFilesWithUrls[0].publicUrl;
+      } else {
         toast.error("Erreur lors du téléchargement de l'avatar.");
         setLoading(false);
         return;
       }
-      avatarUrl = uploadData.path;
     }
 
     const updates = {
@@ -199,9 +202,12 @@ export default function TeacherProfilePage() {
       </div>
 
       <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-2xl font-semibold mb-4">Paramètres du compte</h2>
+        <h2 className="text-2xl font-semibold mb-4">Supprimer le Compte</h2>
+        <p className="text-gray-600 mb-4">
+          Cette action est irréversible. Toutes vos données seront supprimées.
+        </p>
         <Button variant="destructive" onClick={handleDeleteAccount}>
-          Supprimer le compte
+          Supprimer le Compte
         </Button>
       </div>
     </div>

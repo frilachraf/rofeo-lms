@@ -21,13 +21,10 @@ export const getStudentEnrollment = async (enrollmentId,studentId)=>{
     return { data, error };
 }
 
-export const getStudentEnrollmentProgress = async (enrollmentId,studentId)=>{
+export const getStudentEnrollmentProgress = async (enrollmentId) => {
     const { data, error } = await supabase
         .from('enrollment_progress')
         .select('*')
-        .eq('enrollment_id', enrollmentId)
-        .eq('student_id', studentId)
-        .single();
-    console.log('getStudentEnrollmentProgress', data);
+        .eq('enrollment_id', enrollmentId);
     return { data, error };
 }

@@ -6,6 +6,7 @@ import { supabase } from '../supabaseClient';
 // const supabase = createClient()
 
 const useSupabaseUpload = (options) => {
+  console.log("Options received in useSupabaseUpload:", options); // Diagnostic log
   const {
     bucketName="rofeofiles",
     path,
@@ -75,16 +76,20 @@ const useSupabaseUpload = (options) => {
         : files
 
     const responses = await Promise.all(filesToUpload.map(async (file) => {
+      const fullPath = !!path ? `${path}/${file.name}` : file.name;
       const { error } = await supabase.storage
-        .from("rofeofiles")
-        .upload(!!path ? `${path}/${file.name}` : file.name, file, {
+        .from(bucketName)
+        .upload(fullPath, file, {
           cacheControl: cacheControl.toString(),
           upsert,
         })
       if (error) {
-        return { name: file.name, message: error.message }
+        return { name: file.name, message: error.message, publicUrl: undefined }
       } else {
-        return { name: file.name, message: undefined }
+        const { data: publicUrlData } = supabase.storage
+          .from(bucketName)
+          .getPublicUrl(fullPath);
+        return { name: file.name, message: undefined, publicUrl: publicUrlData.publicUrl }
       }
     }))
 
@@ -93,11 +98,18 @@ const useSupabaseUpload = (options) => {
     setErrors(responseErrors)
 
     const responseSuccesses = responses.filter((x) => x.message === undefined)
-    const newSuccesses = Array.from(new Set([...successes, ...responseSuccesses.map((x) => x.name)]))
+    const newSuccesses = Array.from(new Set([...successes.map(s => JSON.stringify(s)), ...responseSuccesses.map((x) => JSON.stringify({ name: x.name, publicUrl: x.publicUrl }))])).map(s => JSON.parse(s));
     setSuccesses(newSuccesses)
 
     setLoading(false)
   }, [files, path, bucketName, errors, successes])
+
+  const uploadedFilesWithUrls = useMemo(() => {
+    return successes.map(s => {
+      const file = files.find(f => f.name === s.name);
+      return file ? { ...file, publicUrl: s.publicUrl } : undefined;
+    }).filter(f => f);
+  }, [successes, files]);
 
   useEffect(() => {
     if (files.length === 0) {
@@ -132,6 +144,7 @@ const useSupabaseUpload = (options) => {
     maxFileSize: maxFileSize,
     maxFiles: maxFiles,
     allowedMimeTypes,
+    uploadedFilesWithUrls,
     ...dropzoneProps,
   }
 }

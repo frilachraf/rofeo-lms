@@ -3,8 +3,8 @@ import { getStudentCourses } from '../services/coursesService';
 import { useIsMobile } from '../hooks/use-mobile';
 import CourseCard, { StudentCourseCard } from '../components/theme/CourseCard';
 import { useAuth } from '../context/AuthContext';
-// import { Button } from '../components/ui/button';
-// import { ArrowCounterClockwise } from '@phosphor-icons/react';
+import { Button } from '../components/ui/button';
+import { ArrowCounterClockwise } from '@phosphor-icons/react';
 
 const StudentCoursesPage = () => {
   const [courses, setCourses] = useState([]);
@@ -41,15 +41,15 @@ const StudentCoursesPage = () => {
   if (error) return <div className="text-red-500">Error: {error}</div>;
 
   return (
-    <div className="sm:px-10 py-4">
-      <h1 className="text-2xl font-bold mb-6">My Courses</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold mb-6">Mes cours</h1>
 
       {/* Uncomment if you want a refresh button */}
       {/* 
       <Button variant="outline" className="mb-4" onClick={fetchData}>
         <ArrowCounterClockwise size={18} /> Refresh
       </Button> 
-      */}
+       */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {courses?.map((course) => (

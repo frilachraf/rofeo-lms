@@ -24,7 +24,7 @@ export default function CourseCard({ course }) {
           {course.description}
         </p>
         <div className="flex justify-between text-sm text-muted-foreground">
-          <span>{course.enrollments?.count || 0} Enrolled</span>
+          <span>{course.enrollments?.count || 0} Inscrit</span>
           <span>{course.duration} hrs</span>
         </div>
         <p className="text-xs text-muted-foreground text-right">
@@ -33,7 +33,7 @@ export default function CourseCard({ course }) {
       </CardContent>
       <CardFooter className="flex ">
         <Button className="w-full">
-          View Course
+        Voir le cours
         </Button>
       </CardFooter>
     </Card>
@@ -41,7 +41,8 @@ export default function CourseCard({ course }) {
 }
 
 export function StudentCourseCard({ course }) {
-  const progress = course.enrollment_progress?.length / course.details?.lessons?.length * 100 || 0;
+  const progress = Math.round(course.enrollment_progress?.length / (course.details?.lessons?.length || 1) * 100) || 0;
+
   return (
     <Card className="w-full rounded-2xl duration-300 overflow-hidden shadow-none pt-0">
       <img
@@ -57,26 +58,28 @@ export function StudentCourseCard({ course }) {
           {course.details.description}
         </p>
       </CardHeader>
-      <CardContent className="sm:h-full">
-        <div className="flex justify-between items-center mb-4">
-          <p className="flex text-sm text-muted-foreground items-center gap-2">
-            <ClockCountdown size={18} />
+      <CardContent className="px-4 pt-2 pb-4">
+        <div className="flex flex-wrap items-center gap-4 text-muted-foreground text-sm mb-4">
+          <p className="flex items-center gap-1">
+            <ClockCountdown size={16} />
             <span>{course.details.duration} minutes</span>
           </p>
-          <p className="text-sm text-muted-foreground text-right flex items-center gap-2">
-            <UserCircle size={18} />
+          <p className="flex items-center gap-1">
+            <UserCircle size={16} />
             <span className="truncate capitalize">
               By {course?.teacher?.full_name}
             </span>
           </p>
         </div>
-        <p className="text-sm text-muted-foreground mb-2">
-          {progress}%
-        </p>
-        <Progress value={progress} />
+        <div className="mb-2">
+          <p className="text-sm font-medium mb-1">
+            {progress}%
+          </p>
+          <Progress value={progress} className="h-2" />
+        </div>
       </CardContent>
-      <CardFooter className="flex ">
-        <Link to={`/student/courses/${course.id}/content`}>
+      <CardFooter className="px-4 pb-4 pt-0">
+        <Link to={`/student/courses/${course.id}/content`} className="w-full">
           <Button className="w-full">
             Continue
           </Button>
@@ -118,7 +121,7 @@ export function PublicCourseCard({ course, onEnroll }) {
       </CardContent>
       <CardFooter className="flex ">
         <Button className="w-full" onClick={() => onEnroll(course.id,course.teacher_id)}>
-          Enroll course
+        S'inscrire au cours
         </Button>
       </CardFooter>
     </Card>
@@ -153,7 +156,7 @@ export function TeacherCourseCard({ course }) {
       <CardFooter className="flex">
         <Link to={`/teacher/courses/${course.id}/edit`} className="w-full flex">
           <Button className="w-full">
-            Edit Course
+          Modifier le cours
           </Button>
         </Link>
       </CardFooter>

@@ -77,7 +77,7 @@ export function MyChart() {
       <CardFooter>
         <div className="flex w-full items-start gap-2 text-sm">
           <div className="grid gap-2">
-            <div className="flex items-center text-xl font-bold text-green-500 gap-2 leading-none font-medium">
+            <div className="flex items-center text-xl font-bold text-green-500 gap-2 leading-none ">
             En hausse de 5.2% ce mois-ci  <TrendingUp className="h-4 w-4 text-xl font-bold text-green-500" />
             </div>
             <div className="text-muted-foreground flex items-center gap-2 leading-none">

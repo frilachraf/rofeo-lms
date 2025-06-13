@@ -4,30 +4,32 @@ import { List, MagnifyingGlass } from "@phosphor-icons/react";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { BookOpenIcon, File, HelpCircleIcon, HomeIcon, LogOutIcon, XIcon } from "lucide-react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { BookOpenIcon, HomeIcon, LogOutIcon, XIcon } from "lucide-react";
 import { SheetClose } from "./ui/sheet";
 import { useAuth } from "../context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { signOut } from "../services/supabase";
+
 export function StudentHeader({}) {
   const [open, setOpen] = useState(false);
   const { user, role } = useAuth();
-  const logout = ()=>{
-    const {data,error } = signOut()
-    navigate('/login')
-  }
-  const links = [
+  const navigate = useNavigate();
+  const logout = async () => {
+    await signOut();
+    navigate('/login');
+  };
+
+  const studentNavLinks = [
     {
       name: 'Home',
-      path: '/home',
+      path: '/student/dashboard', // Link to student dashboard as home
       icon: HomeIcon
     },
     {
@@ -40,52 +42,23 @@ export function StudentHeader({}) {
       path: '/student/courses',
       icon: BookOpenIcon
     },
-    
-
-   {
-    name: 'Logout',
-    path: '/logout',
-    icon: LogOutIcon
-   }
-
-  ]
-  const otherLinks = [
     {
-      name: 'Help',
-      path: '/help',
-      icon: HelpCircleIcon
-    },
-    {
-      name: 'Docs',
-      path: '/docs',
-      icon: File
+      name: 'Logout',
+      action: logout, // Direct action for logout
+      icon: LogOutIcon
     }
+  ];
 
-  ]
   return (
     <header
       className="bg-white flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6 py-4">
-        {/* <SidebarTrigger className="-ml-1" /> */}
         <Link to="/">
         <img src="/logo.png" alt="logo" className="w-10 h-10 rounded-full" />
         </Link>
         <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
         
-        
-
-
-        {/* <h1 className="text-base font-medium">Documents</h1> */}
         <div className="ml-auto flex items-center gap-2">
-          {/* <Button variant="ghost" asChild size="sm" className="hidden sm:flex">
-            <a
-              href="https://github.com/shadcn-ui/ui/tree/main/apps/v4/app/(examples)/dashboard"
-              rel="noopener noreferrer"
-              target="_blank"
-              className="dark:text-foreground">
-              GitHub
-            </a>
-          </Button> */}
           {user && role === 'student' ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -135,7 +108,7 @@ export function StudentHeader({}) {
         </div>
       </div>
 
-      {/* menu */}
+      {/* Mobile menu */}
       <Sheet onOpenChange={setOpen} open={open}>
             
           <SheetContent side="left" className="h-screen w-screen">
@@ -146,32 +119,35 @@ export function StudentHeader({}) {
                 <XIcon size={20} />
               </Button>
             </SheetClose>
-              {/* <SheetTitle>Are you absolutely sure?</SheetTitle>
-              <SheetDescription>
-                
-              </SheetDescription> */}
             </SheetHeader>
             <div className="flex flex-col justify-between h-full p-4">
               <div className="flex flex-col gap-4 p-4">
-                {links.map((link) => (
-                  <NavLink to={link.path} key={link.name} className={({ isActive }) => isActive ? "flex items-center gap-2 text-primary" : "flex items-center gap-2"} onClick={() => setOpen(false)}>
-                    <link.icon size={20}/>
-                    {link.name}
-                  </NavLink>
+                {studentNavLinks.map((link) => (
+                  link.action ? ( // If it has an action (like logout)
+                    <Button
+                      key={link.name}
+                      variant="ghost"
+                      className="flex items-center gap-2 w-full justify-start"
+                      onClick={() => {
+                        link.action();
+                        setOpen(false);
+                      }}
+                    >
+                      <link.icon size={20}/>
+                      {link.name}
+                    </Button>
+                  ) : ( // Otherwise, it's a regular navigation link
+                    <NavLink
+                      to={link.path}
+                      key={link.name}
+                      className={({ isActive }) => isActive ? "flex items-center gap-2 text-primary" : "flex items-center gap-2"}
+                      onClick={() => setOpen(false)}
+                    >
+                      <link.icon size={20}/>
+                      {link.name}
+                    </NavLink>
+                  )
                 ))}
-              </div>
-              <div className="flex flex-col gap-4">
-                {otherLinks.map((link) => (
-                  <NavLink to={link.path} key={link.name} className={({ isActive }) => isActive ? "flex items-center gap-2 text-primary" : "flex items-center gap-2"} Click={() => setOpen(false)}>
-                    <link.icon size={20}/>
-                    {link.name}
-                  </NavLink>
-                ))}
-
-                <Button className="w-full">
-                  <LogOutIcon size={20}/>
-                  Logout
-                  </Button>
               </div>
             </div>
           </SheetContent>

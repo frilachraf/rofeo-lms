@@ -65,7 +65,7 @@ const getCoursesLimit = async (limit) => {
 const getStudentCourses = async (userId) => {
     const { data, error } = await supabase
         .from('enrollments')
-        .select('*, details:courses(*,lessons(*)),teacher:teachers_accounts(*),enrollment_progress(*)')
+        .select('*, details:courses(*,lessons(*),level:level_id(*)),teacher:teachers_accounts(*),enrollment_progress(*)')
         .eq('student_account_id', userId)
     return { data, error }
 }
@@ -200,11 +200,15 @@ export const addEnrollmentProgress = async (enrollmentId, lessonId) => {
         return { data: existingData, error: null };
     }
 
-    // If no existing record, insert new one
+    // If record does not exist, insert a new one
     const { data, error } = await supabase
         .from('enrollment_progress')
-        .insert({ enrollment_id: enrollmentId, lesson_id: lessonId })
-        .select('*');
+        .insert({
+            enrollment_id: enrollmentId,
+            lesson_id: lessonId
+        })
+        .select('*')
+        .single();
 
     return { data, error };
 }

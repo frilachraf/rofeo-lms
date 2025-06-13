@@ -29,6 +29,7 @@ export default function TeacherCoursesPage() {
                 const { data, error } = await getTeacherCourses(user.id)
                 if (error) throw error
                 setCourses(data)
+                console.log("Fetched courses data:", data)
             } catch (error) {
                 console.error("Erreur lors de la récupération des cours :", error)
             } finally {

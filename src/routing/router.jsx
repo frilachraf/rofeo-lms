@@ -151,7 +151,11 @@ const router = createBrowserRouter([
     children:[
       {
         path: '',
-        element: <Navigate to={'/courses'} replace/>
+        element: <Navigate to={'/student/dashboard'} replace/>
+      },
+      {
+        path: 'dashboard',
+        element: <StudentCoursesPage />
       },
       {
         path: 'profile',
