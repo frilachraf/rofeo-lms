@@ -24,6 +24,7 @@ export const getTeachersCount = async () => {
 // teacher
 export const createTeacher = async (extractedData) => {
     try {
+        console.log(extractedData)
         // create teacher auth 
         const {data: userAuth, error: userAuthError } = await supabase.auth.signUp({ 
             email: extractedData.email, 

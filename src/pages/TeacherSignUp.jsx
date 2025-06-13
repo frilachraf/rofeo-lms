@@ -26,7 +26,7 @@ const TeacherSignUp = () => {
   const { signUp } = useAuth();
 
   const [formData, setFormData] = useState({
-    fullName: '',
+    full_name: '',
     email: '',
     password: '',
     bio: '',
