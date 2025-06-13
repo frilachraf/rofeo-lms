@@ -168,13 +168,14 @@ const TeacherSignUp = () => {
               {errors.expertise && <p className="text-red-500 text-sm">{errors.expertise}</p>}
             </div>
 
-            <div>
+            <div className="mb-4">
               <label className="block mb-1">Bio</label>
               <Textarea
                 name="bio"
                 value={formData.bio}
                 onChange={handleChange}
                 placeholder="Quelques mots sur vous"
+                
               />
             </div>
           </CardContent>
