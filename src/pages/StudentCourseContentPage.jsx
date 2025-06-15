@@ -260,7 +260,7 @@ const StudentCourseContentPage = () => {
                   <GraduationCap className="w-5 h-5 text-muted-foreground" />
                   <div>
                     <p className="text-sm text-muted-foreground">Niveau</p>
-                    <p className="font-medium capitalize">{course.level?.name || 'Non spécifié'}</p>
+                    <p className="font-medium capitalize">{course.level_id?.name || ''}</p>
                   </div>
                 </div>
               </div>

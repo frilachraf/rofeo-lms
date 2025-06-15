@@ -61,15 +61,15 @@ export function TeacherOverviewPage() {
   return (
     <div className="">
       <div className="mb-8">
-        <h1 className="text-2xl font-semibold">Welcome </h1>
-        <p className="text-gray-500">To your dashboard as a teacher, you can manage your courses form here and track enrollments </p>
-        <Button onClick={fetchCounts}>Reload</Button>
+        <h1 className="text-2xl font-semibold">Bienvenue </h1>
+        <p className="text-gray-500">En tant qu'enseignant, accédez à votre tableau de bord. Vous pouvez gérer vos cours et suivre vos inscriptions.</p>
+        <Button onClick={fetchCounts}>Recharger</Button>
       </div>
       <div
         className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-2">
         <Card className="@container/card">
           <CardHeader>
-            <CardDescription>My Courses</CardDescription>
+            <CardDescription>Mes cours</CardDescription>
             <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
               {isLoading ? 
               <Spinner size={30} className="animate-spin"/> : coursesCount}
@@ -85,7 +85,7 @@ export function TeacherOverviewPage() {
         </Card>
         <Card className="@container/card">
           <CardHeader>
-            <CardDescription>Enrollments</CardDescription>
+            <CardDescription>Inscriptions</CardDescription>
             <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
               { isLoading ? 
               <Spinner size={30} className="animate-spin"/> :
@@ -106,10 +106,10 @@ export function TeacherOverviewPage() {
       </div>
       <div className="">
         <div className="flex items-center justify-between my-5">
-          <h2 className="text-2xl font-semibold">Last enrollments</h2>
+          <h2 className="text-2xl font-semibold">Dernières inscriptions</h2>
           <div>
             <Link to={'/teacher/students'} className="">
-            View all 
+            Voir tout 
             </Link>
           </div>
         </div>
@@ -118,10 +118,10 @@ export function TeacherOverviewPage() {
             <Table variant='border' className=''>
               <TableHeader className='bg-muted'>
                 <TableRow>
-                  <TableHead>Student</TableHead>
-                  <TableHead>enrolled at</TableHead>
-                  <TableHead>Course title</TableHead>
-                  <TableHead>Course Status</TableHead>
+                  <TableHead>Étudiant</TableHead>
+                  <TableHead>inscrit à</TableHead>
+                  <TableHead>Titre du cours</TableHead>
+                  <TableHead>Statut du cours</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

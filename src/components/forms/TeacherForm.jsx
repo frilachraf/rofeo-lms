@@ -101,10 +101,10 @@ export default function TeacherForm({ teacher, mode = 'add' }) {
 
             <div className="flex gap-4">
                 <Button type="submit" disabled={loading}>
-                    {loading ? 'Saving...' : mode === 'add' ? 'Add Teacher' : 'Update Teacher'}
+                    {loading ? 'Saving...' : mode === 'add' ? 'Ajouter un enseignant' : "Mettre à jour l'enseignant "}
                 </Button>
                 <Button type="button" variant="outline" onClick={() => navigate('/admin/teachers')}>
-                    Cancel
+                Annuler
                 </Button>
             </div>
         </form>

@@ -51,7 +51,7 @@ export default function StudentForm({ student, mode = 'add' }) {
     return (
         <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto p-4">
             <div className="space-y-2">
-                <Label htmlFor="full_name">Full Name</Label>
+                <Label htmlFor="full_name">Nom et prénom</Label>
                 <Input
                     id="full_name"
                     name="full_name"
@@ -88,7 +88,7 @@ export default function StudentForm({ student, mode = 'add' }) {
                 </div>
             )}
 
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
                 <Label htmlFor="bio">Bio</Label>
                 <Textarea
                     id="bio"
@@ -97,11 +97,11 @@ export default function StudentForm({ student, mode = 'add' }) {
                     onChange={handleChange}
                     rows={4}
                 />
-            </div>
+            </div> */}
 
             <div className="flex gap-4">
                 <Button type="submit" disabled={loading}>
-                    {loading ? 'Saving...' : mode === 'add' ? 'Add Student' : 'Update Student'}
+                    {loading ? 'Saving...' : mode === 'add' ? 'Ajouter un étudiant' : "Mettre à jour l'étudiant"}
                 </Button>
                 <Button type="button" variant="outline" onClick={() => navigate('/admin/students')}>
                     Cancel

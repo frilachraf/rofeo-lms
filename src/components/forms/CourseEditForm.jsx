@@ -81,25 +81,25 @@ const CourseEditForm = ({ setOpen, course }) => {
 
     const formFields = {
         title: {
-            label: 'Title',
-            name: 'title',
+            label: 'Titre',
+            name: 'Titre',
             type: 'text',
-            placeholder: 'Enter the title',
+            placeholder: 'Entrez le titre',
         },
         description: {
             label: 'Description',
             name: 'description',
-            placeholder: 'Enter the description',
+            placeholder: 'Entrez le descriptif',
         },
         duration: {
-            label: 'Duration (minutes)',
-            name: 'duration',
-            placeholder: 'Enter the duration',
+            label: 'durée (minutes)',
+            name: 'durée',
+            placeholder: 'Entrez la durée',
         },
         imageLink: {
             label: 'Thumbnail',
             name: 'thumbnail',
-            placeholder: 'Enter the image link',
+            placeholder: "Entrez le lien de l'image",
         },
         level: {
             label: 'Level',
@@ -110,7 +110,7 @@ const CourseEditForm = ({ setOpen, course }) => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 p-4 px-8'>
-            <h1 className='text-2xl font-bold'>Edit Course</h1>
+            <h1 className='text-2xl font-bold'>Modifier le cours</h1>
             <div className='flex flex-col gap-4'>
                 <div className="flex gap-4">
                     <div className="w-1/2">
@@ -158,7 +158,7 @@ const CourseEditForm = ({ setOpen, course }) => {
                 </div>
 
                 <Button disabled={isLoading} type='submit'>
-                    Update Course
+                Mettre à jour le cours
                 </Button>
             </div>
         </form>
