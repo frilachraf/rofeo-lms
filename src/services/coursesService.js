@@ -64,8 +64,8 @@ const getStudentCourses = async (userId) => {
     const { data, error } = await supabase
         .from('enrollments')
         .select('*, details:courses(*,lessons(*)),teacher:teachers_accounts(*),enrollment_progress(*)')
-        .eq('student_account_id', userId)
-    return { data, error }
+        .eq('student_account_id', userId);
+    return { data, error };
 }
 
 // approved by me

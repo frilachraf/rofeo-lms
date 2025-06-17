@@ -12,17 +12,15 @@ export const signUp = async (email, password, userData) => {
 
     if (authError) throw authError;
 
-    // Ensure the user object is fully available and committed
-    // This might not be strictly necessary if auth.signUp is always synchronous in terms of user ID availability,
-    // but in case of subtle race conditions, it could help by forcing a microtask queue flush.
-    const { data: { user }, error: getUserError } = await supabase.auth.getUser();
+    // Use the user object directly from the authData returned by signUp
+    const user = authData.user;
 
-    if (getUserError || !user) {
-      // If fetching user fails, or user is not found, something is wrong
-      throw new Error("User not found after signup authentication.");
+    if (!user) {
+      // This case should ideally not be hit if authError is null, but as a safeguard
+      throw new Error("User object is null after successful signup.");
     }
 
-    const userId = user.id; // Use the fetched user ID
+    const userId = user.id;
 
     // 2. Insérer le rôle de l'utilisateur dans la table users_roles
     const { error: roleError } = await supabase

@@ -124,7 +124,7 @@ const StudentSignUp = () => {
       if (error) throw error;
       
       toast.success('Compte étudiant créé avec succès');
-      navigate('/student/dashboard');
+      navigate('/student/courses');
     } catch (error) {
       console.error('Error during signup:', error);
       toast.error(error.message || 'Échec de la création du compte');
