@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const navLinks = [
   { name: "Qui sommes-nous ?", href: "#AboutSection" },
@@ -15,7 +17,7 @@ export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const navigate = useNavigate();
-
+  const {user,role} = useAuth()
   // Change header background on scroll
   useEffect(() => {
     const handleScroll = () => {
@@ -94,7 +96,7 @@ export const Header = () => {
         </nav>
 
         {/* Auth buttons (Desktop) */}
-        <div className="hidden md:flex items-center gap-4">
+        {!user ? <div className="hidden md:flex items-center gap-4">
           <motion.div whileHover={{ scale: 1.05 }}>
             <Link to="/login" className="text-[#545454] text-[15px]">
               Login
@@ -105,7 +107,14 @@ export const Header = () => {
               Signup
             </Button>
           </motion.div>
-        </div>
+        </div> : 
+            <Avatar className="h-10 w-10">
+            <AvatarImage src={user.user_metadata?.avatar_url || 'https://avatar.iran.liara.run/public/boy'} alt={user.email} />
+            <AvatarFallback>{user.email?.charAt(0).toUpperCase()}</AvatarFallback>
+          </Avatar>
+        
+        }
+  
 
         {/* Mobile menu icon */}
         <div className="md:hidden">

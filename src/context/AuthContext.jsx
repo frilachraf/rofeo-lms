@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
     const initializeAuth = async () => {
       try {
         const { data } = await getUser();
+        console.log('user:',data)
         const currentUser = data?.user ?? null;
         setUser(currentUser);
         

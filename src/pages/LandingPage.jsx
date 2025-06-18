@@ -27,7 +27,7 @@ const LandingPage = () => {
 
   return (
     <div className="bg-white flex flex-col items-center w-full">
-      <Header />
+      {/* <Header /> */}
       <HeroSection search={search} setSearch={setSearch} />
       <VideoSection />
       <AboutSection /> 

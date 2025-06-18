@@ -1,12 +1,15 @@
 import { Outlet } from 'react-router-dom';
 import { Header } from '../components/landing/Header';
 import { FooterSection } from '../components/landing/FooterSection';
+import { useAuth } from '../context/AuthContext';
 // import { StudentHeader } from '../components/student-header';
 // import { Footer } from '../components/landing/Footer';
 export default function HomeLayout() {
+    const {user, role} = useAuth()
     return (
         <div className="min-h-screen bg-white">
-           {/* <Header /> */}
+            
+           <Header />
             {/* <StudentHeader /> */}
 
             <main className='w-full min-h-screen'>
